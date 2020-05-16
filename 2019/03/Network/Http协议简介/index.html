@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="HTTP协议简介引言HTTP是一个属于应用层的面向对象的协议，由于其简洁、快速的方式，适用于分布式超媒体信息系统。它的全称是Hyper Text Transfer Protocol（超文本传输协议），是一种建立在TCP上的无状态连接。 HTTP请求的流程是，客户端发送一个HTTP请求，说明客户端想要访问的资源和请求的动作，服务端接收到请求之后，服务端开始处理请求，并根据请求做出相应的动作访问服务器">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTTP协议简介">
+<meta property="og:url" content="http://yoursite.com/2019/03/Network/Http%E5%8D%8F%E8%AE%AE%E7%AE%80%E4%BB%8B/index.html">
+<meta property="og:site_name" content="凹凸豆的博客">
+<meta property="og:description" content="HTTP协议简介引言HTTP是一个属于应用层的面向对象的协议，由于其简洁、快速的方式，适用于分布式超媒体信息系统。它的全称是Hyper Text Transfer Protocol（超文本传输协议），是一种建立在TCP上的无状态连接。 HTTP请求的流程是，客户端发送一个HTTP请求，说明客户端想要访问的资源和请求的动作，服务端接收到请求之后，服务端开始处理请求，并根据请求做出相应的动作访问服务器">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yoursite.com/2019/03/Network/Http%E5%8D%8F%E8%AE%AE%E7%AE%80%E4%BB%8B/images/HTTP%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A301.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/ccbeango/blogImages/master/NetWork/HTTP%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A302.jpg">
+<meta property="article:published_time" content="2019-03-05T08:03:10.000Z">
+<meta property="article:modified_time" content="2019-12-27T09:56:53.347Z">
+<meta property="article:author" content="Ccbeango">
+<meta property="article:tag" content="Network">
+<meta property="article:tag" content="Http">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2019/03/Network/Http%E5%8D%8F%E8%AE%AE%E7%AE%80%E4%BB%8B/images/HTTP%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A301.jpg">
+
+<link rel="canonical" href="http://yoursite.com/2019/03/Network/Http%E5%8D%8F%E8%AE%AE%E7%AE%80%E4%BB%8B/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>HTTP协议简介 | 凹凸豆的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">凹凸豆的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">那天，黄昏，开始飘起来白雪</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/Network/Http%E5%8D%8F%E8%AE%AE%E7%AE%80%E4%BB%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ccbeango">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="凹凸豆的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          HTTP协议简介
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-03-05 16:03:10" itemprop="dateCreated datePublished" datetime="2019-03-05T16:03:10+08:00">2019-03-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-12-27 17:56:53" itemprop="dateModified" datetime="2019-12-27T17:56:53+08:00">2019-12-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Network/" itemprop="url" rel="index"><span itemprop="name">Network</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="HTTP协议简介"><a href="#HTTP协议简介" class="headerlink" title="HTTP协议简介"></a>HTTP协议简介</h1><h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>HTTP是一个属于应用层的面向对象的协议，由于其简洁、快速的方式，适用于分布式超媒体信息系统。它的全称是Hyper Text Transfer Protocol（超文本传输协议），是一种建立在TCP上的无状态连接。</p>
+<p>HTTP请求的流程是，客户端发送一个<code>HTTP</code>请求，说明客户端想要访问的资源和请求的动作，服务端接收到请求之后，服务端开始处理请求，并根据请求做出相应的动作访问服务器资源，最后通过发送<code>HTTP</code>响应把结果返回给客户端。</p>
+<p>其中，一个请求的开始到一个响应的结束称为事务，当一个事务结束后还会在服务端添加一条日志条目。</p>
+<h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><p>HTTP的特点可概括如下：</p>
+<ol>
+<li>支持客户端/服务器模式</li>
+<li>简单快速：客户端向服务器请求数据时，只需传送请求方法和路径。请求方法常用的有<code>GET</code>、<code>POST</code>、<code>PUT</code>、<code>DELETE</code>、<code>HEAD</code>。每种方法规定了客户端与服务器联系的类型不同。由于<code>HTTP</code>协议简单，使得<code>HTTP</code>服务器的程序规模小，因而通信速度很快。</li>
+<li>灵活：<code>HTTP</code>允许传输任意类型的对象。正在传输的类型由<code>Content-Type</code>加以标记。</li>
+<li>无连接：含义是限制每次连接只处理一个请求。服务器处理完客户的请求，并受到客户的应答后，即断开链接。采用这种方式可以节省传输时间。</li>
+<li>无状态：<code>HTTP</code>是无状态协议。无状态协议是指协议对于事务处理没有记忆能力。缺少状态意味着如果后续处理需要前面的信息，则它必须重传，这样可能导致每次链接传送的数据量增大。另一方面，在服务器不需要先前信息时它的应答就较快。</li>
+</ol>
+<h3 id="HTTP之URL篇"><a href="#HTTP之URL篇" class="headerlink" title="HTTP之URL篇"></a>HTTP之URL篇</h3><p>HTTP是一个基于请求与响应模式的、无状态的、应用层的协议，常基于TCP的连接方式，绝大多数的<code>Web</code>开发，都是构建在<code>HTTP</code>协议上的<code>Web</code>应用。</p>
+<p><code>HTTP URL</code>的格式如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://host[":"port][abs_path]</span><br></pre></td></tr></table></figure>
+
+<p><code>http</code>表示要通过<code>HTTP</code>协议来定位网络资源；<code>host</code>表示合法的<code>Inernet</code>主机域名或者<code>IP</code>地址；<code>port</code>指定一个端口号，为空则使用默认端口<code>80</code>；<code>abs_path</code>指定请求资源的<code>URI</code>；如果<code>URL</code>中没有给出<code>abs_path</code>，那么它作为请求<code>URI</code>时，必须以<code>/</code>的形式给出，通常这个工作浏览器自动帮我们完成。如：输入<code>www.test.com</code>，浏览器会自动转换成<code>http://www.test.com/</code></p>
+<p>注：<code>URL</code>是一中特殊类型的<code>URI</code>，包含了用于查找某个资源的足够的信息。</p>
+<h2 id="HTTP之请求篇"><a href="#HTTP之请求篇" class="headerlink" title="HTTP之请求篇"></a>HTTP之请求篇</h2><p>HTTP请求是客户端往服务端发送请求动作，告知服务器自己的要求。</p>
+<p>HTTP请求由三部分组成，分别是：请求行、消息报头、请求正文。</p>
+<p>这里先介绍请求行，消息报头及请求正文后述。</p>
+<p>请求行包括请求方式Method、资源路径URL、协议版本Version；</p>
+<p>请求行以一个方法符号开头，以空格分开，后面跟着请求的URI和协议的版本，格式如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Method Request-URI HTTP-Version CRLF</span><br></pre></td></tr></table></figure>
+
+<p>其中<code>Method</code>表示请求方法；<code>Request-URI</code>是一个统一资源标识符；<code>HTTP-Version</code>表示请求的<code>HTTP</code>协议版本；<code>CRLF</code>表示回撤和换行（除了作为结尾的<code>CRLF</code>外，不允许出现单独的<code>CR</code>或<code>LF</code>字符）。</p>
+<p>请求方法有多种：</p>
+<ul>
+<li><code>GET</code>：请求获取<code>Request-URI</code>所标识的资源</li>
+<li><code>POST</code>：在<code>Request-URI</code>所标识的资源后附加新的数据</li>
+<li><code>HEAD</code>：请求获取由<code>Request-URI</code>所标识的资源的响应消息报头</li>
+<li><code>PUT</code>：请求服务器存出一个资源，并用<code>Request-URI</code>作为其标识</li>
+<li><code>DELETE</code>：请求服务器删除<code>Request-URI</code>所标识的资源</li>
+<li><code>TRACE</code>：请求服务器回送收到的请求信息，主要用于测试或诊断</li>
+<li><code>CONNECT</code>：保留将来使用</li>
+<li><code>OPTIONS</code>：请求查询服务器性能，或者查询与资源相关的选项和需求</li>
+</ul>
+<p>应用举例：</p>
+<ol>
+<li><p><code>GET</code>方法：在浏览器的地址栏中输入网址的方式访问网页时，浏览器采用GET方法向服务器获取资源。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET /form.html HTTP/<span class="number">1.1</span> (CRLF)</span><br></pre></td></tr></table></figure>
+
+<p><img src="./images/HTTP%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A301.jpg" alt=""></p>
+</li>
+<li><p><code>POST</code>方法：要求被请求服务器接受附在请求后面的数据，常用于提交表单。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">POST /reg.jsp HTTP/ (CRLF)</span><br><span class="line">Accept:image/gif,image/x-xbit,... (CRLF)</span><br><span class="line">...</span><br><span class="line">HOST:www.guet.edu.cn (CRLF)</span><br><span class="line">Content-Length:<span class="number">22</span> (CRLF)</span><br><span class="line">Connection:Keep-Alive (CRLF)</span><br><span class="line">Cache-Control:no-cache (CRLF)</span><br><span class="line">(CRLF)  <span class="comment">// 该CRLF表示消息报头已经结束，在此之前为消息报头</span></span><br><span class="line">user=jeffrey&amp;pwd=<span class="number">1234</span>  <span class="comment">// 此行以下为提交的数据</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/ccbeango/blogImages/master/NetWork/HTTP%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A302.jpg" alt=""></p>
+</li>
+<li><p><code>HEAD</code>方法与<code>GET</code>方法几乎是一样的，对于<code>HEAD</code>请求的回应部分来说，它的<code>HTTP</code>头部中包含的信息与通过<code>GET</code>请求所得到的信息是相同的。利用这个方法，不必传输整个资源内容，就可以得到<code>Request-URI</code>所标识的资源的信息。该方法常用于测试超链接的有效性，是否可以访问，以及最近是否更新。</p>
+</li>
+</ol>
+<h3 id="消息报头"><a href="#消息报头" class="headerlink" title="消息报头"></a>消息报头</h3><h2 id="HTTP之响应篇"><a href="#HTTP之响应篇" class="headerlink" title="HTTP之响应篇"></a>HTTP之响应篇</h2><p>在接收和解释请求报文后，服务器返回一个<code>HTTP</code>响应消息。</p>
+<p>HTTP响应也是由三个部分组成，分别是：状态行、消息报头、响应正文。</p>
+<p>只介绍状态行，消息报头和响应正文后述。</p>
+<p>状态行格式如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HTTP-Version Status-Code Reason-Phrase CRLF</span><br></pre></td></tr></table></figure>
+
+<p>其中，<code>HTTP-Version</code>表示服务器<code>HTTP</code>协议版本；<code>Status-Code</code>表示服务器发回的响应状态代码；<code>Reason-Phrase</code>表示状态代码的文本描述。</p>
+<p>状态代码由三位数字组成，第一个数字定义了响应的<strong>类别</strong>，且有五种可能取值：</p>
+<ol>
+<li><code>1XX</code>：指示信息，表示请求已接收，继续处理</li>
+<li><code>2XX</code>：成功–表示请求已被成功接收、理解、接受</li>
+<li><code>3XX</code>：重定向–要完成请求必须进行更进一步的操作</li>
+<li><code>4XX</code>：客户端错误—请求有语法错误或请求无法实现</li>
+<li><code>5XX</code>：服务器端错误—服务器未能实现合法的请求，服务器在处理请求过程中发生了错误</li>
+</ol>
+<p>常见的状态代码、状态描述和说明：</p>
+<table>
+<thead>
+<tr>
+<th>状态码</th>
+<th>状态描述</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>200</td>
+<td>OK</td>
+<td>客户端请求成功</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>203</td>
+<td>Non-Authoritative Information</td>
+<td>非授权信息。请求成功。但返回的meta信息不在原始的服务器，而是一个副本</td>
+</tr>
+<tr>
+<td>301</td>
+<td>Moved Permanently</td>
+<td>请求永久重定向。 请求的资源已被永久的移动到新URI，返回信息会包括新的URI，浏览器会自动定向到新URI。今后任何新的请求都应使用新的URI代替</td>
+</tr>
+<tr>
+<td>302</td>
+<td>Found</td>
+<td>请求临时重定向。与301类似，但资源只是临时被移动。客户端应继续使用原有URI</td>
+</tr>
+<tr>
+<td>304</td>
+<td>Not Modified</td>
+<td>请求被重定向到客户端本地缓存</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Bad Request</td>
+<td>明显客户端错误（如：语法错误、太大的大小、无效请求消息或欺骗性路由）</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Unauthorized</td>
+<td>客户端请求未经授权</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Forbidden</td>
+<td>服务器已经理解请求，但是拒绝执行它</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Not Found</td>
+<td>请求资源不存在， 但允许用户的后续请求</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error</td>
+<td>服务器发生不可预期的错误</td>
+</tr>
+<tr>
+<td>502</td>
+<td>Bad Gateway</td>
+<td>作为网关或者代理工作的服务器尝试执行请求时，从远程服务器接收到了一个无效的响应</td>
+</tr>
+<tr>
+<td>503</td>
+<td>Service Unavailable</td>
+<td>服务端发生临时错误。 服务器当前不能处理客户端的请求，一段时间后可能恢复正常</td>
+</tr>
+</tbody></table>
+<p>注：状态码详情介绍可查阅<a href="https://zh.wikipedia.org/wiki/HTTP%E7%8A%B6%E6%80%81%E7%A0%81" target="_blank" rel="noopener">维基百科</a></p>
+<h2 id="HTTP之消息报头篇"><a href="#HTTP之消息报头篇" class="headerlink" title="HTTP之消息报头篇"></a>HTTP之消息报头篇</h2><p>HTTP消息由客户端到服务器的请求和服务器到客户端的响应组成。请求消息和响应消息都是由开始行（对于请求消息，开始行就是请求行，对于响应消息，开始行就是状态行），消息报头（可选），空行（只有CRLF的行），消息正文（可选）组成。</p>
+<p>HTTP消息报头包括：普通报头、请求报头、响应报头、实体报头。</p>
+<p>每一个报头域都是由<strong>名字+“：”+空格+值</strong>组成，消息报头域的名字是大小写无关的。</p>
+<h3 id="1-普通报头"><a href="#1-普通报头" class="headerlink" title="1.普通报头"></a>1.普通报头</h3><p>在普通报头中，有少数报头域用于所有的请求和响应消息，但并不用于被传输的实体，只用于传输的消息。</p>
+<p>eg:</p>
+<p><code>Cache-Control</code>   用于指定缓存指令，缓存指令是单向的（响应中出现的缓存指令在请求中未必会出现），且是独立的（一个消息的缓存指令不会影响另一个消息处理的缓存机制）。 请求时的缓存指令包括：no-cache（用于指示请求或响应消息不能缓存）、no-store、max-age、max-stale、min-fresh、only-if-cached; 响应时的缓存指令包括：public、private、no-cache、no-store、no-transform、must-revalidate、proxy-revalidate、max-age、s-maxage。</p>
+<p><code>Date</code>普通报头域表示消息产生的日期和时间。</p>
+<p><code>Connection</code>普通报头域允许发送指定连接的选项。例如指定连接是连续，或者指定“close”选项，通知服务器，在响应完成后，关闭连接。</p>
+<h3 id="2-请求报头"><a href="#2-请求报头" class="headerlink" title="2.请求报头"></a>2.请求报头</h3><p>请求报头允许客户端想服务器传递请求的附加信息以及客户端自身的信息。</p>
+<p>常用的请求报头：</p>
+<p><strong>1. Accept</strong></p>
+<p><code>Accept</code>请求报头域用于指定客户端接收哪些类型的信息。</p>
+<p>eg：<code>Accept-Charset:iso-8859-1,gb2312</code>.如果在请求消息中没有设置这个域，缺省是任何字符集都可以接受。</p>
+<p><strong>2. Accept-Encoding</strong></p>
+<p><code>Accept-Encoding</code>请求报头域类似于Accept，但是它是用于指定可接受的内容编码。</p>
+<p>eg：<code>Accept-Encoding:gzip.deflate</code>。如果请求消息中没有设置这个域服务器假定客户端对各种内容编码都可以接受。</p>
+<p><strong>3. Accept-Language</strong></p>
+<p><code>Accept-Language</code>请求报头域类似于<code>Accept</code>，但是它是用于指定一种自然语言。</p>
+<p>eg：<code>Accept-Language:zh-cn</code>。如果请求消息中没有设置这个报头域，服务器假定客户端对各种语言都可以接受。</p>
+<p><strong>4. Authorization</strong></p>
+<p><code>Authorization</code>请求报头域主要用于证明客户端有权查看某个资源。当浏览器访问一个页面时，如果收到服务器的响应代码为401（未授权），可以发送一个包含<code>Authorization</code>请求报头域的请求，要求服务器对其进行验证。</p>
+<p>*<em>5.Host *</em></p>
+<p><code>Host</code>请求报头域主要用于指定被请求资源的Internet主机和端口号，它通常从<code>HTTP URL</code>中提取出来的，在发送请求时，该报头域是必须的。</p>
+<p>eg： 我们在浏览器中输入：<code>http://www.test.com/form.html</code> 浏览器发送的请求消息中，就会包含<code>Host</code>请求报头域，如下：<code>Host：www.test.com</code> 此处使用缺省端口号80，若指定了端口号如9527，则变成：<code>Host：www.test.com:9527</code></p>
+<p>*<em>6.User-Agent *</em></p>
+<p>我们上网登陆论坛的时候，往往会看到一些欢迎信息，其中列出了你的操作系统的名称和版本，你所使用的浏览器的名称和版本，实际上，服务器应用程序就是从<code>User-Agent</code>这个请求报头域中获取到这些信息。<code>User-Agent</code>请求报头域允许客户端将它的操作系统、浏览器和其它属性告诉服务器。不过，这个报头域不是必需的。</p>
+<hr>
+<p>请求报头的例子：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">GET /form.html HTTP/1.1 (CRLF)</span><br><span class="line">Accept:image/gif,image/x-xbitmap,image/jpeg,application/x-shockwave-flash,application/vnd.ms-excel,application/vnd.ms-powerpoint,application/msword,*/* (CRLF)</span><br><span class="line">Accept-Language: zh-cn (CRLF)</span><br><span class="line">Accept-Encoding: gzip,deflate (CRLF)</span><br><span class="line">If-Modified-Since: Wed,05 Jan 2007 11:21:25 GMT (CRLF)</span><br><span class="line">If-None-Match: W/"80b1a4c018f3c41:8317" (CRLF)</span><br><span class="line">User-Agent: Mozilla/4.0(compatible;MSIE6.0;Windows NT 5.0) (CRLF)</span><br><span class="line">Host: www.test.com (CRLF)</span><br><span class="line">Connection: Keep-Alive (CRLF)</span><br><span class="line">(CRLF)</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-响应报头"><a href="#3-响应报头" class="headerlink" title="3.响应报头"></a>3.响应报头</h3><p>响应报头允许服务器传递不能放在状态行中的附加响应信息，以及关于服务器的信息和对<code>Request-URI</code>所标识的资源进行下一步访问的信息。 </p>
+<p>常用的响应报头</p>
+<p><strong>1. Location</strong></p>
+<p><code>Location</code>响应报头域用于重定向接受者到一个新的位置。<code>Location</code>响应报头域常用在更换域名的时候。</p>
+<p><strong>2. Server</strong></p>
+<p>Server响应报头域包含了服务器用来处理请求的软件信息。与User-Agent请求报头域是相对应的。</p>
+<p>eg: <code>Server: Apache</code></p>
+<p><strong>3. WWW-Authenticate</strong></p>
+<p><code>WWW-Authenticate</code>响应报头域必须被包含在<code>401</code>（未授权的）响应消息中，客户端收到<code>401</code>响应消息时候，并发送<code>Authorization</code>报头域请求服务器对其进行验证时，服务端响应报头就包含该报头域。</p>
+<p>eg：<code>WWW-Authenticate:Basic realm=&quot;Basic Auth Test!&quot;</code> ，可以看出服务器对请求资源采用的是基本验证机制。</p>
+<h3 id="4-实体报头"><a href="#4-实体报头" class="headerlink" title="4.实体报头"></a>4.实体报头</h3><p>请求和响应消息都可以传送一个实体。一个实体由实体报头域和实体正文组成，但并不是说实体报头域和实体正文要在一起发送，可以只发送实体报头域。实体报头定义了关于实体正文（eg：有无实体正文）和请求所标识的资源的元信息。</p>
+<p>常用的实体报头</p>
+<p><strong>1. Content-Type</strong></p>
+<p><code>Content-Type</code>实体报头域用语指明发送给接收者的实体正文的媒体类型。</p>
+<p>eg： </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Content-Type:text/html;charset=ISO-8859-1 </span><br><span class="line">// or</span><br><span class="line">Content-Type:text/html;charset=GB2312</span><br></pre></td></tr></table></figure>
+
+<p><strong>2. Content-Encoding</strong></p>
+<p><code>Content-Encoding</code>实体报头域被用作媒体类型的修饰符，它的值指示了已经被应用到实体正文的附加内容的编码，因而要获得<code>Content-Type</code>报头域中所引用的媒体类型，必须采用相应的解码机制。</p>
+<p>eg：<code>Content-Encoding：gzip</code>，Content-Encoding这样用于记录文档的压缩方法。</p>
+<p><strong>3. Content-Language</strong></p>
+<p><code>Content-Language</code>实体报头域描述了资源所用的自然语言。没有设置该域则认为实体内容将提供给所有的语言阅读 者。</p>
+<p>eg：<code>Content-Language:zh-cn</code></p>
+<p><strong>4. Content-Length</strong></p>
+<p><code>Content-Length</code>实体报头域用于指明实体正文的长度，以字节方式存储的十进制数字来表示。</p>
+<p><strong>5. Last-Modified</strong></p>
+<p><code>Last-Modified</code>实体报头域用于指示资源的最后修改日期和时间。</p>
+<p><strong>6. Expires</strong></p>
+<p>Expires实体报头域给出响应过期的日期和时间。为了让代理服务器或浏览器在一段时间以后更新缓存中的页面，可以使用<code>Expires</code>实体报头域指定页面过期的时间。</p>
+<p>eg：<code>Expires：Thu，15 Sep 2006 16:23:12 GMT</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">~ andy$ curl -v www.baidu.com</span><br><span class="line">* Rebuilt URL to: www.baidu.com/</span><br><span class="line">*   Trying 115.239.210.27...</span><br><span class="line">* TCP_NODELAY set</span><br><span class="line">* Connected to www.baidu.com (115.239.210.27) port 80 (#0)</span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> GET / HTTP/1.1</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> Host: www.baidu.com</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> User-Agent: curl/7.54.0</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> Accept: */*</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> </span></span><br><span class="line">&lt; HTTP/1.1 200 OK</span><br><span class="line">&lt; Accept-Ranges: bytes</span><br><span class="line">&lt; Cache-Control: private, no-cache, no-store, proxy-revalidate, no-transform</span><br><span class="line">&lt; Connection: Keep-Alive</span><br><span class="line">&lt; Content-Length: 2381</span><br><span class="line">&lt; Content-Type: text/html</span><br><span class="line">&lt; Date: Wed, 06 Mar 2019 03:43:52 GMT</span><br><span class="line">&lt; Etag: "588604fc-94d"</span><br><span class="line">&lt; Last-Modified: Mon, 23 Jan 2017 13:28:28 GMT</span><br><span class="line">&lt; Pragma: no-cache</span><br><span class="line">&lt; Server: bfe/1.0.8.18</span><br><span class="line">&lt; Set-Cookie: BDORZ=27315; max-age=86400; domain=.baidu.com; path=/</span><br><span class="line">&lt; </span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">···</span><br></pre></td></tr></table></figure>
+
+<h2 id="HTTP协议版本更替"><a href="#HTTP协议版本更替" class="headerlink" title="HTTP协议版本更替"></a>HTTP协议版本更替</h2><p><strong>HTTP/0.9</strong></p>
+<p>HTTP协议的最初版本，功能简陋，仅支持请求方式<code>GET</code>，并且仅能请求访问<code>HTML</code>格式的资源。</p>
+<p><strong>HTTP/1.0</strong> </p>
+<p>在0.9版本上做了进步，增加了请求方式<code>POST</code>和<code>HEAD</code>；不再局限于0.9版本的HTML格式，根据<code>Content-Type</code>可以支持多种数据格式，即MIME多用途互联网邮件扩展，例如text/html、image/jpeg等；同时也开始支持cache，就是当客户端在规定时间内访问统一网站，直接访问cache即可。</p>
+<p>但是1.0版本的工作方式是每次<code>TCP</code>连接只能发送一个请求，当服务器响应后就会关闭这次连接，下一个请求需要再次建立<code>TCP</code>连接，就是不支持<code>keepalive</code>。</p>
+<p><strong>HTTP/1.1</strong>    </p>
+<p>解决了1.0版本的<code>keepalive</code>问题，1.1版本加入了持久连接，一个<code>TCP</code>连接可以允许多个<code>HTTP</code>请求； 加入了管道机制，一个TCP连接同时允许多个请求同时发送，增加了并发性；新增了请求方式<code>PUT</code>、<code>PATCH</code>、<code>DELETE</code>等。</p>
+<p>但是还存在一些问题，服务端是按队列顺序处理请求的，假如一个请求处理时间很长，则会导致后边的请求无法处理，这样就造成了队头阻塞的问题；同时HTTP是无状态的连接，因此每次请求都需要添加重复的字段，降低了带宽的利用率。</p>
+<p><strong>HTTP/2.0</strong></p>
+<p>为了解决1.1版本利用率不高的问题，提出了HTTP/2.0版本。增加双工模式，即不仅客户端能够同时发送多个请求，服务端也能同时处理多个请求，解决了队头堵塞的问题；HTTP请求和响应中，状态行和请求/响应头都是些信息字段，并没有真正的数据，因此在2.0版本中将所有的信息字段建立一张表，为表中的每个字段建立索引，客户端和服务端共同使用这个表，他们之间就以索引号来表示信息字段，这样就避免了1.0旧版本的重复繁琐的字段，并以压缩的方式传输，提高利用率。</p>
+<p>另外也增加服务器推送的功能，即不经请求服务端主动向客户端发送数据。</p>
+<p>注：当前主流的协议版本还是HTTP/1.1版本</p>
+<h2 id="其他补充"><a href="#其他补充" class="headerlink" title="其他补充"></a>其他补充</h2><h3 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h3><ol>
+<li>高级协议有：文件传输协议FTP、电子邮件传输协议SMTP、域名系统服务DNS、网络新闻传输协议NNTP和HTTP协议等。</li>
+<li>中介有三种：代理（Proxy）、网关（Gateway）和通道（Tunnel），一个代理根据<code>URI</code>的绝对格式来接收请求，重写全部或部分信息，通过<code>URI</code>的标识把已格式化过的请求发送到服务器。网关是一个接收代理，作为一些其他服务器的上层，并且如果必须的话，可以把请求翻译给下层的服务器协议。一个通道作为不改变消息的两个连接之间的中继点。当通讯需要通过一个中介（如：防火墙）或者是中介不能识别消息的内容时，通道经常被使用。</li>
+<li>代理（Proxy）：一个中间程序，它可以充当一个服务器，也可以充当一个客户机，为其它客户机建立请求。请求时通过可能的在内部翻译或经过传递到其他的服务器中。一个代理在发送请求信息之前，必须解释并且如果可能重写它。代理经常作为通过防火墙的客户端门户，代理还可以作为一个帮助应用来通过协议处理没有被用户代理完成的请求。</li>
+<li>网关（Gateway）：一个作为其他服务器中间媒介的服务器。与代理不同的是，网关接受请求就好像对被请求的资源来说它就是源服务器；发出请求的客户机并没有意识到它在同网关打交道。网关经常作为通过防火墙的服务器端的门户，网关还可以作为一个协议翻译器以便存取哪些存储在非HTTP系统中的资源。</li>
+<li>通道（Tunnel）：是作为两个连接中继的中介程序。一旦激活，通道便认为不属于HTTP通讯，尽管通道可能是被一个HTTP请求初始化的。当被中继的连接两端关闭时，通道便消失。当一个门户(Portal)必须存在或中介(Intermediary)不能解释中继的通讯时通道被经常使用。</li>
+<li>网站访问量   <ul>
+<li>IP访问量：相同的公网IP计算一次，就是同一个局域网内的所有用户访问一个网站，但是他们都是借助一个公网IP去访问那个网站的（NAT），因此这也只能算作一个IP访问量。换一次公网IP则会加1。</li>
+<li>PV 网页访问量：用户访问的页面数就是PV访问量，同一个局域网的不同用户，而且就算是同一个用户，只要刷新一次网站页面，PV访问量就加1，三个访问量的值往往数PV的值最大。</li>
+<li>UV 访客访问量：这里的访客不是用户，而是电脑，一台电脑算一个访客，即使是同一台电脑的不同用户，访问同一个网站UV也只能加1，只有更换电脑才会使UV加1，因为服务端会记录客户端电脑的信息。</li>
+</ul>
+</li>
+</ol>
+<h3 id="123"><a href="#123" class="headerlink" title="123"></a>123</h3><p><strong>协议分析的优势—HTTP分析器检测网络攻击</strong> </p>
+<p>以模块化的方式对高层协议进行分析处理，将是未来入侵检测的方向。 HTTP及其代理的常用端口80、3128和8080在network部分用port标签进行了规定 </p>
+<p><strong>HTTP协议Content Lenth限制漏洞导致拒绝服务攻击</strong></p>
+<p> 使用POST方法时，可以设置ContentLenth来定义需要传送的数据长度，例如ContentLenth:999999999，在传送完成前，内 存不会释放，攻击者可以利用这个缺陷，连续向WEB服务器发送垃圾数据直至WEB服务器内存耗尽。这种攻击方法基本不会留下痕迹。</p>
+<p><strong>利用HTTP协议的特性进行拒绝服务攻击的一些构思</strong></p>
+<p> 服务器端忙于处理攻击者伪造的TCP连接请求而无暇理睬客户的正常请求（毕竟客户端的正常请求比率非常之小），此时从正常客户的角度看来，服务器失去响应，这种情况我们称作：服务器端受到了SYNFlood攻击（SYN洪水攻击）。 </p>
+<p>而Smurf、TearDrop等是利用ICMP报文来Flood和IP碎片攻击的。本文用“正常连接”的方法来产生拒绝服务攻击。 </p>
+<p>19端口在早期已经有人用来做Chargen攻击了，即Chargen_Denial_of_Service，但是！他们用的方法是在两台Chargen 服务器之间产生UDP连接，让服务器处理过多信息而DOWN掉，那么，干掉一台WEB服务器的条件就必须有2个：1.有Chargen服务；2.有HTTP服务 </p>
+<p>方法：攻击者伪造源IP给N台Chargen发送连接请求（Connect），Chargen接收到连接后就会返回每秒72字节的字符流（实际上根据网络实际情况，这个速度更快）给服务器。 </p>
+<p><strong>Http指纹识别技术</strong></p>
+<p>Http指纹识别的原理大致上也是相同的：记录不同服务器对Http协议执行中的微小差别进行识别.Http指纹识别比TCP/IP堆栈指纹识别复杂许 多,理由是定制Http服务器的配置文件、增加插件或组件使得更改Http的响应信息变的很容易,这样使得识别变的困难；然而定制TCP/IP堆栈的行为 需要对核心层进行修改,所以就容易识别。    </p>
+<p>要让服务器返回不同的Banner信息的设置是很简单的,象Apache这样的开放源代码的Http服务器,用户可以在源代码里修改Banner信息,然 后重起Http服务就生效了；对于没有公开源代码的Http服务器比如微软的IIS或者是Netscape,可以在存放Banner信息的Dll文件中修 改,相关的文章有讨论的,这里不再赘述,当然这样的修改的效果还是不错的.另外一种模糊Banner信息的方法是使用插件。</p>
+<p> 常用测试请求：</p>
+<ol>
+<li>HEAD/Http/1.0发送基本的Http请求 </li>
+<li>DELETE/Http/1.0发送那些不被允许的请求,比如Delete请求</li>
+<li>GET/Http/3.0发送一个非法版本的Http协议请求 </li>
+<li>GET/JUNK/1.0发送一个不正确规格的Http协议请求 </li>
+</ol>
+<p>Http指纹识别工具Httprint,它通过运用统计学原理,组合模糊的逻辑学技术,能很有效的确定Http服务器的类型.它可以被用来收集和分析不同Http服务器产生的签名。 </p>
+<p> <strong>其他</strong></p>
+<p>为了提高用户使用浏览器时的性能，现代浏览器还支持并发的访问方式，浏览一个网页时同时建立多个连接，以迅速获得一个网页上的多个图标，这样能更快速完成整个网页的传输。 HTTP1.1中提供了这种持续连接的方式，而下一代HTTP协议：HTTP-NG更增加了有关会话控制、丰富的内容协商等方式的支持，来提供更高效率的连接。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Network/" rel="tag"># Network</a>
+              <a href="/tags/Http/" rel="tag"># Http</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/03/Redis/Redis%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/" rel="prev" title="Redis知识点总结">
+      <i class="fa fa-chevron-left"></i> Redis知识点总结
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/03/Network/Session%E5%92%8CCookie/" rel="next" title="Session和Cookie">
+      Session和Cookie <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#HTTP协议简介"><span class="nav-number">1.</span> <span class="nav-text">HTTP协议简介</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#引言"><span class="nav-number">1.1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#特点"><span class="nav-number">1.2.</span> <span class="nav-text">特点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP之URL篇"><span class="nav-number">1.2.1.</span> <span class="nav-text">HTTP之URL篇</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTP之请求篇"><span class="nav-number">1.3.</span> <span class="nav-text">HTTP之请求篇</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#消息报头"><span class="nav-number">1.3.1.</span> <span class="nav-text">消息报头</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTP之响应篇"><span class="nav-number">1.4.</span> <span class="nav-text">HTTP之响应篇</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTP之消息报头篇"><span class="nav-number">1.5.</span> <span class="nav-text">HTTP之消息报头篇</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-普通报头"><span class="nav-number">1.5.1.</span> <span class="nav-text">1.普通报头</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-请求报头"><span class="nav-number">1.5.2.</span> <span class="nav-text">2.请求报头</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-响应报头"><span class="nav-number">1.5.3.</span> <span class="nav-text">3.响应报头</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-实体报头"><span class="nav-number">1.5.4.</span> <span class="nav-text">4.实体报头</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTP协议版本更替"><span class="nav-number">1.6.</span> <span class="nav-text">HTTP协议版本更替</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他补充"><span class="nav-number">1.7.</span> <span class="nav-text">其他补充</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础"><span class="nav-number">1.7.1.</span> <span class="nav-text">基础</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#123"><span class="nav-number">1.7.2.</span> <span class="nav-text">123</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Ccbeango</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ccbeango</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/disqusjs@1/dist/disqusjs.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/disqusjs@1/dist/disqus.js', () => {
+    window.dsqjs = new DisqusJS({
+      api       : '' || 'https://disqus.com/api/',
+      apikey    : 'n0H52UV8sKsjEsyFEXK4e2qtX0Qk564dFYnOS40Bx8qLbFBVBw7sDeJipwjAPxyM',
+      shortname : 'ccbeango',
+      url       : "http://yoursite.com/2019/03/Network/Http%E5%8D%8F%E8%AE%AE%E7%AE%80%E4%BB%8B/",
+      identifier: "2019/03/Network/Http协议简介/",
+      title     : "HTTP协议简介",
+    });
+  }, window.DisqusJS);
+});
+</script>
+
+</body>
+</html>

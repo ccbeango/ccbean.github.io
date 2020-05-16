@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="JS的执行环境及作用域 摘自《JavaScript高级程序设计》  ​    执行环境（execution context，有时也称为环境）是JS中最为重要的一个概念。执行环境定义了变量或函数有权访问的其他数据，决定了它们各自的行为。 ​    每个执行环境都有一个与之关联的变量对象（varialbe object），环境中定义的所有变量和函数都保存在这个对象中。虽然我们编写的代码无法访问这个对象">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS的执行环境及作用域">
+<meta property="og:url" content="http://yoursite.com/2018/07/JavaScript/JS%E7%9A%84%E6%89%A7%E8%A1%8C%E7%8E%AF%E5%A2%83%E5%8F%8A%E4%BD%9C%E7%94%A8%E5%9F%9F/index.html">
+<meta property="og:site_name" content="凹凸豆的博客">
+<meta property="og:description" content="JS的执行环境及作用域 摘自《JavaScript高级程序设计》  ​    执行环境（execution context，有时也称为环境）是JS中最为重要的一个概念。执行环境定义了变量或函数有权访问的其他数据，决定了它们各自的行为。 ​    每个执行环境都有一个与之关联的变量对象（varialbe object），环境中定义的所有变量和函数都保存在这个对象中。虽然我们编写的代码无法访问这个对象">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/ccbeango/blogImages/master/JavaScript/JS%E7%9A%84%E6%89%A7%E8%A1%8C%E7%8E%AF%E5%A2%83%E5%8F%8A%E4%BD%9C%E7%94%A8%E5%9F%9F01.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/ccbeango/blogImages/master/JavaScript/JS%E7%9A%84%E6%89%A7%E8%A1%8C%E7%8E%AF%E5%A2%83%E5%8F%8A%E4%BD%9C%E7%94%A8%E5%9F%9F01.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/ccbeango/blogImages/master/JavaScript/JS%E7%9A%84%E6%89%A7%E8%A1%8C%E7%8E%AF%E5%A2%83%E5%8F%8A%E4%BD%9C%E7%94%A8%E5%9F%9F03.jpg">
+<meta property="article:published_time" content="2018-07-11T11:44:10.000Z">
+<meta property="article:modified_time" content="2019-12-27T09:56:53.337Z">
+<meta property="article:author" content="Ccbeango">
+<meta property="article:tag" content="JavaScript">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/ccbeango/blogImages/master/JavaScript/JS%E7%9A%84%E6%89%A7%E8%A1%8C%E7%8E%AF%E5%A2%83%E5%8F%8A%E4%BD%9C%E7%94%A8%E5%9F%9F01.jpg">
+
+<link rel="canonical" href="http://yoursite.com/2018/07/JavaScript/JS%E7%9A%84%E6%89%A7%E8%A1%8C%E7%8E%AF%E5%A2%83%E5%8F%8A%E4%BD%9C%E7%94%A8%E5%9F%9F/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>JS的执行环境及作用域 | 凹凸豆的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">凹凸豆的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">那天，黄昏，开始飘起来白雪</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/JavaScript/JS%E7%9A%84%E6%89%A7%E8%A1%8C%E7%8E%AF%E5%A2%83%E5%8F%8A%E4%BD%9C%E7%94%A8%E5%9F%9F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ccbeango">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="凹凸豆的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          JS的执行环境及作用域
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-07-11 19:44:10" itemprop="dateCreated datePublished" datetime="2018-07-11T19:44:10+08:00">2018-07-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-12-27 17:56:53" itemprop="dateModified" datetime="2019-12-27T17:56:53+08:00">2019-12-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="JS的执行环境及作用域"><a href="#JS的执行环境及作用域" class="headerlink" title="JS的执行环境及作用域"></a>JS的执行环境及作用域</h1><blockquote>
+<p>摘自《JavaScript高级程序设计》</p>
+</blockquote>
+<p>​    执行环境（execution context，有时也称为环境）是JS中最为重要的一个概念。<strong>执行环境</strong>定义了变量或函数有权访问的其他数据，决定了它们各自的行为。</p>
+<p>​    每个执行环境都有一个与之关联的<strong>变量对象</strong>（varialbe object），环境中定义的所有变量和函数都保存在这个对象中。虽然我们编写的代码无法访问这个对象，但解析器在处理数据时会在后台使用它。</p>
+<p>​    全局执行环境是最外围的一个执行环境。根据宿主环境的不同，表示执行环境的对象也不一样，如Web浏览器中是<code>window</code>对象，Node中是<code>global</code>，所有全局变量都是全局对象的属性。</p>
+<p>​    某个执行环境中的所有代码执行完毕后，该环境被销毁，保存在其中的所有变量和函数定义也随之销毁（全局执行环境直到应用程序退出时才销毁）。</p>
+<p>​    每个函数都有自己的执行环境。当执行进入一个函数时，函数的环境就会被推入一个环境栈中。而在函数执行之后，栈将其环境弹出，把执行权返回给之前的执行环境。JS程序中的执行流正式由这个机制控制的。</p>
+<p>​    当代码在一个环境中执行时，会创建变量对象的一个<strong>作用域链</strong>（scope chain）。作用域链的用途是：==保证对执行环境有权访问的所有变量和函数的有序访问。==作用域的前端，始终都是当前执行的代码所在环境的变量对象。如果这个环境是函数，则将其<strong>活动对象</strong>（activation object）作为变量对象。</p>
+<p>​      活动对象在最开始的时候只包含一个变量，即<code>arguments</code>对象。作用域链中的下一个变量对象来自包含（外部）环境，而再下一个变量对象则来自下一个包含环境。这样，一直延续到全局执行环境；全局执行环境的变量对象始终都是作用域链中的最后一个对象。</p>
+<p>​    标识符解析是沿着作用域链一级一级地搜索标识符的过程。搜索过程始终从作用域链的前端开始，然后逐级地向后回溯，直至找到标识符位置（如果找不到标识符，通常会导致错误发生）。</p>
+<p>示例代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> color = <span class="string">"blue"</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">changeColor</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(color === <span class="string">"blue"</span>) &#123;</span><br><span class="line">        color = <span class="string">"red"</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        color = <span class="string">"blue"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(changeColor());</span><br></pre></td></tr></table></figure>
+
+<p>​    在这个例子中，函数<code>changeColor()</code>的作用域链包含两个对象：它自己的变量对象（其中定义着<code>arguments</code>对象）和全局环境的变量对象。可以在函数内部访问变量<code>color</code>，就是因为可以在这个作用域链中找到它。</p>
+<p>再看一个例子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> color = <span class="string">"blue"</span>；</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">changeColor</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> anotherColor = <span class="string">"red"</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">swapColors</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> tempColor = anotherColor;</span><br><span class="line">        anotherColor = color;</span><br><span class="line">        color = tmpColor;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 这里可以访问color、anotherColor和tempColor</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 这里可以访问color和anotherColor，但不能访问tempColor</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这里只能访问color</span></span><br><span class="line">changeColor();</span><br></pre></td></tr></table></figure>
+
+<p>​    以上代码共涉及3个执行环境：全局环境、changeColor()的局部环境和swapColor()的局部环境。全局环境中有一个变量<code>color</code>和一个函数<code>changeColor()</code>。changeColor()的局部环境中有一个变量<code>anotherColor</code>和一个函数<code>swapColors()</code>，但它也可以访问全局环境中的变量<code>color</code>。swapColors()的局部变量中有一个变量<code>tempColor</code>，该变量只能在这个环境中访问到。无论是全局环境还是changeColor()的局部变量都无权访问<code>tempColor</code>，然而，在swapColors()内部则可以访问其他两个环境中的所有变量，因为那两个环境是它的父执行环境。如图：</p>
+<p><img src="https://raw.githubusercontent.com/ccbeango/blogImages/master/JavaScript/JS%E7%9A%84%E6%89%A7%E8%A1%8C%E7%8E%AF%E5%A2%83%E5%8F%8A%E4%BD%9C%E7%94%A8%E5%9F%9F01.jpg" alt=""></p>
+<p>​    上图表示特定的执行环境。其中，内部环境可以通过作用域链访问所有的外部环境，但外部环境不能访问内部环境中任何变量和函数。这些环境之间的联系是线性、有次序的。每个环境都可以向上搜索作用域链，以查询变量名和函数名；但任何环境都不能通过向下搜索作用域链而进入另一个执行环境。</p>
+<p>​    对于这个例子中的<code>swapColors()</code>而言，其作用域中包含3个对象：swapColors()的变量对象、changeColor()的变量对象和全局变量对象。swapColors()的局部环境开始时会现在自己的变量对象中搜索函数名和变量，如果搜索不到再搜索上一级作用域链。changeColor()的作用域链中只包含两个对象：它自己的变量对象和全局变量对象，也就是诉说，它不能访问swapColors()的环境。</p>
+<p><strong>函数参数也被当做变量来对待，因此其访问规则与执行环境中的其他变量相同。</strong></p>
+<h2 id="理解JS的闭包函数"><a href="#理解JS的闭包函数" class="headerlink" title="理解JS的闭包函数"></a>理解JS的闭包函数</h2><p>闭包是指有权访问另一个函数作用域中的函数。</p>
+<p>创建闭包的常见方式，就是在一个函数内部创建另一个函数：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createComparisonFunction</span>(<span class="params">propertyName</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">object1, object2</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">let</span> value1 = object1[propertyName];</span><br><span class="line">        <span class="keyword">let</span> value2 = object2[propertyName];</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span>(value1 &lt; value2) &#123;</span><br><span class="line">           <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span>(value1 &gt; value2) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>value1</code>和<code>value2</code>两行代码时内部函数（一个匿名函数）中的代码，这梁行代码访问了外部函数中的变量<code>propertyName</code>。即使这个内部函数被放回了，而且是在其他地方被调用了，但它仍然可以访问变量<code>propertyName</code>。之所以还能访问这个变量，是因为内部函数的作用域链中包含<code>createComparisonFunction()</code>的作用域。</p>
+<p>要搞清楚其中的细节，必须从理解函数被调用的时候都会发生什么入手。</p>
+<p>​    有关如何创建作用域链以及作用域链有什么作用的细节，对于彻底理解闭包至关重要。关于作用域链上面已经讲过，当某个函数被调用时，会创建一个执行环境及相应的作用域链。然后使用<code>arguments</code>和其他命名参数的值来初始化函数的活动对象。但在作用域链中，外部函数的活动对象始终处于第二位，外部函数的外部函数的活动对象处于第三位，······直至作为作用域链终点的全局执行环境。</p>
+<p>​    在函数执行过程中，为读取和写入变量的值，就需要在作用域中查找变量。</p>
+<hr>
+<p>看个例子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">compare</span>(<span class="params">value1, value2</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (value1 &lt; value2)&#123;</span><br><span class="line">	    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">	&#125; <span class="keyword">else</span> <span class="keyword">if</span> (value1 &gt; value2)&#123;</span><br><span class="line">	    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>; </span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> result = compare(<span class="number">5</span>, <span class="number">10</span>);</span><br></pre></td></tr></table></figure>
+
+<p>以上代码先定义了<code>compare()</code>函数，然后又在全局作用域中调用了它。当调用<code>compare()</code>时，会创建一个包含<code>arguments</code>、<code>value1</code>、<code>value2</code>的活动对象。全局执行环境的变量对象（result和compare）在<code>compare()</code>执行环境的作用域链中则处于第二位。如下图，包含了上述关系的<code>compare()</code>函数执行时的作用域链。</p>
+<p><img src="https://raw.githubusercontent.com/ccbeango/blogImages/master/JavaScript/JS%E7%9A%84%E6%89%A7%E8%A1%8C%E7%8E%AF%E5%A2%83%E5%8F%8A%E4%BD%9C%E7%94%A8%E5%9F%9F01.jpg" alt=""></p>
+<p>​    后台的每个执行环境都有一个表示变量的对象——变量对象。全局环境的变量对象始终存在，而像<code>compare()</code>函数这样的局部环境的变量对象，则只在函数执行的过程中存在。在创建<code>compare()</code>函数时，会创建一个预先包含全局变量对象的作用域链，这个作用域链被保存在内部的<code>[[Scope]]</code>属性中。当调用<code>compare()</code>函数时，会为函数创建一个执行环境，然后通过复制函数的<code>[[Scope]]</code>属性中的对象构建起执行环境的作用域链。此后，又有一个活动对象（在此作为变量对象使用）被创建并被推人执行环境作用域链的前端。对于这个例子中<code>compare()</code>函数的执行环境而言，其作用域链中包含两个变量对象：本地活动对象和全局变量对象。显然，==作用域链本质上是一个指向变量对象的指针列表，它只引用但不实际包含变量对象。==</p>
+<p>​    无论什么时候在函数中访问一个变量时，就会从作用域链中搜索具有相应名字的变量。一般来讲，当函数执行完毕后，局部活动对象就会被销毁，内存中仅保存全局作用域（全局执行环境的变量对象)。 但是，闭包的情况又有所不同。</p>
+<hr>
+<p>​    在另一个函数内部定义的函数会将包含函数（即外部函数）的活动对象添加到它的作用域链中。因 此，在<code>createComparisonFunction()</code>函数内部定义的匿名函数的作用域链中，实际上将会包含外部函数<code>createComparisonFunction()</code>的活动对象。</p>
+<p>下图展示了当下列代码执行时，包含函数与内部匿名函数的作用域链。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> compare = createComparisonFunction(<span class="string">"name"</span>);</span><br><span class="line"><span class="keyword">const</span> result = compare(&#123; <span class="attr">name</span>: <span class="string">"Nicholas"</span> &#125;, &#123; <span class="attr">name</span>: <span class="string">"Greg"</span> &#125;);</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/ccbeango/blogImages/master/JavaScript/JS%E7%9A%84%E6%89%A7%E8%A1%8C%E7%8E%AF%E5%A2%83%E5%8F%8A%E4%BD%9C%E7%94%A8%E5%9F%9F03.jpg" alt=""></p>
+<p>在匿名函数从<code>createComparisonFunction()</code>中被返回后，它的作用域链被初始化为包含 <code>createComparisonFunction()</code>函数的活动对象和全局变量对象。这样，匿名函数就可以访问在 <code>createComparisonFunction()</code>中定义的所有变量。更为重要的是，<code>createComparisonFunction()</code> 函数在执行完毕后，其活动对象也不会被销毁，因为匿名函数的作用域链仍然在引用这个活动对象。换句话说，当<code>createComparisonFunction()</code>函数返回后，其执行环境的作用域链会被销毁，但它的活 动对象仍然会留在内存中；直到匿名函数被销毁后，<code>createComparisonFunction()</code>的活动对象才被销毁。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建函数 </span></span><br><span class="line"><span class="keyword">var</span> compareNames = createComparisonFunction(<span class="string">"name"</span>);</span><br><span class="line"><span class="comment">// 调用函数  </span></span><br><span class="line"><span class="keyword">var</span> result = compareNames(&#123; <span class="attr">name</span>: <span class="string">"Nicholas"</span> &#125;, &#123; <span class="attr">name</span>: <span class="string">"Greg"</span> &#125;);</span><br><span class="line"><span class="comment">// 解除对匿名函数的引用，以便释放内存</span></span><br><span class="line">compareNames = <span class="literal">null</span>;</span><br></pre></td></tr></table></figure>
+
+<p>​    首先，创建的比较函数被保存在变量<code>compareNames</code>中。而通过将<code>compareNames</code>设置为等于<code>null</code> 解除该函数的引用，就等于通知垃圾回收例程将其清除。随着匿名函数的作用域链被销毁，其他作用域 (除了全局作用域）也都可以安全地销毁了。上图展示了调用<code>compareNames ()</code>的过程中产生的作用域链之间的关系。</p>
+<p><strong>注意：</strong>由于闭包会携带包含它的函数的作用域，因此会比其他函数占用更多的内存。过度使用闭包可能会导致内存占用过多，我们建议读者只在绝对必要时再考虑使用闭包。虽然像V8等优化后的JavaScript引擎会尝试回收被闭包占用的内存，但请大家还是要慎重使用闭包。</p>
+<h3 id="闭包与变量"><a href="#闭包与变量" class="headerlink" title="闭包与变量"></a>闭包与变量</h3><p>闭包只能取得包含函数中任何变量的最后一个值。</p>
+<p>看下例子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createFunctions</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> result = <span class="keyword">new</span> <span class="built_in">Array</span>();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i=<span class="number">0</span>; i &lt; <span class="number">10</span>; i++)&#123;</span><br><span class="line">        result[i] = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">			<span class="keyword">return</span> i; </span><br><span class="line">        &#125;;</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">createFunctions()[<span class="number">6</span>](); <span class="comment">// 10</span></span><br></pre></td></tr></table></figure>
+
+<p>这个函数会返回一个函数数组。表面上看，似乎每个函数都应该返自己的索引值，即位置<code>0</code>的函数返回<code>0</code>,位置<code>1</code>的函数返回<code>1</code>，以此类推。但实际上，每个函数都返回<code>10</code>。因为每个函数的作用域链中都保存着 <code>createFunctions ()</code>函数的活动对象，所以它们引用的都是同一个变量<code>i</code>。当 <code>createFunctions ()</code>函数返回后，变量<code>i</code>的值是10，此时每个函数都引用着保存变量i的同一个变量 对象，所以在每个函数内部<code>i</code>的值都是10。</p>
+<p>使用var声明的变量全局有效，使用let就可以避免这个问题：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createFunctions</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> result = <span class="keyword">new</span> <span class="built_in">Array</span>();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i=<span class="number">0</span>; i &lt; <span class="number">10</span>; i++)&#123;</span><br><span class="line">        result[i] = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">			<span class="keyword">return</span> i; </span><br><span class="line">        &#125;;</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">createFunctions()[<span class="number">6</span>](); <span class="comment">// 6</span></span><br></pre></td></tr></table></figure>
+
+<p>变量<code>i</code>是<code>let</code>声明的，当前的<code>i</code>只在本轮循环有效，所以每一次循环的<code>i</code>其实都是一个新的变量，每次<code>for</code>循环的变量<code>i</code>，都会保存在块级作用域的活动对象中，所以最后输出的是<code>6</code>。</p>
+<h3 id="关于this对象"><a href="#关于this对象" class="headerlink" title="关于this对象"></a>关于this对象</h3><p>在ES5中，在比保重使用<code>this</code>对象会导致一些问题。<code>this</code>对象是在运行时基于函数的执行环境绑定的：在全局中，<code>this</code>是全局执行环境对象，而当函数被作为某个对象的方法调用时，<code>this</code>等于那个对象。</p>
+<p>来看看下面代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name = <span class="string">"The Window"</span>;</span><br><span class="line"><span class="keyword">var</span> object = &#123;</span><br><span class="line">    name : <span class="string">"My Object"</span>,</span><br><span class="line">    getNameFunc : <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>.name;</span><br><span class="line">        &#125;;</span><br><span class="line">&#125; &#125;;</span><br><span class="line">alert(object.getNameFunc()()); <span class="comment">// "The Window" (在非严格模式下)</span></span><br><span class="line"><span class="comment">// Cannot read property 'name' of undefined (在严格模式下this的全局对象指向是undefined，禁止this指向全局对象)</span></span><br></pre></td></tr></table></figure>
+
+<p>上面代码<code>getNameFunc()</code>返回一个匿名函数，而匿名函数又返回<code>this.name</code>，然而，例子的返回字符串是The Window，即全局name变量的值。前面提到过，==每个函数在被调用的时候会自动取得两个特殊变量：<code>this</code>和<code>arguments</code>。==内函数在搜索这两个变量时，只会搜索到其活动对象为止，因此永远不可能直接访问外部函数中的这两个变量。解决方法可以把作用域中的<code>this</code>对象保存在一个闭包能够访问的变量里，就可以让闭包访问该对象了；或者使用ES6的箭头函数</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name = <span class="string">"The Window"</span>;</span><br><span class="line"><span class="keyword">var</span> object = &#123;</span><br><span class="line">    name : <span class="string">"My Object"</span>,</span><br><span class="line">    getNameFunc : <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">var</span> that = <span class="keyword">this</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="keyword">return</span> that.name;</span><br><span class="line">        &#125;;</span><br><span class="line">&#125; &#125;;</span><br><span class="line"><span class="built_in">console</span>.log(object.getNameFunc()()); <span class="comment">// My Object</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> object2 = &#123;</span><br><span class="line">    name : <span class="string">"My Object"</span>,</span><br><span class="line">    getNameFunc : <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;  </span><br><span class="line">        <span class="keyword">return</span> <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>.name;</span><br><span class="line">        &#125;;</span><br><span class="line">&#125; &#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(object2.getNameFunc()()); <span class="comment">// My Object</span></span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/07/JavaScript/%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/" rel="prev" title="异步编程">
+      <i class="fa fa-chevron-left"></i> 异步编程
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/12/Network/%E7%88%AC%E5%A2%99/" rel="next" title="学习ssr爬墙与总结">
+      学习ssr爬墙与总结 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#JS的执行环境及作用域"><span class="nav-number">1.</span> <span class="nav-text">JS的执行环境及作用域</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#理解JS的闭包函数"><span class="nav-number">1.1.</span> <span class="nav-text">理解JS的闭包函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#闭包与变量"><span class="nav-number">1.1.1.</span> <span class="nav-text">闭包与变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于this对象"><span class="nav-number">1.1.2.</span> <span class="nav-text">关于this对象</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Ccbeango</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ccbeango</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/disqusjs@1/dist/disqusjs.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/disqusjs@1/dist/disqus.js', () => {
+    window.dsqjs = new DisqusJS({
+      api       : '' || 'https://disqus.com/api/',
+      apikey    : 'n0H52UV8sKsjEsyFEXK4e2qtX0Qk564dFYnOS40Bx8qLbFBVBw7sDeJipwjAPxyM',
+      shortname : 'ccbeango',
+      url       : "http://yoursite.com/2018/07/JavaScript/JS%E7%9A%84%E6%89%A7%E8%A1%8C%E7%8E%AF%E5%A2%83%E5%8F%8A%E4%BD%9C%E7%94%A8%E5%9F%9F/",
+      identifier: "2018/07/JavaScript/JS的执行环境及作用域/",
+      title     : "JS的执行环境及作用域",
+    });
+  }, window.DisqusJS);
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,2700 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="CSS入门属性概念速查CSS简介CSS代表级联样式表。CSS是一种标准的样式表语言，用于描述网页的表示(即布局和格式)。 CSS语法 CSS 规则由两个主要的部分构成：选择器，以及一条或多条声明。  1selector &amp;#123;declaration1; declaration2; ... declarationN &amp;#125;  选择器主要是需要改变样式的 HTML 元素。每条声明是由一个属">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS入门属性概念速查">
+<meta property="og:url" content="http://yoursite.com/2020/02/HTML+CSS/CSS%E5%85%A5%E9%97%A8%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="凹凸豆的博客">
+<meta property="og:description" content="CSS入门属性概念速查CSS简介CSS代表级联样式表。CSS是一种标准的样式表语言，用于描述网页的表示(即布局和格式)。 CSS语法 CSS 规则由两个主要的部分构成：选择器，以及一条或多条声明。  1selector &amp;#123;declaration1; declaration2; ... declarationN &amp;#125;  选择器主要是需要改变样式的 HTML 元素。每条声明是由一个属">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-02-27T11:41:23.000Z">
+<meta property="article:modified_time" content="2020-05-16T02:31:06.552Z">
+<meta property="article:author" content="Ccbeango">
+<meta property="article:tag" content="CSS">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2020/02/HTML+CSS/CSS%E5%85%A5%E9%97%A8%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5%E6%80%BB%E7%BB%93/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>CSS入门属性概念速查 | 凹凸豆的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">凹凸豆的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">那天，黄昏，开始飘起来白雪</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/HTML+CSS/CSS%E5%85%A5%E9%97%A8%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5%E6%80%BB%E7%BB%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ccbeango">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="凹凸豆的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CSS入门属性概念速查
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-02-27 19:41:23" itemprop="dateCreated datePublished" datetime="2020-02-27T19:41:23+08:00">2020-02-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-05-16 10:31:06" itemprop="dateModified" datetime="2020-05-16T10:31:06+08:00">2020-05-16</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CSS/" itemprop="url" rel="index"><span itemprop="name">CSS</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="CSS入门属性概念速查"><a href="#CSS入门属性概念速查" class="headerlink" title="CSS入门属性概念速查"></a>CSS入门属性概念速查</h1><h2 id="CSS简介"><a href="#CSS简介" class="headerlink" title="CSS简介"></a>CSS简介</h2><p>CSS代表级联样式表。CSS是一种标准的样式表语言，用于描述网页的表示(即布局和格式)。</p>
+<h3 id="CSS语法"><a href="#CSS语法" class="headerlink" title="CSS语法"></a>CSS语法</h3><ol>
+<li>CSS 规则由两个主要的部分构成：选择器，以及一条或多条声明。</li>
+</ol>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">selector &#123;declaration1; declaration2; ... declarationN &#125;</span><br></pre></td></tr></table></figure>
+
+<p>选择器主要是需要改变样式的 HTML 元素。每条声明是由一个属性和一个值组成，属性和值使用<code>:</code>隔开。</p>
+<p>例子：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.box</span>&#123;</span><br><span class="line">    <span class="comment">/* 注释 */</span></span><br><span class="line">    <span class="attribute">width</span>:<span class="number">450px</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">300px</span>;</span><br><span class="line">    <span class="attribute">background</span>: pink;</span><br><span class="line">    <span class="attribute">text-align</span>: center;</span><br><span class="line">    <span class="attribute">line-height</span>: <span class="number">300px</span>;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">20px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><p>CSS声明总是以分号(;)结束，声明组以大括号({})括起来。CSS注释以 <code>/*</code> 开始, 以 <code>*/</code> 结束。</p>
+</li>
+<li><p>CSS创建的方式有三种：</p>
+<ul>
+<li>外部样式表(External style sheet)</li>
+<li>内部样式表(Internal style sheet)</li>
+<li>内联样式(Inline style)</li>
+</ul>
+</li>
+<li><p>多重样式的优先级：内联样式 &gt;内部样式 &gt;外部样式&gt; 浏览器默认样式；如果外部样式放在内部样式的后面，则外部样式将覆盖内部样式。</p>
+</li>
+</ol>
+<h2 id="CSS定位"><a href="#CSS定位" class="headerlink" title="CSS定位"></a>CSS定位</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"box1"</span>&gt;</span>One<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"box2"</span>&gt;</span>Two<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Position"><a href="#Position" class="headerlink" title="Position"></a>Position</h3><p><code>position</code>属性指定了元素的定位类型，元素可以使用的<code>top</code>、<code>bottom</code> 、<code>left</code> 、<code>right</code>属性来定位，然而，这些属性单独是无法工作，必须先设定<code>position</code>属性。</p>
+<p><code>position</code>具有5个值：</p>
+<ul>
+<li><p><code>static</code>：默认值。没有定位，元素出现在正常的流中，忽略 top, bottom, left, right 或者 z-index 声明。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">div</span>&#123;</span><br><span class="line">	<span class="attribute">width</span>:<span class="number">100px</span>;</span><br><span class="line">	<span class="attribute">height</span>: <span class="number">100px</span>;</span><br><span class="line">	<span class="attribute">background-color</span>: pink;</span><br><span class="line">	<span class="attribute">position</span>: static;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>fixed</code>：固定定位，生成固定定位的元素，相对于浏览器窗口进行定位；元素的位置相对于浏览器窗口是固定位置；常用于创建在滚动屏幕时仍固定在相同位置的元素。</p>
+<ul>
+<li>定位使元素的位置与文档流无关，因此不占据空间</li>
+<li>定位的元素会和其他元素重叠</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">div</span>&#123;</span><br><span class="line">	<span class="attribute">width</span>:<span class="number">100px</span>;</span><br><span class="line">	<span class="attribute">height</span>: <span class="number">100px</span>;</span><br><span class="line">	<span class="attribute">background-color</span>: pink;</span><br><span class="line">	<span class="attribute">position</span>: fixed;</span><br><span class="line">	<span class="attribute">top</span>:<span class="number">40px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>relative</code>：相对定位，生成相对定位的元素，相对于其正常位置进行定位。相对于原来位置移动，元素设置此属性之后<strong>仍然处在文档流中</strong>，不影响其他元素的布局。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.box1</span>, <span class="selector-class">.box2</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">100px</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">100px</span>;</span><br><span class="line">    <span class="attribute">background-color</span>: pink;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.box2</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: relative;</span><br><span class="line">    <span class="attribute">top</span>: -<span class="number">10px</span>;</span><br><span class="line">    <span class="attribute">left</span>: <span class="number">30px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>absolute</code>：生成绝对定位的元素，相对于 <code>static</code> 定位以外的第一个父元素进行定位。绝对定位的元素的位置相对于最近的已定位父元素，如果元素没有已定位的父元素，那么它的位置相对于<code>&lt;html&gt;</code>。在布置文档流中其它元素时，绝对定位元素不占据空间，<strong>绝对定位脱离了文档流</strong>。</p>
+<ul>
+<li>因为默认定位方式是<code>static</code>，所以一般我们在使用绝对定位时会给祖先元素(经常是父级元素)加上<code>position:relative</code>，让将要定位的元素相对于已经定位的父元素进行绝对定位。</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.box1</span>, <span class="selector-class">.box2</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">100px</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">100px</span>;</span><br><span class="line">    <span class="attribute">background-color</span>: pink;</span><br><span class="line">    <span class="attribute">border</span>: <span class="number">2px</span> solid <span class="number">#444</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* 因为没有父级已定位的元素，所以会相对于html进行绝对定位。*/</span></span><br><span class="line"><span class="selector-class">.box2</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: absolute;</span><br><span class="line">    <span class="attribute">top</span>: <span class="number">40px</span>;</span><br><span class="line">    <span class="attribute">left</span>: <span class="number">30px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>sticky</code>： 粘性定位，该定位基于用户滚动的位置。</p>
+<ul>
+<li><p>粘性定位的元素是依赖于用户的滚动，在 position:relative 与 position:fixed 定位之间切换。</p>
+</li>
+<li><p>它的行为就像相对定位，而当页面滚动超出目标区域时，它的表现就像fixed定位，它会固定在目标位置。</p>
+</li>
+<li><p>元素定位表现为在跨越特定阈值前为相对定位，之后为固定定位。</p>
+</li>
+<li><p>这个特定阈值指的是 top, right, bottom 或 left 之一，换言之，指定 top, right, bottom 或 left 四个阈值其中之一，才可使粘性定位生效。否则其行为与相对定位相同。</p>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">body</span> &#123;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">2000px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.box1</span>,</span><br><span class="line"><span class="selector-class">.box2</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">100px</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">100px</span>;</span><br><span class="line">    <span class="attribute">background-color</span>: pink;</span><br><span class="line">    <span class="attribute">border</span>: <span class="number">2px</span> solid <span class="number">#444</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.box2</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: sticky;</span><br><span class="line">    <span class="attribute">top</span>: <span class="number">30px</span>;</span><br><span class="line">    <span class="attribute">background-color</span>: pink;</span><br><span class="line">    <span class="attribute">border</span>: <span class="number">2px</span> solid <span class="number">#444</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="z-index"><a href="#z-index" class="headerlink" title="z-index"></a>z-index</h3><p><strong><code>z-index</code>属性指定一个元素的堆叠顺序。拥有更高堆叠顺序的元素总是会处于堆叠顺序较低的元素的前面。</strong></p>
+<p>该属性设置一个定位元素沿 z 轴的位置，z 轴定义为垂直延伸到显示区的轴。如果为正数，则离用户更近，为负数则表示离用户更远。</p>
+<p>注意：</p>
+<ol>
+<li>元素可拥有负的<code>z-index</code>属性值。</li>
+<li><code>z-index</code>仅能使用在进行定位元素<code>position:absolute, position:relative, 或 position:fixed</code>中。</li>
+</ol>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.box1</span>, <span class="selector-class">.box2</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">100px</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">100px</span>;</span><br><span class="line">    <span class="attribute">background-color</span>: pink;</span><br><span class="line">    <span class="attribute">border</span>: <span class="number">2px</span> solid <span class="number">#444</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.box2</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: relative;</span><br><span class="line">    <span class="attribute">top</span>: -<span class="number">10px</span>;</span><br><span class="line">    <span class="attribute">left</span>: <span class="number">20px</span>;</span><br><span class="line">    <span class="attribute">background-color</span>: greenyellow;</span><br><span class="line">    <span class="attribute">border</span>: <span class="number">2px</span> solid <span class="number">#444</span>;</span><br><span class="line">    <span class="attribute">z-index</span>: -<span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="top-right-bottom-left"><a href="#top-right-bottom-left" class="headerlink" title="top right bottom left"></a>top right bottom left</h3><ol>
+<li><code>top</code>：规定元素的顶部边缘。该属性定义了一个定位元素的上外边距边界与其包含块上边界之间的偏移。</li>
+<li><code>right</code>：规定元素的右边缘。该属性定义了定位元素右外边距边界与其包含块右边界之间的偏移。</li>
+<li><code>bottom</code>：对于绝对定位元素，bottom属性设置单位高于/低于包含它的元素的底边；对于相对定位元素，bottom属性设置单位高于/低于其正常位置的元素的底边。</li>
+<li><code>left</code>：规定元素的左边缘。该属性定义了定位元素左外边距边界与其包含块左边界之间的偏移。</li>
+</ol>
+<p>注意：</p>
+<ul>
+<li>对于相对定义元素，如果<code>top</code>和<code>bottom</code>都是<code>auto</code>，其计算值则都是0；如果其中之一为<code>auto</code>，则取另一个值的相反数；如果二者都不是<code>auto</code>，<code>bottom</code>将取<code>top</code>值的相反数。</li>
+</ul>
+<h3 id="clip"><a href="#clip" class="headerlink" title="clip"></a>clip</h3><p>如果图像大于包含它的元素，会发生什么？-<code>clip</code>属性，让你指定一个绝对定位的元素，该尺寸应该是可见的，该元素被剪裁成这种形状并显示。</p>
+<p>注意：: 如果先有<code>overflow：visible</code>，<code>clip</code>属性不起作用。</p>
+<h2 id="CSS布局"><a href="#CSS布局" class="headerlink" title="CSS布局"></a>CSS布局</h2><h3 id="display"><a href="#display" class="headerlink" title="display"></a>display</h3><p><strong>定义了元素是否显示，以及生成哪种盒用于显示。</strong>具有多个属性值，常用的有：</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>none</td>
+<td>此元素不会被显示</td>
+</tr>
+<tr>
+<td>block</td>
+<td>此元素将显示为块级元素，前后会带有换行符。</td>
+</tr>
+<tr>
+<td>inline</td>
+<td>默认。此元素会被显示为内联元素，元素前后没有换行符。</td>
+</tr>
+<tr>
+<td>inline-block</td>
+<td>行内块元素</td>
+</tr>
+<tr>
+<td>list-item</td>
+<td>此元素会作为列表显示</td>
+</tr>
+<tr>
+<td>inherit</td>
+<td>规定应该从父元素继承 display 属性的值</td>
+</tr>
+</tbody></table>
+<p><strong>块级元素的特性</strong>：</p>
+<ul>
+<li><p>总是独占一行。表现为另起一行开始，而且其后的元素也必须另起一行显示。</p>
+</li>
+<li><p>宽度(width)、高度(height)、内边距(padding)和外边距(margin)都可控制;</p>
+</li>
+<li><p>默认为父级宽度的100%，支持全部样式。</p>
+</li>
+<li><p>常用原生标签：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">body</span><br><span class="line"></span><br><span class="line">h1 , h2, h3, h4, h5, h6</span><br><span class="line"></span><br><span class="line">p</span><br><span class="line"></span><br><span class="line">div</span><br><span class="line"></span><br><span class="line">li (条目)</span><br><span class="line"></span><br><span class="line">ul(定义无序列表, 子标签li, 带点号)</span><br><span class="line"></span><br><span class="line">ol(定义有序列表, 子标签li, 带数字)</span><br><span class="line"></span><br><span class="line">dl (定义列表, 内部子标签为dt, dd, 带缩进)</span><br><span class="line"></span><br><span class="line">dt (标题)</span><br><span class="line"></span><br><span class="line">dd (内容)</span><br><span class="line"></span><br><span class="line">blockquote </span><br><span class="line"></span><br><span class="line">center </span><br><span class="line"></span><br><span class="line">pre </span><br><span class="line"></span><br><span class="line">address , blockquote , center , dir , div , dl , fieldset , form , h1 , h2 , h3 , h4 , h5 , h6 , hr , isindex , menu , noframes , noscript , ol , p , pre , table , ul , li</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p><strong>内联元素的特性</strong>：</p>
+<ul>
+<li><p>和相邻的内联元素在同一行。</p>
+</li>
+<li><p>宽度<code>width</code>、高度<code>height</code>、内边距的<code>padding-top/padding-bottom</code>和外边距的<code>margin-top/margin-bottom</code>都不可改变。即不支持宽高, 不支持<code>margin</code>上下, 也不支持<code>padding</code>上下。</p>
+</li>
+<li><p>原生标签：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">a</span><br><span class="line"></span><br><span class="line">span</span><br><span class="line"></span><br><span class="line">em(语气强调,斜体)</span><br><span class="line"></span><br><span class="line">i(专业词汇, 斜体)</span><br><span class="line"></span><br><span class="line">b(关键词, 加粗)</span><br><span class="line"></span><br><span class="line">strong(非常重要, 加粗)</span><br><span class="line"></span><br><span class="line">input(输入框, 支持全部样式)</span><br><span class="line"></span><br><span class="line">img(图片, 支持全部样式)</span><br><span class="line"></span><br><span class="line">abbr , acronym , b , bdo , big , br , cite , code , dfn , em , font , i , img , input , kbd , label , q , s , samp , select , small , span , strike , strong , sub , sup ,textarea , tt , u , var</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p><strong>内联块元素</strong>：</p>
+<ul>
+<li>没有原生的内联块元素，任何元素都可以转换为内联块元素</li>
+<li>支持全部的样式</li>
+</ul>
+<h3 id="float"><a href="#float" class="headerlink" title="float"></a>float</h3><p><strong>指定一个盒子（元素）是否应该浮动</strong>。属性值有：</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>left</td>
+<td>元素向左浮动</td>
+</tr>
+<tr>
+<td>right</td>
+<td>元素向右浮动</td>
+</tr>
+<tr>
+<td>none</td>
+<td>默认值。元素不浮动</td>
+</tr>
+<tr>
+<td>inherit</td>
+<td>从父元素继承 float 属性的值</td>
+</tr>
+</tbody></table>
+<p>注意：绝对定位的元素会忽略浮动。</p>
+<h3 id="clear"><a href="#clear" class="headerlink" title="clear"></a>clear</h3><p><strong>clear属性可用于去除浮动效果，它指定段落的左侧或右侧的元素不允许浮动。</strong></p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>left</td>
+<td>在左侧不允许浮动元素。</td>
+</tr>
+<tr>
+<td>right</td>
+<td>在右侧不允许浮动元素。</td>
+</tr>
+<tr>
+<td>both</td>
+<td>在左右两侧均不允许浮动元素。</td>
+</tr>
+<tr>
+<td>none</td>
+<td>默认值。允许浮动元素出现在两侧。</td>
+</tr>
+<tr>
+<td>inherit</td>
+<td>规定应该从父元素继承clear属性的值。</td>
+</tr>
+</tbody></table>
+<h3 id="visibility"><a href="#visibility" class="headerlink" title="visibility"></a>visibility</h3><p><strong>visibility属性指定一个元素是否是可见的。</strong></p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>visible</td>
+<td>默认值。元素是可见的。</td>
+</tr>
+<tr>
+<td>hidden</td>
+<td>元素是不可见的。</td>
+</tr>
+<tr>
+<td>collapse</td>
+<td>当在表格元素中使用时，此值可删除一行或一列，但是它不会影响表格的布局。被行或列占据的空间会留给其他内容使用。如果此值被用在其他的元素上，会呈现为 “hidden”。</td>
+</tr>
+<tr>
+<td>inherit</td>
+<td>规定应该从父元素继承 visibility 属性的值。</td>
+</tr>
+</tbody></table>
+<p>注意：即使不可见的元素也会占据页面上的空间。如果要创建不占据页面空间的不可见元素，使用<code>display</code>。</p>
+<h3 id="overflow"><a href="#overflow" class="headerlink" title="overflow"></a>overflow</h3><p><strong>overflow属性规定当内容溢出元素框时发生的事情。</strong></p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>visible</td>
+<td>默认值。内容不会被修剪，会呈现在元素框之外。</td>
+</tr>
+<tr>
+<td>hidden</td>
+<td>内容会被修剪，并且其余内容是不可见的。</td>
+</tr>
+<tr>
+<td>scroll</td>
+<td>无论是否需要滚动条，浏览器都会显示滚动条功能</td>
+</tr>
+<tr>
+<td>auto</td>
+<td>如果内容被修剪，则浏览器会显示滚动条以便查看其余的内容。</td>
+</tr>
+<tr>
+<td>inherit</td>
+<td>规定应该从父元素继承overflow属性的值。</td>
+</tr>
+</tbody></table>
+<h2 id="CSS尺寸"><a href="#CSS尺寸" class="headerlink" title="CSS尺寸"></a>CSS尺寸</h2><p>CSS 尺寸 (Dimension) 属性允许你控制元素的高度和宽度。同样，它允许你增加行间距。</p>
+<h3 id="width、height、min-width、max-width、min-height、max-height"><a href="#width、height、min-width、max-width、min-height、max-height" class="headerlink" title="width、height、min-width、max-width、min-height、max-height"></a>width、height、min-width、max-width、min-height、max-height</h3><ol>
+<li><p><code>width</code>：设置元素的宽度。</p>
+</li>
+<li><p><code>height</code>：设置元素的高度。</p>
+</li>
+<li><p><code>min-width</code>：设置元素的最小宽度。</p>
+</li>
+<li><p><code>max-width</code>：设置元素的最大宽度。</p>
+</li>
+<li><p><code>min-height</code>：设置元素的最小高度。</p>
+</li>
+<li><p><code>max-height</code>：设置元素的最大高度。</p>
+</li>
+</ol>
+<p>注意：属性的长度均不包括填充<code>padding</code>，边框<code>border</code>和页边距<code>margin</code>。</p>
+<h3 id="margin"><a href="#margin" class="headerlink" title="margin"></a>margin</h3><p>外边距指的是围绕在元素边框的空白区域，可以通过margin属性来设置外边距，它接受任何长度单位、百分数值甚至负值。</p>
+<p>margin在一个声明中设置所有外边距属性。该属性可以有 1 到 4 个值。</p>
+<p>块级元素的垂直相邻外边距会合并，而行内元素实际上不占上下外边距。行内元素的左右外边距不会合并。同样地，浮动元素的外边距也不会合并。<strong>允许指定负的外边距值</strong>，不过使用时要小心。</p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>margin</td>
+<td>简写属性，在一个声明中设置所有外边距属性</td>
+</tr>
+<tr>
+<td>margin-bottom</td>
+<td>设置元素的下外边距</td>
+</tr>
+<tr>
+<td>margin-left</td>
+<td>设置元素的左外边距</td>
+</tr>
+<tr>
+<td>margin-right</td>
+<td>设置元素的右外边距</td>
+</tr>
+<tr>
+<td>margin-top</td>
+<td>设置元素的上外边距</td>
+</tr>
+</tbody></table>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">margin</span><span class="selector-pseudo">:10px</span> 5<span class="selector-tag">px</span> 15<span class="selector-tag">px</span> 20<span class="selector-tag">px</span>;</span><br><span class="line">	上边距是 10<span class="selector-tag">px</span></span><br><span class="line"></span><br><span class="line">	右边距是 5<span class="selector-tag">px</span></span><br><span class="line"></span><br><span class="line">	下边距是 15<span class="selector-tag">px</span></span><br><span class="line"></span><br><span class="line">	左边距是 20<span class="selector-tag">px</span></span><br><span class="line"></span><br><span class="line"><span class="selector-tag">margin</span><span class="selector-pseudo">:10px</span> 5<span class="selector-tag">px</span> 15<span class="selector-tag">px</span>;</span><br><span class="line"></span><br><span class="line">	上边距是 10<span class="selector-tag">px</span></span><br><span class="line"></span><br><span class="line">	右边距和左边距是 5<span class="selector-tag">px</span></span><br><span class="line"></span><br><span class="line">	下边距是 15<span class="selector-tag">px</span>）</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">margin</span><span class="selector-pseudo">:10px</span> 5<span class="selector-tag">px</span>;</span><br><span class="line"></span><br><span class="line">	上边距和下边距是 10<span class="selector-tag">px</span></span><br><span class="line"></span><br><span class="line">	右边距和左边距是 5<span class="selector-tag">px</span></span><br><span class="line"></span><br><span class="line"><span class="selector-tag">margin</span><span class="selector-pseudo">:10px</span>;</span><br><span class="line"></span><br><span class="line">	所有四个边距都是 10<span class="selector-tag">px</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="padding"><a href="#padding" class="headerlink" title="padding"></a>padding</h3><p>元素的内边距指的是在边框和内容区之间，通过padding属性定义元素边框与元素内容之间的空白区域。</p>
+<p>padding属性定义元素的内边距。该属性可以有 1 到 4 个值。padding属性接受长度值或百分比值，但<strong>不允许使用负值</strong>。</p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>padding</td>
+<td>简写属性，在一个声明中的所有填充属性</td>
+</tr>
+<tr>
+<td>padding-bottom</td>
+<td>设置元素的底部填充</td>
+</tr>
+<tr>
+<td>padding-left</td>
+<td>设置元素的左部填充</td>
+</tr>
+<tr>
+<td>padding-right</td>
+<td>设置元素的右部填充</td>
+</tr>
+<tr>
+<td>padding-top</td>
+<td>设置元素的顶部填充</td>
+</tr>
+</tbody></table>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">padding</span><span class="selector-pseudo">:10px</span> 5<span class="selector-tag">px</span> 15<span class="selector-tag">px</span> 20<span class="selector-tag">px</span>;</span><br><span class="line"></span><br><span class="line">	上填充是 10<span class="selector-tag">px</span></span><br><span class="line"></span><br><span class="line">	右填充是 5<span class="selector-tag">px</span></span><br><span class="line"></span><br><span class="line">	下填充是 15<span class="selector-tag">px</span></span><br><span class="line"></span><br><span class="line">	左填充是 20<span class="selector-tag">px</span></span><br><span class="line"></span><br><span class="line"><span class="selector-tag">padding</span><span class="selector-pseudo">:10px</span> 5<span class="selector-tag">px</span> 15<span class="selector-tag">px</span>;</span><br><span class="line"></span><br><span class="line">	上填充是 10<span class="selector-tag">px</span></span><br><span class="line"></span><br><span class="line">	右填充和左填充是 5<span class="selector-tag">px</span></span><br><span class="line"></span><br><span class="line">	下填充是 15<span class="selector-tag">px</span></span><br><span class="line"></span><br><span class="line"><span class="selector-tag">padding</span><span class="selector-pseudo">:10px</span> 5<span class="selector-tag">px</span>;</span><br><span class="line"></span><br><span class="line">	上填充和下填充是 10<span class="selector-tag">px</span></span><br><span class="line"></span><br><span class="line">	右填充和左填充是 5<span class="selector-tag">px</span></span><br><span class="line"></span><br><span class="line"><span class="selector-tag">padding</span><span class="selector-pseudo">:10px</span>;</span><br><span class="line"></span><br><span class="line">	所有四个填充都是 10<span class="selector-tag">px</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="CSS背景"><a href="#CSS背景" class="headerlink" title="CSS背景"></a>CSS背景</h2><p>CSS 背景属性用于定义HTML元素的背景</p>
+<h3 id="background"><a href="#background" class="headerlink" title="background"></a>background</h3><p><code>background</code>属性是一个缩写属性，可以在一个声明中设置所有的背景属性。</p>
+<p>CSS语法：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">background:bg-color bg-image position/bg-size bg-repeat bg-origin bg-clip bg-attachment initial|inherit;</span><br></pre></td></tr></table></figure>
+
+<p>可以设置的属性分别是：</p>
+<ul>
+<li><code>background-color</code>： 指定要使用的背景颜色</li>
+<li><code>background-position</code>：指定背景图像的位置 </li>
+<li><code>background-size</code>：指定背景图片的大小</li>
+<li><code>background-repeat</code>：指定如何重复背景图像</li>
+<li><code>background-origin</code>：指定背景图像的定位区域</li>
+<li><code>background-clip</code>：指定背景图像的绘画区域</li>
+<li><code>background-attachment</code>：设置背景图像是否固定或者随着页面的其余部分滚动</li>
+<li><code>background-image</code>：指定要使用的一个或多个背景图像</li>
+</ul>
+<h3 id="background-color"><a href="#background-color" class="headerlink" title="background-color"></a>background-color</h3><p>background-color属性用于设置一个元素的背景颜色。元素的背景是元素的总大小，包括填充和边界，但不包括外边距。</p>
+<table>
+<thead>
+<tr>
+<th>属性值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>color</td>
+<td>指定背景颜色。</td>
+</tr>
+<tr>
+<td>transparent</td>
+<td>默认值，指定背景颜色透明的</td>
+</tr>
+<tr>
+<td>inherit</td>
+<td>指定背景颜色从父元素继承</td>
+</tr>
+</tbody></table>
+<h3 id="background-image"><a href="#background-image" class="headerlink" title="background-image"></a>background-image</h3><p>background-image属性用于设置一个元素的背景图像。</p>
+<p>元素的背景是元素的总大小，包括填充和边界（但不包括边距）。</p>
+<p>默认情况下，background-image放置在元素的左上角，并重复垂直和水平方向。</p>
+<table>
+<thead>
+<tr>
+<th>属性值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>url</td>
+<td>指定背景颜色。</td>
+</tr>
+<tr>
+<td>none</td>
+<td>默认值，无图像背景会显示</td>
+</tr>
+<tr>
+<td>inherit</td>
+<td>指定背景图像从父元素继承</td>
+</tr>
+</tbody></table>
+<h3 id="background-repeat"><a href="#background-repeat" class="headerlink" title="background-repeat"></a>background-repeat</h3><p>background-image 属性设置如何平铺对象。</p>
+<p>默认情况下，重复background-image的垂直和水平方向。</p>
+<table>
+<thead>
+<tr>
+<th>属性值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>repeat</td>
+<td>默认值，背景图像将向垂直和水平方向重复。</td>
+</tr>
+<tr>
+<td>repeat-x</td>
+<td>只有水平位置会重复背景图像</td>
+</tr>
+<tr>
+<td>repeat-y</td>
+<td>只有垂直位置会重复背景图像</td>
+</tr>
+<tr>
+<td>no-repeat</td>
+<td>无重复</td>
+</tr>
+<tr>
+<td>inherit</td>
+<td>指定属性从父元素继承</td>
+</tr>
+</tbody></table>
+<h3 id="background-attachment"><a href="#background-attachment" class="headerlink" title="background-attachment"></a>background-attachment</h3><p>background-attachment属性用于设置背景图像是否固定或者随着页面的其余部分滚动。</p>
+<table>
+<thead>
+<tr>
+<th>属性值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>scroll</td>
+<td>默认值，背景图片随页面的其余部分滚动</td>
+</tr>
+<tr>
+<td>fixed</td>
+<td>背景图像是固定的</td>
+</tr>
+<tr>
+<td>inherit</td>
+<td>指定属性从父元素继承</td>
+</tr>
+</tbody></table>
+<h3 id="background-position"><a href="#background-position" class="headerlink" title="background-position"></a>background-position</h3><p>background-position属性设置背景图像的起始位置。</p>
+<p>这个属性设置背景原图像<code>background-image</code>的位置，背景图像如果要重复，将从这一点开始。</p>
+<table>
+<thead>
+<tr>
+<th>属性值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>left   top<br/>left   center<br/>left   bottom<br/>right  top<br/>right  center<br/>right  bottom<br/>center top<br/>center center<br/>center bottom</td>
+<td>如果仅指定一个关键字，其他值将会是”center”</td>
+</tr>
+<tr>
+<td>x% y%</td>
+<td>第一个值是水平位置，第二个值是垂直。左上角是0％0％。右下角是100％100％。如果仅指定了一个值，其他值将是50％。 默认值为：0％0％</td>
+</tr>
+<tr>
+<td>xpos ypos</td>
+<td>第一个值是水平位置，第二个值是垂直。左上角是0。单位可以是像素（0px 0px）或任何其他 CSS单位。如果仅指定了一个值，其他值将是50％。可以混合使用％和positions</td>
+</tr>
+<tr>
+<td>inherit</td>
+<td>指定属性设置从父元素继承</td>
+</tr>
+</tbody></table>
+<h3 id="background-origin"><a href="#background-origin" class="headerlink" title="background-origin"></a>background-origin</h3><p>background-origin属性规定<code>background-position</code>属性相对于什么位置来定位。</p>
+<p><strong>注释：</strong>如果背景图像的<code>background-attachment</code>属性为<code>fixed</code>，则该属性没有效果。</p>
+<table>
+<thead>
+<tr>
+<th>属性值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>padding-box</td>
+<td>背景图像相对于内边距框来定位</td>
+</tr>
+<tr>
+<td>border-box</td>
+<td>背景图像相对于边框盒来定位</td>
+</tr>
+<tr>
+<td>content-box</td>
+<td>背景图像相对于内容框来定位</td>
+</tr>
+</tbody></table>
+<h3 id="background-clip"><a href="#background-clip" class="headerlink" title="background-clip"></a>background-clip</h3><p>background-clip 属性规定背景的绘制区域。</p>
+<table>
+<thead>
+<tr>
+<th>属性值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>padding-box</td>
+<td>背景被裁剪到内边距框</td>
+</tr>
+<tr>
+<td>border-box</td>
+<td>背景被裁剪到边框盒</td>
+</tr>
+<tr>
+<td>content-box</td>
+<td>背景被裁剪到内容框</td>
+</tr>
+</tbody></table>
+<h3 id="background-size"><a href="#background-size" class="headerlink" title="background-size"></a>background-size</h3><p>background-size 属性规定背景图像的尺寸，即指定背景图片的大小。</p>
+<table>
+<thead>
+<tr>
+<th>属性值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>length</td>
+<td>设置背景图像的高度和宽度。第一个值设置宽度，第二个值设置高度。如果只设置一个值，则第二个值会被设置为 “auto”。</td>
+</tr>
+<tr>
+<td>percentage</td>
+<td>以父元素的百分比来设置背景图像的宽度和高度。第一个值设置宽度，第二个值设置高度。如果只设置一个值，则第二个值会被设置为 “auto”。</td>
+</tr>
+<tr>
+<td>cover</td>
+<td>把背景图像扩展至足够大，以使背景图像<strong>完全覆盖</strong>背景区域。<strong>背景图像的某些部分也许无法显示在背景定位区域中</strong>。</td>
+</tr>
+<tr>
+<td>contain</td>
+<td>把图像图像扩展至最大尺寸，以使其宽度和高度完全适应内容区域。(整个图片都包含在区域内)</td>
+</tr>
+</tbody></table>
+<h2 id="CSS边框"><a href="#CSS边框" class="headerlink" title="CSS边框"></a>CSS边框</h2><p>元素的边框 (border) 是围绕元素内容和内边距的一条线或者多条线。</p>
+<h3 id="border"><a href="#border" class="headerlink" title="border"></a>border</h3><p>border属性是一个缩写属性，可以在一个声明中设置所有的边框属性。</p>
+<p>可以设置的属性分别为：</p>
+<ul>
+<li><p><code>border-width</code>：指定边框的宽度 </p>
+</li>
+<li><p><code>border-style</code>：指定边框的样式</p>
+</li>
+<li><p><code>border-color</code>：指定边框的颜色</p>
+</li>
+<li><p><code>inherit</code></p>
+<p>如果不设置其中的某个值，也不会出问题，比如 border:solid #ff0000</p>
+</li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">border:border-width|border-style|border-color|inherit</span><br></pre></td></tr></table></figure>
+
+<h3 id="border-width"><a href="#border-width" class="headerlink" title="border-width"></a>border-width</h3><p>border-width属性设置一个元素的四个边框的宽度。此属性可以有一到四个值，指定上、右、下、左边框的宽度。</p>
+<table>
+<thead>
+<tr>
+<th>属性值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>thin</td>
+<td>定义细的边框</td>
+</tr>
+<tr>
+<td>medium</td>
+<td>默认值，定义中等的边框</td>
+</tr>
+<tr>
+<td>thick</td>
+<td>定义粗的边框</td>
+</tr>
+<tr>
+<td>length</td>
+<td>允许自定义边框的宽度</td>
+</tr>
+<tr>
+<td>inherit</td>
+<td>从父元素继承边框的宽度</td>
+</tr>
+</tbody></table>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">border-width</span><span class="selector-pseudo">:thin</span> <span class="selector-tag">medium</span> <span class="selector-tag">thick</span> 10<span class="selector-tag">px</span>;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">border-width</span><span class="selector-pseudo">:thin</span> <span class="selector-tag">medium</span> <span class="selector-tag">thick</span>;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">border-width</span><span class="selector-pseudo">:thin</span> <span class="selector-tag">medium</span>;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">border-width</span><span class="selector-pseudo">:thin</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="border-style"><a href="#border-style" class="headerlink" title="border-style"></a>border-style</h3><p>border-style属性设置一个元素的四个边框的样式。此属性可以有一到四个值。</p>
+<table>
+<thead>
+<tr>
+<th>属性值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>none</td>
+<td>定义无边框。</td>
+</tr>
+<tr>
+<td>hidden</td>
+<td>与 “none” 相同。不过应用于表时除外，对于表，hidden 用于解决边框冲突。</td>
+</tr>
+<tr>
+<td>dotted</td>
+<td>定义点状边框。在大多数浏览器中呈现为实线。</td>
+</tr>
+<tr>
+<td>dashed</td>
+<td>定义虚线。在大多数浏览器中呈现为实线。</td>
+</tr>
+<tr>
+<td>solid</td>
+<td>定义实线。</td>
+</tr>
+<tr>
+<td>double</td>
+<td>定义双线。双线的宽度等于 border-width 的值。</td>
+</tr>
+<tr>
+<td>groove/ridge/inset/outset</td>
+<td></td>
+</tr>
+<tr>
+<td>inherit</td>
+<td>规定应该从父元素继承边框样式。</td>
+</tr>
+</tbody></table>
+<h3 id="border-color"><a href="#border-color" class="headerlink" title="border-color"></a>border-color</h3><p>border-color属性设置一个元素的四个边框颜色，此属性可以有一到四个值</p>
+<p>注意：请始终把 border-style 属性声明到 border-color 属性之前。元素必须在改变其颜色之前获得边框。</p>
+<table>
+<thead>
+<tr>
+<th>属性值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>color</td>
+<td>指定边框背景颜色</td>
+</tr>
+<tr>
+<td>transparent</td>
+<td>默认值，指定边框的颜色应该是透明的</td>
+</tr>
+<tr>
+<td>inherit</td>
+<td>从父元素继承边框的颜色</td>
+</tr>
+</tbody></table>
+<h3 id="box-shadow"><a href="#box-shadow" class="headerlink" title="box-shadow"></a>box-shadow</h3><p>box-shadow 向框添加一个或多个阴影。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">box-shadow</span>: <span class="selector-tag">h-shadow</span> <span class="selector-tag">v-shadow</span> <span class="selector-tag">blur</span> <span class="selector-tag">spread</span> <span class="selector-tag">color</span> <span class="selector-tag">inset</span>;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">box-shadow</span>: 10<span class="selector-tag">px</span> 10<span class="selector-tag">px</span> 5<span class="selector-tag">px</span> <span class="selector-id">#888888</span>;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong>boxShadow 属性把一个或多个下拉阴影添加到框上。该属性是一个用逗号分隔阴影的列表，每个阴影由 2-4 个长度值、一个可选的颜色值和一个可选的 <code>inset</code> 关键字来规定。省略长度的值是 0。</p>
+<table>
+<thead>
+<tr>
+<th>属性值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>h-shadow</td>
+<td>必需的。水平阴影的位置。允许负值</td>
+</tr>
+<tr>
+<td>v-shadow</td>
+<td>必需的。垂直阴影的位置。允许负值</td>
+</tr>
+<tr>
+<td>blur</td>
+<td>可选。模糊距离</td>
+</tr>
+<tr>
+<td>spread</td>
+<td>可选。阴影的大小</td>
+</tr>
+<tr>
+<td>color</td>
+<td>可选。阴影的颜色</td>
+</tr>
+<tr>
+<td>inset</td>
+<td>可选。将外部阴影 (outset) 改为内部阴影。</td>
+</tr>
+</tbody></table>
+<h3 id="border-radius"><a href="#border-radius" class="headerlink" title="border-radius"></a>border-radius</h3><p>border-radius 属性是一个简写属性，用于设置四个<code>border-*-radius</code>属性。</p>
+<p>每个半径的四个值的顺序是：左上角，右上角，右下角，左下角。</p>
+<p>按此顺序设置每个 radii 的四个值。如果省略坐左下<code>bottom-left</code>，则与右上<code>top-right</code>相同。如果省略右下<code>bottom-right</code>，则与左上<code>top-left</code>相同。如果省略右上<code>top-right</code>，则与左上<code>top-left</code>相同。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">border-radius:length|%;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">p</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">100px</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">100px</span>;</span><br><span class="line">    <span class="attribute">line-height</span>: <span class="number">100px</span>;</span><br><span class="line">    <span class="attribute">text-align</span>: center;</span><br><span class="line">    <span class="attribute">border</span>:<span class="number">1px</span> solid <span class="number">#ED28BB</span>;</span><br><span class="line">    <span class="attribute">border-radius</span>:<span class="number">10px</span> <span class="number">54px</span> <span class="number">20px</span>; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="border-image"><a href="#border-image" class="headerlink" title="border-image"></a>border-image</h3><p>border-image是简写属性，可以用来同时设置以下属性：</p>
+<ul>
+<li><code>border-image-source</code>：用在边框的图片的路径。</li>
+<li><code>border-image-slice</code>：图片边框向内偏移。</li>
+<li><code>border-image-width</code>：图片边框的宽度。</li>
+<li><code>border-image-outset</code>：边框图像区域超出边框的量</li>
+<li><code>border-image-repeat</code>：图像边框是否应平铺(repeated)、铺满(rounded)或拉伸(stretched)。</li>
+</ul>
+<p>如果省略值，会设置其默认值，默认值为<code>none 100% 1 0 stretch</code></p>
+<h3 id="border-image-source"><a href="#border-image-source" class="headerlink" title="border-image-source"></a>border-image-source</h3><h3 id="border-image-slice"><a href="#border-image-slice" class="headerlink" title="border-image-slice"></a>border-image-slice</h3><p>border-image-slice属性指定图像的边界向内偏移。</p>
+<p>此属性指定顶部，右，底部，左边缘的图像向内偏移，分为九个区域：四个角，四边和中间。图像中间部分将被丢弃（完全透明的处理），除非填写关键字。如果省略第四个数字/百分比，它和第二个相同的。如果也省略了第三个，它和第一个是相同的。如果也省略了第二个，它和第一个是相同的</p>
+<table>
+<thead>
+<tr>
+<th>属性值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>number</td>
+<td>数字表示图像的像素（位图图像）或向量的坐标（如果图像是矢量图像）</td>
+</tr>
+<tr>
+<td>%</td>
+<td>百分比图像的大小是相对的：水平偏移图像的宽度，垂直偏移图像的高度</td>
+</tr>
+<tr>
+<td>fill</td>
+<td>保留图像的中间部分</td>
+</tr>
+</tbody></table>
+<h3 id="border-image-width"><a href="#border-image-width" class="headerlink" title="border-image-width"></a>border-image-width</h3><p>border-image-width属性指定图像边界的宽度</p>
+<p>注意： border-image -width的4个值指定用于把border图像区域分为九个部分。他们代表上，右，底部，左，两侧向内距离。如果第四个值被省略，它和第二个是相同的。如果也省略了第三个，它和第一个是相同的。如果也省略了第二个，它和第一个是相同的。负值是不允许的。</p>
+<table>
+<thead>
+<tr>
+<th>属性值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>number</td>
+<td>表示相应的border-width 的倍数</td>
+</tr>
+<tr>
+<td>%</td>
+<td>边界图像区域的大小：横向偏移的宽度的面积，垂直偏移的高度的面积</td>
+</tr>
+<tr>
+<td>auto</td>
+<td>如果指定了，宽度是相应的image slice的内在宽度或高度</td>
+</tr>
+</tbody></table>
+<h3 id="border-image-outside"><a href="#border-image-outside" class="headerlink" title="border-image-outside"></a>border-image-outside</h3><p>border-image-outset用于指定在边框外部绘制 border-image-area 的量。</p>
+<p>注意： border-image-outset用于指定在边框外部绘制 border-image-area 的量，包括上下部和左右部分。如果第四个值被省略，它和第二个是相同的。如果也省略了第三个，它和第一个是相同的。如果也省略了第二个，它和第一个是相同的</p>
+<p>不允许border-image-outset拥有负值</p>
+<table>
+<thead>
+<tr>
+<th>属性值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>number</td>
+<td>代表相应的 border-width 的倍数</td>
+</tr>
+<tr>
+<td>length</td>
+<td>设置边框图像与边框（border-image）的距离，默认为0</td>
+</tr>
+</tbody></table>
+<h3 id="border-image-repeat"><a href="#border-image-repeat" class="headerlink" title="border-image-repeat"></a>border-image-repeat</h3><p>border-image-repeat 属性用于图像边界是否应重复（repeated）、拉伸（stretched）或铺满（rounded）</p>
+<p>该属性规定如何延展和铺排边框图像的边缘和中间部分。因此，可以规定两个值。如果省略第二个值，则采取与第一个值相同的值。</p>
+<table>
+<thead>
+<tr>
+<th>属性值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>stretch</td>
+<td>拉伸图像来填充区域，默认值</td>
+</tr>
+<tr>
+<td>repeat</td>
+<td>平铺（repeated）图像来填充区域</td>
+</tr>
+<tr>
+<td>round</td>
+<td>类似 repeat 值，如果无法完整平铺所有图像，则对图像进行缩放以适应区域</td>
+</tr>
+<tr>
+<td>space</td>
+<td>类似 repeat 值，如果无法完整平铺所有图像，扩展空间会分布在图像周围</td>
+</tr>
+<tr>
+<td>initial</td>
+<td></td>
+</tr>
+<tr>
+<td>inherit</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="CSS颜色"><a href="#CSS颜色" class="headerlink" title="CSS颜色"></a>CSS颜色</h2><h3 id="color"><a href="#color" class="headerlink" title="color"></a>color</h3><p>color 属性规定文本的颜色。</p>
+<p>这个属性设置了一个元素的前景色（在 HTML 表现中，就是元素文本的颜色）；光栅图像不受 color 影响。这个颜色还会应用到元素的所有边框，除非被 border-color 或另外某个边框颜色属性覆盖。</p>
+<table>
+<thead>
+<tr>
+<th>属性值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>color_name</td>
+<td>规定颜色值为颜色名称的颜色（<code>red</code>）</td>
+</tr>
+<tr>
+<td>hex_number</td>
+<td>规定颜色值为十六进制值的颜色（<code>#ff0000</code>）</td>
+</tr>
+<tr>
+<td>rgb_number</td>
+<td>规定颜色值为 rgb 代码的颜色(<code>rgb(255,0,0)</code>)</td>
+</tr>
+<tr>
+<td>inherit</td>
+<td>规定应该从父元素继承颜色。</td>
+</tr>
+</tbody></table>
+<h3 id="opacity"><a href="#opacity" class="headerlink" title="opacity"></a>opacity</h3><p>opacity属性设置一个元素了透明度级别。</p>
+<table>
+<thead>
+<tr>
+<th>属性值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>value</td>
+<td>指定不透明度。从0.0（完全透明）到1.0（完全不透明）</td>
+</tr>
+<tr>
+<td>inherit</td>
+<td>规定应该从父元素继承透明度。</td>
+</tr>
+</tbody></table>
+<h2 id="CSS字体"><a href="#CSS字体" class="headerlink" title="CSS字体"></a>CSS字体</h2><p>CSS 字体属性定义文本的字体系列、大小、加粗、风格（如斜体）和变形（如小型大写字母）。</p>
+<h3 id="font"><a href="#font" class="headerlink" title="font"></a>font</h3><p>font 简写属性在一个声明中设置所有字体属性。</p>
+<p>可设置的属性是（按顺序）： <code>font-style font-variant font-weight font-size/line-height font-family</code>。</p>
+<p>font-size和font-family的值是必需的。如果缺少了其他值，如果有默认值的话，默认值将被插入。</p>
+<h3 id="font-style"><a href="#font-style" class="headerlink" title="font-style"></a>font-style</h3><p>font-style属性指定文本的字体样式。</p>
+<table>
+<thead>
+<tr>
+<th>属性值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>normal</td>
+<td>默认值。标准的字体样式。</td>
+</tr>
+<tr>
+<td>italic</td>
+<td>斜体的字体样式</td>
+</tr>
+<tr>
+<td>oblique</td>
+<td>倾斜的字体样式</td>
+</tr>
+<tr>
+<td>inherit</td>
+<td>规定应该从父元素继承字体样式</td>
+</tr>
+</tbody></table>
+<p>italic使用的前提是，字体本身支持斜体的，如果不支持，是没有效果的。</p>
+<p>oblique是让字体倾斜，都可以使用来设置字体倾斜。</p>
+<h3 id="font-variant"><a href="#font-variant" class="headerlink" title="font-variant"></a>font-variant</h3><p>font-variant 属性设置小型大写字母的字体显示文本，这意味着所有的小写字母均会被转换为大写，但是所有使用小型大写字体的字母与其余文本相比，其字体尺寸更小。</p>
+<table>
+<thead>
+<tr>
+<th>属性值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>normal</td>
+<td>默认值。标准的字体样式。</td>
+</tr>
+<tr>
+<td>small-caps</td>
+<td>小型大写字母的字体</td>
+</tr>
+<tr>
+<td>inherit</td>
+<td>规定应该从父元素继承字体样式</td>
+</tr>
+</tbody></table>
+<h3 id="font-weight"><a href="#font-weight" class="headerlink" title="font-weight"></a>font-weight</h3><p>font-weight 属性设置文本的粗细。</p>
+<table>
+<thead>
+<tr>
+<th>属性值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>normal</td>
+<td>默认值。定义标准的字符。</td>
+</tr>
+<tr>
+<td>bold</td>
+<td>定义粗体字符。</td>
+</tr>
+<tr>
+<td>bolder</td>
+<td>定义更粗的字符。</td>
+</tr>
+<tr>
+<td>lighter</td>
+<td>定义更细的字符。</td>
+</tr>
+<tr>
+<td>100<br/>200<br/>300<br/>400<br/>500<br/>600<br/>700 <br/>800 <br/>900</td>
+<td>定义由粗到细的字符。400 等同于 normal，而 700 等同于 bold。</td>
+</tr>
+<tr>
+<td>inherit</td>
+<td>规定应该从父元素继承字体的粗细。</td>
+</tr>
+</tbody></table>
+<h3 id="font-size"><a href="#font-size" class="headerlink" title="font-size"></a>font-size</h3><p>font-size属性设置字体大小。</p>
+<table>
+<thead>
+<tr>
+<th>属性值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>xx-small<br/>x-small<br/>small <br/>medium<br/>large x-large<br/>xx-large</td>
+<td>把字体的尺寸设置为不同的尺寸，从 xx-small 到 xx-large。<br/>默认值：medium。</td>
+</tr>
+<tr>
+<td>smaller</td>
+<td>设置为比父元素更小的尺寸。</td>
+</tr>
+<tr>
+<td>larger</td>
+<td>设置为比父元素更大的尺寸。</td>
+</tr>
+<tr>
+<td>length</td>
+<td>设置为一个固定的值。</td>
+</tr>
+<tr>
+<td>%</td>
+<td>设置为基于父元素的一个百分比值。</td>
+</tr>
+<tr>
+<td>inherit</td>
+<td>规定应该从父元素继承字体尺寸。</td>
+</tr>
+</tbody></table>
+<h3 id="font-family"><a href="#font-family" class="headerlink" title="font-family"></a>font-family</h3><p>font-family 规定元素的字体系列。</p>
+<p>font-family 可以把多个字体名称作为一个“回退”系统来保存。如果浏览器不支持第一个字体，则会尝试下一个。也就是说，font-family 属性的值是用于某个元素的字体族名称或/及类族名称的一个优先表。浏览器会使用它可识别的第一个值。</p>
+<p>有两种类型的字体系列名称：</p>
+<ul>
+<li><code>family-name</code>指定的系列名称：具体字体的名称，比如：”times”、”courier”、”arial”。</li>
+<li><code>generic-family</code>通常字体系列名称：比如：”serif”、”sans-serif”、”cursive”、”fantasy”、”monospace”</li>
+</ul>
+<p>使用逗号分割每个值，并始终提供一个类族名称作为最后的选择。</p>
+<p><strong>注意：</strong>使用某种特定的字体系列（Geneva）完全取决于用户机器上该字体系列是否可用；这个属性没有指示任何字体下载。因此，强烈推荐使用一个通用字体系列名作为后路。</p>
+<p>如果字体名称包含空格，它必须加上引号</p>
+<table>
+<thead>
+<tr>
+<th>属性值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>family-name<br/>generic-family</td>
+<td>用于某个元素的字体族名称或/及类族名称的一个优先表。<br/>默认值：取决于浏览器</td>
+</tr>
+<tr>
+<td>inherit</td>
+<td>规定应该从父元素继承字体系列。</td>
+</tr>
+</tbody></table>
+<h2 id="CSS文本"><a href="#CSS文本" class="headerlink" title="CSS文本"></a>CSS文本</h2><p>CSS 文本属性可定义文本的外观。</p>
+<p>通过文本属性，可以改变文本的颜色、字符间距，对齐文本，装饰文本，对文本进行缩进以及文本转换。</p>
+<h3 id="text-transform"><a href="#text-transform" class="headerlink" title="text-transform"></a>text-transform</h3><p>text-transform 属性控制文本的大小写。</p>
+<p>这个属性会改变元素中的字母大小写，而不论源文档中文本的大小写。</p>
+<table>
+<thead>
+<tr>
+<th>属性值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>none</td>
+<td>默认。定义带有小写字母和大写字母的标准的文本。</td>
+</tr>
+<tr>
+<td>capitalize</td>
+<td>文本中的每个单词以大写字母开头。</td>
+</tr>
+<tr>
+<td>uppercase</td>
+<td>定义仅有大写字母。</td>
+</tr>
+<tr>
+<td>lowercase</td>
+<td>定义仅有小写字母。</td>
+</tr>
+<tr>
+<td>inherit</td>
+<td>规定应该从父元素继承 text-transform 属性的值。</td>
+</tr>
+</tbody></table>
+<h3 id="white-space"><a href="#white-space" class="headerlink" title="white-space"></a>white-space</h3><p>white-space属性指定元素内的空白怎样处理。</p>
+<table>
+<thead>
+<tr>
+<th>属性值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>normal</td>
+<td>默认。空白会被浏览器忽略。</td>
+</tr>
+<tr>
+<td>pre</td>
+<td>空白会被浏览器保留。其行为方式类似 HTML 中的 pre标签。</td>
+</tr>
+<tr>
+<td>nowrap</td>
+<td>文本不会换行，文本会在在同一行上继续，直到遇到 br标签为止。</td>
+</tr>
+<tr>
+<td>pre-wrap</td>
+<td>保留空白符序列，但是正常地进行换行。</td>
+</tr>
+<tr>
+<td>pre-line</td>
+<td>合并空白符序列，但是保留换行符。</td>
+</tr>
+<tr>
+<td>inherit</td>
+<td>规定应该从父元素继承 white-space 属性的值。</td>
+</tr>
+</tbody></table>
+<h3 id="tab-size"><a href="#tab-size" class="headerlink" title="tab-size"></a>tab-size</h3><p>tab-size 属性规定制表符（tab）字符的空格长度。</p>
+<table>
+<thead>
+<tr>
+<th>属性值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>number</td>
+<td>默认值是 8。规定每个制表符（tab）字符要显示的空格字符的数量。</td>
+</tr>
+<tr>
+<td>length</td>
+<td>规定制表符（tab）字符的长度。几乎所有的主流浏览器都不支持该属性值。</td>
+</tr>
+<tr>
+<td>initial</td>
+<td></td>
+</tr>
+<tr>
+<td>inherit</td>
+<td>从父元素继承该属性</td>
+</tr>
+</tbody></table>
+<h3 id="word-break"><a href="#word-break" class="headerlink" title="word-break"></a>word-break</h3><p>word-break属性指定非中日韩脚本的单词换行规则。</p>
+<table>
+<thead>
+<tr>
+<th>属性值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>normal</td>
+<td>默认值。使用浏览器默认的换行规则</td>
+</tr>
+<tr>
+<td>break-all</td>
+<td>允许在单词内换行</td>
+</tr>
+<tr>
+<td>keep-all</td>
+<td>只能在半角空格或连字符处换行</td>
+</tr>
+</tbody></table>
+<h3 id="word-wrap"><a href="#word-wrap" class="headerlink" title="word-wrap"></a>word-wrap</h3><p>word-wrap 属性允许长单词或 URL 地址换行到下一行。</p>
+<table>
+<thead>
+<tr>
+<th>属性值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>normal</td>
+<td>默认值。只在允许的断字点换行</td>
+</tr>
+<tr>
+<td>break-word</td>
+<td>在长单词或 URL 地址内部进行换行</td>
+</tr>
+</tbody></table>
+<h3 id="text-align"><a href="#text-align" class="headerlink" title="text-align"></a>text-align</h3><p>text-align属性指定元素文本的水平对齐方式。</p>
+<p>text-align不会作用块级元素，如div</p>
+<table>
+<thead>
+<tr>
+<th>属性值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>left</td>
+<td>默认值，把文本排列到左边</td>
+</tr>
+<tr>
+<td>right</td>
+<td>把文本排列到右边</td>
+</tr>
+<tr>
+<td>center</td>
+<td>把文本排列到中间</td>
+</tr>
+<tr>
+<td>justify</td>
+<td>实现两端对齐文本效果</td>
+</tr>
+<tr>
+<td>inherit</td>
+<td>规定应该从父元素继承 text-align 属性的值</td>
+</tr>
+</tbody></table>
+<p>justify对最后一行没有效果，所以文本假如说只有一行，是没有任何效果的。</p>
+<h3 id="text-align-last"><a href="#text-align-last" class="headerlink" title="text-align-last"></a>text-align-last</h3><p>text-align-last 属性规定如何对齐文本的最后一行。</p>
+<p>注意：text-align-last 属性只有在 text-align 属性设置为 <code>justify</code>时才起作用。</p>
+<table>
+<thead>
+<tr>
+<th>属性值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>auto</td>
+<td>默认值，最后一行被调整，并向左对齐。</td>
+</tr>
+<tr>
+<td>left</td>
+<td>最后一行向左对齐。</td>
+</tr>
+<tr>
+<td>right</td>
+<td>最后一行向右对齐。</td>
+</tr>
+<tr>
+<td>center</td>
+<td>最后一行居中对齐。</td>
+</tr>
+<tr>
+<td>justify</td>
+<td>最后一行被调整为两端对齐</td>
+</tr>
+<tr>
+<td>start</td>
+<td>最后一行在行开头对齐（如果 text-direction 是从左到右，则向左对齐；如果 text-direction 是从右到左，则向右对齐）</td>
+</tr>
+<tr>
+<td>end</td>
+<td>最后一行在行末尾对齐（如果 text-direction 是从左到右，则向右对齐；如果 text-direction 是从右到左，则向左对齐）</td>
+</tr>
+<tr>
+<td>initial</td>
+<td></td>
+</tr>
+<tr>
+<td>inherit</td>
+<td>从父元素继承该属性</td>
+</tr>
+</tbody></table>
+<h3 id="text-justify"><a href="#text-justify" class="headerlink" title="text-justify"></a>text-justify</h3><p>目前只有IE支持</p>
+<p>text-justify 属性规定当 text-align 被设置为 text-align 时的齐行方法。</p>
+<h3 id="word-spacing"><a href="#word-spacing" class="headerlink" title="word-spacing"></a>word-spacing</h3><p>word-spacing 属性增加或减少单词间的空白（即字间隔）。</p>
+<p>该属性定义元素中字之间插入多少空白符。针对这个属性，“字” 定义为由空白符包围的一个字符串。如果指定为长度值，会调整字之间的通常间隔；所以，normal 就等同于设置为 0。允许指定负长度值，这会让字之间挤得更紧。</p>
+<table>
+<thead>
+<tr>
+<th>属性值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>normal</td>
+<td>默认值，定义单词间的标准空间。</td>
+</tr>
+<tr>
+<td>length</td>
+<td>定义单词间的固定空间</td>
+</tr>
+<tr>
+<td>inherit</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="letter-spacing"><a href="#letter-spacing" class="headerlink" title="letter-spacing"></a>letter-spacing</h3><p>letter-spacing 属性增加或减少字符间的空白（字符间距）。</p>
+<p>该属性定义了在文本字符框之间插入多少空间。由于字符字形通常比其字符框要窄，指定长度值时，会调整字母之间通常的间隔。因此，normal 就相当于值为 0。</p>
+<table>
+<thead>
+<tr>
+<th>属性值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>normal</td>
+<td>默认值，规定字符间没有额外的空间。</td>
+</tr>
+<tr>
+<td>length</td>
+<td>定义字符间的固定空间（允许使用负值）</td>
+</tr>
+<tr>
+<td>inherit</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="text-indent"><a href="#text-indent" class="headerlink" title="text-indent"></a>text-indent</h3><p>text-indent 属性规定文本块中首行文本的缩进。</p>
+<p>注意： 负值是允许的。如果值是负数，将第一行左缩进。</p>
+<table>
+<thead>
+<tr>
+<th>属性值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>length</td>
+<td>定义固定的缩进。默认值：0</td>
+</tr>
+<tr>
+<td>%</td>
+<td>定义基于父元素宽度的百分比的缩进</td>
+</tr>
+<tr>
+<td>inherit</td>
+<td>规定应该从父元素继承 text-indent 属性的值</td>
+</tr>
+</tbody></table>
+<h3 id="vertical-align"><a href="#vertical-align" class="headerlink" title="vertical-align"></a>vertical-align</h3><p>vertical-align 属性设置一个元素的垂直对齐方式。</p>
+<p>该属性定义行内元素的基线相对于该元素所在行的基线的垂直对齐。允许指定负长度值和百分比值。这会使元素降低而不是升高。在表单元格中，这个属性会设置单元格框中的单元格内容的对齐方式。</p>
+<table>
+<thead>
+<tr>
+<th>属性值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>baseline</td>
+<td>默认。元素放置在父元素的基线上。</td>
+</tr>
+<tr>
+<td>sub</td>
+<td>垂直对齐文本的下标。</td>
+</tr>
+<tr>
+<td>super</td>
+<td>垂直对齐文本的上标</td>
+</tr>
+<tr>
+<td>top</td>
+<td>把元素的顶端与行中最高元素的顶端对齐</td>
+</tr>
+<tr>
+<td>text-top</td>
+<td>把元素的顶端与父元素字体的顶端对齐</td>
+</tr>
+<tr>
+<td>middle</td>
+<td>把此元素放置在父元素的中部。</td>
+</tr>
+<tr>
+<td>bottom</td>
+<td>把元素的底端与行中最低的元素的顶端对齐。</td>
+</tr>
+<tr>
+<td>text-bottom</td>
+<td>把元素的底端与父元素字体的底端对齐。</td>
+</tr>
+<tr>
+<td>length</td>
+<td></td>
+</tr>
+<tr>
+<td>%</td>
+<td>使用 “line-height” 属性的百分比值来排列此元素。允许使用负值。</td>
+</tr>
+<tr>
+<td>inherit</td>
+<td>规定应该从父元素继承 vertical-align 属性的值</td>
+</tr>
+</tbody></table>
+<h3 id="line-height"><a href="#line-height" class="headerlink" title="line-height"></a>line-height</h3><p>line-height 属性设置行间的距离（行高）。</p>
+<p>不允许使用负值。</p>
+<p>该属性会影响行框的布局。在应用到一个块级元素时，它定义了该元素中基线之间的最小距离而不是最大距离。</p>
+<table>
+<thead>
+<tr>
+<th>属性值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>normal</td>
+<td>默认。设置合理的行间距。</td>
+</tr>
+<tr>
+<td>number</td>
+<td>设置数字，此数字会与当前的字体尺寸相乘来设置行间距。</td>
+</tr>
+<tr>
+<td>length</td>
+<td>设置固定的行间距。</td>
+</tr>
+<tr>
+<td>%</td>
+<td>基于当前字体尺寸的百分比行间距。</td>
+</tr>
+<tr>
+<td>inherit</td>
+<td>规定应该从父元素继承 line-height 属性的值。</td>
+</tr>
+</tbody></table>
+<p>行高是作用在每一个行框盒子(line-box)上的，而行框盒子则是由内联盒子组成，因此，行高与内联元素可以说是非常紧密，行高直接决定了内联元素的高度（注意：这里的内联元素不包括替换元素）；对于块级元素和替换元素，行高是无法决定最终高度的，只能决定行框盒子的最小高度。</p>
+<h2 id="CSS文本装饰"><a href="#CSS文本装饰" class="headerlink" title="CSS文本装饰"></a>CSS文本装饰</h2><h3 id="text-decoration"><a href="#text-decoration" class="headerlink" title="text-decoration"></a>text-decoration</h3><p>text-decoration 属性规定添加到文本的修饰。</p>
+<table>
+<thead>
+<tr>
+<th>属性值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>none</td>
+<td>默认。定义标准的文本。</td>
+</tr>
+<tr>
+<td>underline</td>
+<td>定义文本下的一条线。</td>
+</tr>
+<tr>
+<td>overline</td>
+<td>定义文本上的一条线。</td>
+</tr>
+<tr>
+<td>line-through</td>
+<td>定义穿过文本下的一条线。</td>
+</tr>
+<tr>
+<td>blink</td>
+<td>定义闪烁的文本。</td>
+</tr>
+<tr>
+<td>inherit</td>
+<td>规定应该从父元素继承 text-decoration 属性的值。</td>
+</tr>
+</tbody></table>
+<h3 id="text-shadow"><a href="#text-shadow" class="headerlink" title="text-shadow"></a>text-shadow</h3><p>text-shadow 属性是用于向文本设置阴影的。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">text-shadow</span>: <span class="selector-tag">h-shadow</span> <span class="selector-tag">v-shadow</span> <span class="selector-tag">blur</span> <span class="selector-tag">color</span>;</span><br></pre></td></tr></table></figure>
+
+<p>注意：text-shadow 属性向文本添加一个或多个阴影。该属性是逗号分隔的阴影列表，每个阴影有两个或三个长度值和一个可选的颜色值进行规定。省略的长度是 0。</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>h-shadow</td>
+<td>必需。水平阴影的位置。允许负值。</td>
+</tr>
+<tr>
+<td>v-shadow</td>
+<td>必需。垂直阴影的位置。允许负值。</td>
+</tr>
+<tr>
+<td>blur</td>
+<td>可选。模糊的距离。</td>
+</tr>
+<tr>
+<td>color</td>
+<td>可选。阴影的颜色。</td>
+</tr>
+</tbody></table>
+<h3 id="CSS书写模式"><a href="#CSS书写模式" class="headerlink" title="CSS书写模式"></a>CSS书写模式</h3><h3 id="direction"><a href="#direction" class="headerlink" title="direction"></a>direction</h3><p>direction属性指定文本方向/书写方向。</p>
+<table>
+<thead>
+<tr>
+<th>属性值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ltr</td>
+<td>默认，文本方向从左到右。</td>
+</tr>
+<tr>
+<td>rtl</td>
+<td>文本方向从右到左。</td>
+</tr>
+<tr>
+<td>inherit</td>
+<td>规定应该从父元素继承 direction 属性的值。</td>
+</tr>
+</tbody></table>
+<h3 id="unicode-bidi-？"><a href="#unicode-bidi-？" class="headerlink" title="unicode-bidi ？"></a>unicode-bidi ？</h3><p>unicode-bidi 属性与 direction 属性一起使用，来设置或返回文本是否被重写，以便在同一文档中支持多种语言。</p>
+<table>
+<thead>
+<tr>
+<th>属性值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>normal</td>
+<td>默认。不使用附加的嵌入层面。</td>
+</tr>
+<tr>
+<td>embed</td>
+<td>创建一个附加的嵌入层面。</td>
+</tr>
+<tr>
+<td>bidi-override</td>
+<td>创建一个附加的嵌入层面。重新排序取决于 direction 属性。</td>
+</tr>
+<tr>
+<td>initial</td>
+<td>设置该属性为它的默认值。</td>
+</tr>
+<tr>
+<td>inherit</td>
+<td>从父元素继承该属性。</td>
+</tr>
+</tbody></table>
+<h3 id="writing-mode-？"><a href="#writing-mode-？" class="headerlink" title="writing-mode ？"></a>writing-mode ？</h3><p>writing-mode 属性定义了文本在水平或垂直方向上如何排布。</p>
+<ul>
+<li>horizontal-tb：水平方向自上而下的书写方式。即 left-right-top-bottom</li>
+<li>vertical-rl：垂直方向自右而左的书写方式。即 top-bottom-right-left</li>
+<li>vertical-lr：垂直方向内内容从上到下，水平方向从左到右</li>
+<li>sideways-rl：内容垂直方向从上到下排列</li>
+<li>sideways-lr：内容垂直方向从下到上排列</li>
+</ul>
+<h2 id="CSS列表样式"><a href="#CSS列表样式" class="headerlink" title="CSS列表样式"></a>CSS列表样式</h2><h3 id="list-style"><a href="#list-style" class="headerlink" title="list-style"></a>list-style</h3><p>list-style 简写属性在一个声明中设置所有的列表属性。</p>
+<p>list-style 简写属性在一个声明中设置所有的列表属性。</p>
+<p>可以设置的属性（按顺序）：<code>list-style-type</code>、<code>list-style-position</code>、 <code>list-style-image</code>。</p>
+<p>可以不设置其中的某个值，比如 “list-style:circle inside;” 也是允许的。未设置的属性会使用其默认值。</p>
+<table>
+<thead>
+<tr>
+<th align="left">值</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">list-style-type</td>
+<td align="left">设置列表项标记的类型。</td>
+</tr>
+<tr>
+<td align="left">list-style-position</td>
+<td align="left">设置在何处放置列表项标记。</td>
+</tr>
+<tr>
+<td align="left">list-style-image</td>
+<td align="left">使用图像来替换列表项的标记。</td>
+</tr>
+<tr>
+<td align="left">inherit</td>
+<td align="left">规定应该从父元素继承 list-style 属性的值。</td>
+</tr>
+</tbody></table>
+<h3 id="list-style-type"><a href="#list-style-type" class="headerlink" title="list-style-type"></a>list-style-type</h3><p>list-style-type 属性设置列表项标记的类型。</p>
+<table>
+<thead>
+<tr>
+<th>属性值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>none</td>
+<td>无标记。</td>
+</tr>
+<tr>
+<td>disc</td>
+<td>默认。标记是实心圆。</td>
+</tr>
+<tr>
+<td>circle</td>
+<td>标记是空心圆。</td>
+</tr>
+<tr>
+<td>square</td>
+<td>标记是实心方块。</td>
+</tr>
+<tr>
+<td>decimal</td>
+<td>标记是数字。</td>
+</tr>
+<tr>
+<td>decimal-leading-zero</td>
+<td>0开头的数字标记。(01, 02, 03, 等。)</td>
+</tr>
+<tr>
+<td>lower-roman</td>
+<td>小写罗马数字(i, ii, iii, iv, v, 等。)</td>
+</tr>
+<tr>
+<td>upper-roman</td>
+<td>大写罗马数字(I, II, III, IV, V, 等。)</td>
+</tr>
+<tr>
+<td>lower-alpha</td>
+<td>小写英文字母The marker is lower-alpha (a, b, c, d, e, 等。)</td>
+</tr>
+<tr>
+<td>upper-alpha</td>
+<td>大写英文字母The marker is upper-alpha (A, B, C, D, E, 等。)</td>
+</tr>
+<tr>
+<td>lower-greek</td>
+<td>小写希腊字母(alpha, beta, gamma, 等。)</td>
+</tr>
+<tr>
+<td>lower-latin</td>
+<td>小写拉丁字母(a, b, c, d, e, 等。)</td>
+</tr>
+<tr>
+<td>upper-latin</td>
+<td>大写拉丁字母(A, B, C, D, E, 等。)</td>
+</tr>
+<tr>
+<td>hebrew</td>
+<td>传统的希伯来编号方式</td>
+</tr>
+<tr>
+<td>armenian</td>
+<td>传统的亚美尼亚编号方式</td>
+</tr>
+<tr>
+<td>georgian</td>
+<td>传统的乔治亚编号方式(an, ban, gan, 等。)</td>
+</tr>
+<tr>
+<td>cjk-ideographic</td>
+<td>简单的表意数字</td>
+</tr>
+<tr>
+<td>hiragana</td>
+<td>标记是：a, i, u, e, o, ka, ki, 等。（日文片假名）</td>
+</tr>
+<tr>
+<td>katakana</td>
+<td>标记是：A, I, U, E, O, KA, KI, 等。（日文片假名）</td>
+</tr>
+<tr>
+<td>hiragana-iroha</td>
+<td>标记是：i, ro, ha, ni, ho, he, to, 等。（日文片假名）</td>
+</tr>
+<tr>
+<td>katakana-iroha</td>
+<td>标记是：I, RO, HA, NI, HO, HE, TO, 等。（日文片假名）</td>
+</tr>
+</tbody></table>
+<h3 id="list-style-position"><a href="#list-style-position" class="headerlink" title="list-style-position"></a>list-style-position</h3><p>list-style-position属性指示如何相对于对象的内容绘制列表项标记。</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>inside</td>
+<td>列表项目标记放置在文本以内，且环绕文本根据标记对齐。</td>
+</tr>
+<tr>
+<td>outside</td>
+<td>默认值。保持标记位于文本的左侧。<br/>列表项目标记放置在文本以外，且环绕文本不根据标记对齐。</td>
+</tr>
+<tr>
+<td>inherit</td>
+<td>规定应该从父元素继承 list-style-position 属性的值。</td>
+</tr>
+</tbody></table>
+<h3 id="list-style-image"><a href="#list-style-image" class="headerlink" title="list-style-image"></a>list-style-image</h3><p>list-style-image 属性使用图像来替换列表项的标记。</p>
+<p>这个属性指定作为一个有序或无序列表项标志的图像。图像相对于列表项内容的放置位置通常使用 list-style-position 属性控制。</p>
+<p><strong>注意：</strong>请始终规定一个 “list-style-type” 属性以防图像不可用。</p>
+<table>
+<thead>
+<tr>
+<th align="left">值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">URL</td>
+<td>图像的路径。</td>
+</tr>
+<tr>
+<td align="left">none</td>
+<td>默认。无图形被显示。</td>
+</tr>
+<tr>
+<td align="left">inherit</td>
+<td>规定应该从父元素继承 list-style-image 属性的值。</td>
+</tr>
+</tbody></table>
+<h2 id="CSS表格"><a href="#CSS表格" class="headerlink" title="CSS表格"></a>CSS表格</h2><h3 id="table-layout"><a href="#table-layout" class="headerlink" title="table-layout"></a>table-layout</h3><p>table-layout属性为表设置表格布局算法。</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>automatic</td>
+<td>默认。列宽度由单元格内容设定</td>
+</tr>
+<tr>
+<td>fixed</td>
+<td>列宽由表格宽度和列宽度设定</td>
+</tr>
+<tr>
+<td>inherit</td>
+<td>规定应该从父元素继承 table-layout 属性的值</td>
+</tr>
+</tbody></table>
+<h3 id="border-collapse"><a href="#border-collapse" class="headerlink" title="border-collapse"></a>border-collapse</h3><p>border-collapse属性设置表格的边框是否被合并为一个单一的边框，还是像在标准的HTML中那样分开显示。</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>collapse</td>
+<td>如果可能，边框会合并为一个单一的边框</td>
+</tr>
+<tr>
+<td>separate</td>
+<td>默认值。边框会被分开。</td>
+</tr>
+<tr>
+<td>inherit</td>
+<td>规定应该从父元素继承 border-collapse 属性的值</td>
+</tr>
+</tbody></table>
+<h3 id="border-spacing"><a href="#border-spacing" class="headerlink" title="border-spacing"></a>border-spacing</h3><p>border-spacing属性设置相邻单元格的边框间距离。(仅用于”边框分离”模式）</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>length length</td>
+<td>规定相邻单元的边框之间的距离。使用 px、cm 等单位。不允许使用负值。<br>如果定义一个 length 参数，那么定义的是水平和垂直间距。<br>如果定义两个 length 参数，那么第一个设置水平间距，而第二个设置垂直间距。</td>
+</tr>
+<tr>
+<td>inherit</td>
+<td>指定应该从父元素继承border - spacing属性的值</td>
+</tr>
+</tbody></table>
+<h3 id="caption-side"><a href="#caption-side" class="headerlink" title="caption-side"></a>caption-side</h3><p>caption-side属性设置表格标题的位置。</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>top</td>
+<td>默认值。把表格标题定位在表格之上</td>
+</tr>
+<tr>
+<td>bottom</td>
+<td>把表格标题定位在表格之下</td>
+</tr>
+<tr>
+<td>inherit</td>
+<td>规定应该从父元素继承 caption-side 属性的值</td>
+</tr>
+</tbody></table>
+<h3 id="empty-cells"><a href="#empty-cells" class="headerlink" title="empty-cells"></a>empty-cells</h3><p>empty-cells属性设置是否显示表格中的空单元格。（仅用于”分离边框”模式）</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>hide</td>
+<td>不在空单元格周围绘制边框</td>
+</tr>
+<tr>
+<td>show</td>
+<td>默认值。在空单元格周围绘制边框</td>
+</tr>
+<tr>
+<td>inherit</td>
+<td>规定应该从父元素继承 empty-cells 属性的值</td>
+</tr>
+</tbody></table>
+<h2 id="CSS内容"><a href="#CSS内容" class="headerlink" title="CSS内容"></a>CSS内容</h2><h3 id="content"><a href="#content" class="headerlink" title="content"></a>content</h3><p>content 属性与 <code>:before</code> 及 <code>:after</code> 伪元素配合使用，来插入生成内容。</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>none</td>
+<td>设置Content，如果指定成Nothing</td>
+</tr>
+<tr>
+<td>normal</td>
+<td>设置content，如果指定的话，正常，默认是”none”（该是nothing）</td>
+</tr>
+<tr>
+<td>counter</td>
+<td>设定计数器内容</td>
+</tr>
+<tr>
+<td>attr(attribute)</td>
+<td>设置Content作为选择器的属性之一。</td>
+</tr>
+<tr>
+<td>string</td>
+<td>设置Content到你指定的文本</td>
+</tr>
+<tr>
+<td>open-quote</td>
+<td>设置Content是开口引号</td>
+</tr>
+<tr>
+<td>close-quote</td>
+<td>设置Content是闭合引号</td>
+</tr>
+<tr>
+<td>no-open-quote</td>
+<td>如果指定，移除内容的开始引号</td>
+</tr>
+<tr>
+<td>no-close-quote</td>
+<td>如果指定，移除内容的闭合引号</td>
+</tr>
+<tr>
+<td>url(url)</td>
+<td>设置某种媒体（图像，声音，视频等内容）</td>
+</tr>
+<tr>
+<td>inherit</td>
+<td>指定的content属性的值，应该从父元素继承</td>
+</tr>
+</tbody></table>
+<h3 id="counter-increment"><a href="#counter-increment" class="headerlink" title="counter-increment"></a>counter-increment</h3><p>counter-increment属性递增一个或多个计数器值。</p>
+<p>counter-increment属性通常用于counter-reset属性和content属性。</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>none</td>
+<td>没有计数器将递增</td>
+</tr>
+<tr>
+<td>id number</td>
+<td>id 定义将增加计数的选择器、id 或 class。number 定义增量。number 可以是正数、零或者负数</td>
+</tr>
+<tr>
+<td>inherit</td>
+<td>指定counter-increment属性的值，应该从父元素继承</td>
+</tr>
+</tbody></table>
+<h3 id="counter-reset"><a href="#counter-reset" class="headerlink" title="counter-reset"></a>counter-reset</h3><p>counter-reset属性创建或重置一个或多个计数器。</p>
+<p>counter-reset属性通常是和counter-increment属性，content属性一起使用。</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>none</td>
+<td>没有计数器将递增</td>
+</tr>
+<tr>
+<td>id number</td>
+<td>id 定义将增加计数的选择器、id 或 class。number 定义增量。number 可以是正数、零或者负数</td>
+</tr>
+<tr>
+<td>inherit</td>
+<td>指定counter-increment属性的值，应该从父元素继承</td>
+</tr>
+</tbody></table>
+<h3 id="quotes"><a href="#quotes" class="headerlink" title="quotes"></a>quotes</h3><p>quotes属性设置嵌套引用的引号类型。</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>none</td>
+<td>规定 “content” 属性的 “open-quote” 和 “close-quote” 的值不会产生任何引号。</td>
+</tr>
+<tr>
+<td>string string string string</td>
+<td>定义要使用的引号。前两个值规定第一级引用嵌套，后两个值规定下一级引号嵌套。</td>
+</tr>
+<tr>
+<td>inherit</td>
+<td>规定应该从父元素继承 quotes 属性的值。</td>
+</tr>
+</tbody></table>
+<h2 id="CSS用户界面"><a href="#CSS用户界面" class="headerlink" title="CSS用户界面"></a>CSS用户界面</h2><h3 id="appearance"><a href="#appearance" class="headerlink" title="appearance"></a>appearance</h3><p>appearance 属性可以使元素看上去像标准的用户界面元素</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>normal</td>
+<td>正常呈现元素</td>
+</tr>
+<tr>
+<td>icon</td>
+<td>作为一个小图片的呈现元素</td>
+</tr>
+<tr>
+<td>window</td>
+<td>作为一个视口呈现元素</td>
+</tr>
+<tr>
+<td>button</td>
+<td>作为一个按钮，呈现元素</td>
+</tr>
+<tr>
+<td>menu</td>
+<td>作为一个用户选项设定呈现元素选择</td>
+</tr>
+<tr>
+<td>field</td>
+<td>作为一个输入字段呈现元素</td>
+</tr>
+</tbody></table>
+<h3 id="text-overflow"><a href="#text-overflow" class="headerlink" title="text-overflow"></a>text-overflow</h3><p>text-overflow属性指定当文本溢出包含它的元素，应该发生什么。</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>clip</td>
+<td>修剪文本。</td>
+</tr>
+<tr>
+<td>ellipsis</td>
+<td>显示省略符号来代表被修剪的文本。</td>
+</tr>
+<tr>
+<td>string</td>
+<td>使用给定的字符串来代表被修剪的文本。</td>
+</tr>
+</tbody></table>
+<h3 id="outline"><a href="#outline" class="headerlink" title="outline"></a>outline</h3><p>outline（轮廓）是绘制于元素周围的一条线，位于边框边缘的外围，可起到突出元素的作用。</p>
+<p>outline简写属性在一个声明中设置所有的轮廓属性。</p>
+<p>可以设置的属性分别是（按顺序）：outline-color, outline-style, outline-width</p>
+<p>如果不设置其中的某个值，也不会出问题，比如<code>outline:solid #ff0000;</code>也是允许的。</p>
+<p>outline不是元素尺寸的一部分，因此元素的宽度和高度属性不包含轮廓的宽度。</p>
+<table>
+<thead>
+<tr>
+<th><strong>值</strong></th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>outline-color</td>
+<td>规定边框的颜色。参阅：outline-color 中可能的值。</td>
+</tr>
+<tr>
+<td>outline-style</td>
+<td>规定边框的样式。参阅：outline-style 中可能的值。</td>
+</tr>
+<tr>
+<td>outline-width</td>
+<td>规定边框的宽度。参阅：outline-width 中可能的值。</td>
+</tr>
+<tr>
+<td>inherit</td>
+<td>规定应该从父元素继承 outline 属性的设置。</td>
+</tr>
+</tbody></table>
+<h3 id="outline-width"><a href="#outline-width" class="headerlink" title="outline-width"></a>outline-width</h3><p>outline-width指定轮廓的宽度。</p>
+<p><strong>注意：</strong> 请始终在outline-width属性之前声明outline-style属性。元素只有获得轮廓以后才能改变其轮廓的宽度。</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>thin</td>
+<td>规定细轮廓</td>
+</tr>
+<tr>
+<td>medium</td>
+<td>默认。规定中等的轮廓</td>
+</tr>
+<tr>
+<td>thick</td>
+<td>规定粗的轮廓</td>
+</tr>
+<tr>
+<td>length</td>
+<td>允许规定轮廓粗细的值</td>
+</tr>
+<tr>
+<td>inherit</td>
+<td>规定应该从父元素继承轮廓宽度的设置</td>
+</tr>
+</tbody></table>
+<h3 id="outline-color"><a href="#outline-color" class="headerlink" title="outline-color"></a>outline-color</h3><p>outline-color属性指定轮廓颜色。</p>
+<p><strong>注意：</strong> 请始终在outline-width属性之前声明outline-style属性。元素只有获得轮廓以后才能改变其轮廓的宽度。</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>color</td>
+<td>指定轮廓颜色。在 CSS颜色值寻找颜色值的完整列表。</td>
+</tr>
+<tr>
+<td>invert</td>
+<td>默认。执行颜色反转（逆向的颜色）。可使轮廓在不同的背景颜色中都是可见。</td>
+</tr>
+<tr>
+<td>inherit</td>
+<td>规定应该从父元素继承轮廓颜色的设置。</td>
+</tr>
+</tbody></table>
+<h3 id="outline-style"><a href="#outline-style" class="headerlink" title="outline-style"></a>outline-style</h3><p>outline-style属性指定outline的样式。</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>none</td>
+<td>默认。定义无轮廓。</td>
+</tr>
+<tr>
+<td>dotted</td>
+<td>定义点状的轮廓。</td>
+</tr>
+<tr>
+<td>dashed</td>
+<td>定义虚线轮廓。</td>
+</tr>
+<tr>
+<td>solid</td>
+<td>定义实线轮廓。</td>
+</tr>
+<tr>
+<td>double</td>
+<td>定义双线轮廓。双线的宽度等同于 outline-width 的值。</td>
+</tr>
+<tr>
+<td>groove</td>
+<td>定义 3D 凹槽轮廓。此效果取决于 outline-color 值。</td>
+</tr>
+<tr>
+<td>ridge</td>
+<td>定义 3D 凸槽轮廓。此效果取决于 outline-color 值。</td>
+</tr>
+<tr>
+<td>inset</td>
+<td>定义 3D 凹边轮廓。此效果取决于 outline-color 值。</td>
+</tr>
+<tr>
+<td>outset</td>
+<td>定义 3D 凸边轮廓。此效果取决于 outline-color 值。</td>
+</tr>
+<tr>
+<td>inherit</td>
+<td>规定应该从父元素继承轮廓样式的设置。</td>
+</tr>
+</tbody></table>
+<h3 id="outline-offset"><a href="#outline-offset" class="headerlink" title="outline-offset"></a>outline-offset</h3><p>outline-offset属性设置轮廓框架在 border 边缘外的偏移。</p>
+<p>Outlines在两个方面不同于边框：</p>
+<ul>
+<li>Outlines 不占用空间</li>
+<li>Outlines 可能非矩形</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>length</td>
+<td>轮廓与边框边缘的距离</td>
+</tr>
+<tr>
+<td>inherit</td>
+<td>规定应从父元素继承 outline-offset 属性的值</td>
+</tr>
+</tbody></table>
+<h3 id="cursor"><a href="#cursor" class="headerlink" title="cursor"></a>cursor</h3><p>cursor属性定义了鼠标指针放在一个元素边界范围内时所用的光标形状。</p>
+<table>
+<thead>
+<tr>
+<th align="left">值</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">url</td>
+<td align="left">需使用的自定义光标的 URL。注释：请在此列表的末端始终定义一种普通的光标，以防没有由 URL 定义的可用光标</td>
+</tr>
+<tr>
+<td align="left">default</td>
+<td align="left">默认光标</td>
+</tr>
+<tr>
+<td align="left">auto</td>
+<td align="left">默认。浏览器设置的光标</td>
+</tr>
+<tr>
+<td align="left">crosshair</td>
+<td align="left">光标呈现为十字线</td>
+</tr>
+<tr>
+<td align="left">pointer</td>
+<td align="left">光标呈现为指示链接的指针（一只手）</td>
+</tr>
+<tr>
+<td align="left">move</td>
+<td align="left">此光标指示某对象可被移动</td>
+</tr>
+<tr>
+<td align="left">e-resize</td>
+<td align="left">此光标指示矩形框的边缘可被向右（东）移动</td>
+</tr>
+<tr>
+<td align="left">ne-resize</td>
+<td align="left">此光标指示矩形框的边缘可被向上及向右移动（北/东）</td>
+</tr>
+<tr>
+<td align="left">nw-resize</td>
+<td align="left">此光标指示矩形框的边缘可被向上及向左移动（北/西）</td>
+</tr>
+<tr>
+<td align="left">n-resize</td>
+<td align="left">此光标指示矩形框的边缘可被向上（北）移动</td>
+</tr>
+<tr>
+<td align="left">se-resize</td>
+<td align="left">此光标指示矩形框的边缘可被向下及向右移动（南/东）</td>
+</tr>
+<tr>
+<td align="left">sw-resize</td>
+<td align="left">此光标指示矩形框的边缘可被向下及向左移动（南/西）</td>
+</tr>
+<tr>
+<td align="left">s-resize</td>
+<td align="left">此光标指示矩形框的边缘可被向下移动（北/西）</td>
+</tr>
+<tr>
+<td align="left">w-resize</td>
+<td align="left">此光标指示矩形框的边缘可被向左移动（西）</td>
+</tr>
+<tr>
+<td align="left">text</td>
+<td align="left">此光标指示文本</td>
+</tr>
+<tr>
+<td align="left">wait</td>
+<td align="left">此光标指示程序正忙（通常是一只表或沙漏）</td>
+</tr>
+<tr>
+<td align="left">help</td>
+<td align="left">此光标指示可用的帮助（通常是一个问号或一个气球）</td>
+</tr>
+</tbody></table>
+<h3 id="zoom"><a href="#zoom" class="headerlink" title="zoom"></a>zoom</h3><p>设置或检索对象的缩放比例</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>normal</td>
+<td>使用对象的实际尺寸。</td>
+</tr>
+<tr>
+<td>number</td>
+<td>用浮点数来定义缩放比例。不允许负值</td>
+</tr>
+<tr>
+<td>percentage</td>
+<td>用百分比来定义缩放比例。不允许负值</td>
+</tr>
+</tbody></table>
+<h3 id="box-sizing"><a href="#box-sizing" class="headerlink" title="box-sizing"></a>box-sizing</h3><p>box-sizing 属性允许你以某种方式定义某些元素，以适应指定区域。</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>content-box</td>
+<td>宽度和高度分别应用到元素的内容框;在宽度和高度之外绘制元素的内边距和边框</td>
+</tr>
+<tr>
+<td>border-box</td>
+<td>为元素指定的任何内边距和边框都将在已设定的宽度和高度内进行绘制。</td>
+</tr>
+<tr>
+<td>inherit</td>
+<td>指定box-sizing属性的值，应该从父元素继承</td>
+</tr>
+</tbody></table>
+<h3 id="resize"><a href="#resize" class="headerlink" title="resize"></a>resize</h3><p>resize属性指定一个元素是否是由用户调整大小的。</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>none</td>
+<td>用户无法调整元素的尺寸</td>
+</tr>
+<tr>
+<td>both</td>
+<td>用户可调整元素的高度和宽度</td>
+</tr>
+<tr>
+<td>horizontal</td>
+<td>用户可调整元素的宽度</td>
+</tr>
+<tr>
+<td>vertical</td>
+<td>用户可调整元素的高度</td>
+</tr>
+</tbody></table>
+<h3 id="user-select"><a href="#user-select" class="headerlink" title="user-select"></a>user-select</h3><p>user-select属性设置或检索是否允许用户选中文本。</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>none</td>
+<td>文本不能被选择</td>
+</tr>
+<tr>
+<td>text</td>
+<td>可以选择文本</td>
+</tr>
+<tr>
+<td>all</td>
+<td>当所有内容作为一个整体时可以被选择。如果双击或者在上下文上点击子元素，那么被选择的部分将是以该子元素向上回溯的最高祖先元素</td>
+</tr>
+<tr>
+<td>element</td>
+<td>可以选择文本，但选择范围受元素边界的约束</td>
+</tr>
+</tbody></table>
+<h3 id="pointer-events"><a href="#pointer-events" class="headerlink" title="pointer-events"></a>pointer-events</h3><h2 id="CSS链接"><a href="#CSS链接" class="headerlink" title="CSS链接"></a>CSS链接</h2><p>链接的样式的设置可以用任何CSS中的属性比如颜色，字体，背景等。</p>
+<p>特别的链接，可以有不同的样式，这取决于他们是什么状态。</p>
+<p>这四个链接状态是：</p>
+<ul>
+<li><code>a:link</code>：正常，未访问过的链接</li>
+<li><code>a:visited</code>：用户已访问过的链接</li>
+<li><code>a:hover</code>：当用户鼠标放在链接上时</li>
+<li><code>a:active</code>： 链接被点击的那一刻</li>
+</ul>
+<h2 id="CSS盒子"><a href="#CSS盒子" class="headerlink" title="CSS盒子"></a>CSS盒子</h2><h2 id="CSS浮动"><a href="#CSS浮动" class="headerlink" title="CSS浮动"></a>CSS浮动</h2><h2 id="CSS选择器"><a href="#CSS选择器" class="headerlink" title="CSS选择器"></a>CSS选择器</h2><h3 id="元素选择符"><a href="#元素选择符" class="headerlink" title="元素选择符"></a>元素选择符</h3><h4 id="通配选择符"><a href="#通配选择符" class="headerlink" title="通配选择符"></a>通配选择符</h4><h3 id="关系选择器"><a href="#关系选择器" class="headerlink" title="关系选择器"></a>关系选择器</h3><h3 id="属性选择器"><a href="#属性选择器" class="headerlink" title="属性选择器"></a>属性选择器</h3><h3 id="伪类选择器"><a href="#伪类选择器" class="headerlink" title="伪类选择器"></a>伪类选择器</h3><h3 id="伪对象选择器"><a href="#伪对象选择器" class="headerlink" title="伪对象选择器"></a>伪对象选择器</h3><h2 id="CSS函数"><a href="#CSS函数" class="headerlink" title="CSS函数"></a>CSS函数</h2><h3 id="attr"><a href="#attr" class="headerlink" title="attr()"></a>attr()</h3><p>attr() 函数返回选择元素的属性值。</p>
+<p>语法：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">attr</span>(<span class="selector-tag">attribute-name</span>)</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>attribute-name</td>
+<td>必须。HTML 元素的属性名。</td>
+</tr>
+</tbody></table>
+<h3 id="calc"><a href="#calc" class="headerlink" title="calc()"></a>calc()</h3><p>calc() 函数用于动态计算长度值。</p>
+<ul>
+<li>calc()函数使用标准的数学运算优先级规则，支持加减乘除四则运算；</li>
+<li>任何长度值都可以使用calc()函数进行计算；</li>
+<li>运算符前后都需要保留一个空格，例如：<code>width: calc(100% - 10px);</code></li>
+</ul>
+<h2 id="CSS语法与规则"><a href="#CSS语法与规则" class="headerlink" title="CSS语法与规则"></a>CSS语法与规则</h2>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/CSS/" rel="tag"># CSS</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/02/HTML+CSS/HTML%E5%92%8CCSS%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/" rel="prev" title="HTML和CSS基础学习">
+      <i class="fa fa-chevron-left"></i> HTML和CSS基础学习
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/02/HTML+CSS/Flex%E5%B8%83%E5%B1%80/" rel="next" title="Flex布局">
+      Flex布局 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CSS入门属性概念速查"><span class="nav-number">1.</span> <span class="nav-text">CSS入门属性概念速查</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CSS简介"><span class="nav-number">1.1.</span> <span class="nav-text">CSS简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CSS语法"><span class="nav-number">1.1.1.</span> <span class="nav-text">CSS语法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CSS定位"><span class="nav-number">1.2.</span> <span class="nav-text">CSS定位</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Position"><span class="nav-number">1.2.1.</span> <span class="nav-text">Position</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#z-index"><span class="nav-number">1.2.2.</span> <span class="nav-text">z-index</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#top-right-bottom-left"><span class="nav-number">1.2.3.</span> <span class="nav-text">top right bottom left</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#clip"><span class="nav-number">1.2.4.</span> <span class="nav-text">clip</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CSS布局"><span class="nav-number">1.3.</span> <span class="nav-text">CSS布局</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#display"><span class="nav-number">1.3.1.</span> <span class="nav-text">display</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#float"><span class="nav-number">1.3.2.</span> <span class="nav-text">float</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#clear"><span class="nav-number">1.3.3.</span> <span class="nav-text">clear</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#visibility"><span class="nav-number">1.3.4.</span> <span class="nav-text">visibility</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#overflow"><span class="nav-number">1.3.5.</span> <span class="nav-text">overflow</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CSS尺寸"><span class="nav-number">1.4.</span> <span class="nav-text">CSS尺寸</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#width、height、min-width、max-width、min-height、max-height"><span class="nav-number">1.4.1.</span> <span class="nav-text">width、height、min-width、max-width、min-height、max-height</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#margin"><span class="nav-number">1.4.2.</span> <span class="nav-text">margin</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#padding"><span class="nav-number">1.4.3.</span> <span class="nav-text">padding</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CSS背景"><span class="nav-number">1.5.</span> <span class="nav-text">CSS背景</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#background"><span class="nav-number">1.5.1.</span> <span class="nav-text">background</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#background-color"><span class="nav-number">1.5.2.</span> <span class="nav-text">background-color</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#background-image"><span class="nav-number">1.5.3.</span> <span class="nav-text">background-image</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#background-repeat"><span class="nav-number">1.5.4.</span> <span class="nav-text">background-repeat</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#background-attachment"><span class="nav-number">1.5.5.</span> <span class="nav-text">background-attachment</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#background-position"><span class="nav-number">1.5.6.</span> <span class="nav-text">background-position</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#background-origin"><span class="nav-number">1.5.7.</span> <span class="nav-text">background-origin</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#background-clip"><span class="nav-number">1.5.8.</span> <span class="nav-text">background-clip</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#background-size"><span class="nav-number">1.5.9.</span> <span class="nav-text">background-size</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CSS边框"><span class="nav-number">1.6.</span> <span class="nav-text">CSS边框</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#border"><span class="nav-number">1.6.1.</span> <span class="nav-text">border</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#border-width"><span class="nav-number">1.6.2.</span> <span class="nav-text">border-width</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#border-style"><span class="nav-number">1.6.3.</span> <span class="nav-text">border-style</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#border-color"><span class="nav-number">1.6.4.</span> <span class="nav-text">border-color</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#box-shadow"><span class="nav-number">1.6.5.</span> <span class="nav-text">box-shadow</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#border-radius"><span class="nav-number">1.6.6.</span> <span class="nav-text">border-radius</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#border-image"><span class="nav-number">1.6.7.</span> <span class="nav-text">border-image</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#border-image-source"><span class="nav-number">1.6.8.</span> <span class="nav-text">border-image-source</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#border-image-slice"><span class="nav-number">1.6.9.</span> <span class="nav-text">border-image-slice</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#border-image-width"><span class="nav-number">1.6.10.</span> <span class="nav-text">border-image-width</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#border-image-outside"><span class="nav-number">1.6.11.</span> <span class="nav-text">border-image-outside</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#border-image-repeat"><span class="nav-number">1.6.12.</span> <span class="nav-text">border-image-repeat</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CSS颜色"><span class="nav-number">1.7.</span> <span class="nav-text">CSS颜色</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#color"><span class="nav-number">1.7.1.</span> <span class="nav-text">color</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#opacity"><span class="nav-number">1.7.2.</span> <span class="nav-text">opacity</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CSS字体"><span class="nav-number">1.8.</span> <span class="nav-text">CSS字体</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#font"><span class="nav-number">1.8.1.</span> <span class="nav-text">font</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#font-style"><span class="nav-number">1.8.2.</span> <span class="nav-text">font-style</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#font-variant"><span class="nav-number">1.8.3.</span> <span class="nav-text">font-variant</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#font-weight"><span class="nav-number">1.8.4.</span> <span class="nav-text">font-weight</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#font-size"><span class="nav-number">1.8.5.</span> <span class="nav-text">font-size</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#font-family"><span class="nav-number">1.8.6.</span> <span class="nav-text">font-family</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CSS文本"><span class="nav-number">1.9.</span> <span class="nav-text">CSS文本</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#text-transform"><span class="nav-number">1.9.1.</span> <span class="nav-text">text-transform</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#white-space"><span class="nav-number">1.9.2.</span> <span class="nav-text">white-space</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tab-size"><span class="nav-number">1.9.3.</span> <span class="nav-text">tab-size</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#word-break"><span class="nav-number">1.9.4.</span> <span class="nav-text">word-break</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#word-wrap"><span class="nav-number">1.9.5.</span> <span class="nav-text">word-wrap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#text-align"><span class="nav-number">1.9.6.</span> <span class="nav-text">text-align</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#text-align-last"><span class="nav-number">1.9.7.</span> <span class="nav-text">text-align-last</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#text-justify"><span class="nav-number">1.9.8.</span> <span class="nav-text">text-justify</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#word-spacing"><span class="nav-number">1.9.9.</span> <span class="nav-text">word-spacing</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#letter-spacing"><span class="nav-number">1.9.10.</span> <span class="nav-text">letter-spacing</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#text-indent"><span class="nav-number">1.9.11.</span> <span class="nav-text">text-indent</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vertical-align"><span class="nav-number">1.9.12.</span> <span class="nav-text">vertical-align</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#line-height"><span class="nav-number">1.9.13.</span> <span class="nav-text">line-height</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CSS文本装饰"><span class="nav-number">1.10.</span> <span class="nav-text">CSS文本装饰</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#text-decoration"><span class="nav-number">1.10.1.</span> <span class="nav-text">text-decoration</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#text-shadow"><span class="nav-number">1.10.2.</span> <span class="nav-text">text-shadow</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CSS书写模式"><span class="nav-number">1.10.3.</span> <span class="nav-text">CSS书写模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#direction"><span class="nav-number">1.10.4.</span> <span class="nav-text">direction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#unicode-bidi-？"><span class="nav-number">1.10.5.</span> <span class="nav-text">unicode-bidi ？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#writing-mode-？"><span class="nav-number">1.10.6.</span> <span class="nav-text">writing-mode ？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CSS列表样式"><span class="nav-number">1.11.</span> <span class="nav-text">CSS列表样式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#list-style"><span class="nav-number">1.11.1.</span> <span class="nav-text">list-style</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#list-style-type"><span class="nav-number">1.11.2.</span> <span class="nav-text">list-style-type</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#list-style-position"><span class="nav-number">1.11.3.</span> <span class="nav-text">list-style-position</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#list-style-image"><span class="nav-number">1.11.4.</span> <span class="nav-text">list-style-image</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CSS表格"><span class="nav-number">1.12.</span> <span class="nav-text">CSS表格</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#table-layout"><span class="nav-number">1.12.1.</span> <span class="nav-text">table-layout</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#border-collapse"><span class="nav-number">1.12.2.</span> <span class="nav-text">border-collapse</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#border-spacing"><span class="nav-number">1.12.3.</span> <span class="nav-text">border-spacing</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#caption-side"><span class="nav-number">1.12.4.</span> <span class="nav-text">caption-side</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#empty-cells"><span class="nav-number">1.12.5.</span> <span class="nav-text">empty-cells</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CSS内容"><span class="nav-number">1.13.</span> <span class="nav-text">CSS内容</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#content"><span class="nav-number">1.13.1.</span> <span class="nav-text">content</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#counter-increment"><span class="nav-number">1.13.2.</span> <span class="nav-text">counter-increment</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#counter-reset"><span class="nav-number">1.13.3.</span> <span class="nav-text">counter-reset</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#quotes"><span class="nav-number">1.13.4.</span> <span class="nav-text">quotes</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CSS用户界面"><span class="nav-number">1.14.</span> <span class="nav-text">CSS用户界面</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#appearance"><span class="nav-number">1.14.1.</span> <span class="nav-text">appearance</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#text-overflow"><span class="nav-number">1.14.2.</span> <span class="nav-text">text-overflow</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#outline"><span class="nav-number">1.14.3.</span> <span class="nav-text">outline</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#outline-width"><span class="nav-number">1.14.4.</span> <span class="nav-text">outline-width</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#outline-color"><span class="nav-number">1.14.5.</span> <span class="nav-text">outline-color</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#outline-style"><span class="nav-number">1.14.6.</span> <span class="nav-text">outline-style</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#outline-offset"><span class="nav-number">1.14.7.</span> <span class="nav-text">outline-offset</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cursor"><span class="nav-number">1.14.8.</span> <span class="nav-text">cursor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#zoom"><span class="nav-number">1.14.9.</span> <span class="nav-text">zoom</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#box-sizing"><span class="nav-number">1.14.10.</span> <span class="nav-text">box-sizing</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#resize"><span class="nav-number">1.14.11.</span> <span class="nav-text">resize</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#user-select"><span class="nav-number">1.14.12.</span> <span class="nav-text">user-select</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pointer-events"><span class="nav-number">1.14.13.</span> <span class="nav-text">pointer-events</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CSS链接"><span class="nav-number">1.15.</span> <span class="nav-text">CSS链接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CSS盒子"><span class="nav-number">1.16.</span> <span class="nav-text">CSS盒子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CSS浮动"><span class="nav-number">1.17.</span> <span class="nav-text">CSS浮动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CSS选择器"><span class="nav-number">1.18.</span> <span class="nav-text">CSS选择器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#元素选择符"><span class="nav-number">1.18.1.</span> <span class="nav-text">元素选择符</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#通配选择符"><span class="nav-number">1.18.1.1.</span> <span class="nav-text">通配选择符</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关系选择器"><span class="nav-number">1.18.2.</span> <span class="nav-text">关系选择器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#属性选择器"><span class="nav-number">1.18.3.</span> <span class="nav-text">属性选择器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#伪类选择器"><span class="nav-number">1.18.4.</span> <span class="nav-text">伪类选择器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#伪对象选择器"><span class="nav-number">1.18.5.</span> <span class="nav-text">伪对象选择器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CSS函数"><span class="nav-number">1.19.</span> <span class="nav-text">CSS函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#attr"><span class="nav-number">1.19.1.</span> <span class="nav-text">attr()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#calc"><span class="nav-number">1.19.2.</span> <span class="nav-text">calc()</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CSS语法与规则"><span class="nav-number">1.20.</span> <span class="nav-text">CSS语法与规则</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Ccbeango</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ccbeango</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/disqusjs@1/dist/disqusjs.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/disqusjs@1/dist/disqus.js', () => {
+    window.dsqjs = new DisqusJS({
+      api       : '' || 'https://disqus.com/api/',
+      apikey    : 'n0H52UV8sKsjEsyFEXK4e2qtX0Qk564dFYnOS40Bx8qLbFBVBw7sDeJipwjAPxyM',
+      shortname : 'ccbeango',
+      url       : "http://yoursite.com/2020/02/HTML+CSS/CSS%E5%85%A5%E9%97%A8%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5%E6%80%BB%E7%BB%93/",
+      identifier: "2020/02/HTML+CSS/CSS入门基础概念总结/",
+      title     : "CSS入门属性概念速查",
+    });
+  }, window.DisqusJS);
+});
+</script>
+
+</body>
+</html>

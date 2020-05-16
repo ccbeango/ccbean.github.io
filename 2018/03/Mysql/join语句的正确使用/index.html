@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Join语句的正确使用前言最近对于Mysql使用少之又少，今天刚好看了一点关于Mysql的视频，记录下经常使用的Join语句，了解Join语句的优点~ 正确使用SQL语言的重要性  增加数据库处理效率，较少应用响应时间。 减少数据库服务器负载，增加服务器稳定性。 减少服务器间通讯的网络流量。  先上下面例子中讲解要用到的数据表：  西天取经四人组表 user1：    id user_name t">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Join语句的正确使用">
+<meta property="og:url" content="http://yoursite.com/2018/03/Mysql/join%E8%AF%AD%E5%8F%A5%E7%9A%84%E6%AD%A3%E7%A1%AE%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="凹凸豆的博客">
+<meta property="og:description" content="Join语句的正确使用前言最近对于Mysql使用少之又少，今天刚好看了一点关于Mysql的视频，记录下经常使用的Join语句，了解Join语句的优点~ 正确使用SQL语言的重要性  增加数据库处理效率，较少应用响应时间。 减少数据库服务器负载，增加服务器稳定性。 减少服务器间通讯的网络流量。  先上下面例子中讲解要用到的数据表：  西天取经四人组表 user1：    id user_name t">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/ccbeango/blogImages/master/Mysql/join%E8%AF%AD%E5%8F%A5%E7%9A%84%E6%AD%A3%E7%A1%AE%E4%BD%BF%E7%94%A801.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/ccbeango/blogImages/master/Mysql/join%E8%AF%AD%E5%8F%A5%E7%9A%84%E6%AD%A3%E7%A1%AE%E4%BD%BF%E7%94%A802.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/ccbeango/blogImages/master/Mysql/join%E8%AF%AD%E5%8F%A5%E7%9A%84%E6%AD%A3%E7%A1%AE%E4%BD%BF%E7%94%A803.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/ccbeango/blogImages/master/Mysql/join%E8%AF%AD%E5%8F%A5%E7%9A%84%E6%AD%A3%E7%A1%AE%E4%BD%BF%E7%94%A804.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/ccbeango/blogImages/master/Mysql/join%E8%AF%AD%E5%8F%A5%E7%9A%84%E6%AD%A3%E7%A1%AE%E4%BD%BF%E7%94%A805.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/ccbeango/blogImages/master/Mysql/join%E8%AF%AD%E5%8F%A5%E7%9A%84%E6%AD%A3%E7%A1%AE%E4%BD%BF%E7%94%A806.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/ccbeango/blogImages/master/Mysql/join%E8%AF%AD%E5%8F%A5%E7%9A%84%E6%AD%A3%E7%A1%AE%E4%BD%BF%E7%94%A807.png">
+<meta property="article:published_time" content="2018-03-02T04:43:10.000Z">
+<meta property="article:modified_time" content="2019-12-27T09:56:53.345Z">
+<meta property="article:author" content="Ccbeango">
+<meta property="article:tag" content="Mysql">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/ccbeango/blogImages/master/Mysql/join%E8%AF%AD%E5%8F%A5%E7%9A%84%E6%AD%A3%E7%A1%AE%E4%BD%BF%E7%94%A801.png">
+
+<link rel="canonical" href="http://yoursite.com/2018/03/Mysql/join%E8%AF%AD%E5%8F%A5%E7%9A%84%E6%AD%A3%E7%A1%AE%E4%BD%BF%E7%94%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Join语句的正确使用 | 凹凸豆的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">凹凸豆的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">那天，黄昏，开始飘起来白雪</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/Mysql/join%E8%AF%AD%E5%8F%A5%E7%9A%84%E6%AD%A3%E7%A1%AE%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ccbeango">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="凹凸豆的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Join语句的正确使用
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-03-02 12:43:10" itemprop="dateCreated datePublished" datetime="2018-03-02T12:43:10+08:00">2018-03-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-12-27 17:56:53" itemprop="dateModified" datetime="2019-12-27T17:56:53+08:00">2019-12-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Mysql/" itemprop="url" rel="index"><span itemprop="name">Mysql</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Join语句的正确使用"><a href="#Join语句的正确使用" class="headerlink" title="Join语句的正确使用"></a>Join语句的正确使用</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近对于Mysql使用少之又少，今天刚好看了一点关于Mysql的视频，记录下经常使用的Join语句，了解Join语句的优点~</p>
+<p>正确使用SQL语言的重要性</p>
+<ul>
+<li>增加数据库处理效率，较少应用响应时间。</li>
+<li>减少数据库服务器负载，增加服务器稳定性。</li>
+<li>减少服务器间通讯的网络流量。</li>
+</ul>
+<p>先上下面例子中讲解要用到的数据表：</p>
+<ol>
+<li><p>西天取经四人组表 <code>user1</code>：</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>user_name</th>
+<th>title</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>唐僧</td>
+<td>旖檀功德佛</td>
+</tr>
+<tr>
+<td>2</td>
+<td>猪八戒</td>
+<td>净坛使者</td>
+</tr>
+<tr>
+<td>3</td>
+<td>孙悟空</td>
+<td>斗战胜佛</td>
+</tr>
+<tr>
+<td>4</td>
+<td>沙僧</td>
+<td>金身罗汉</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>悟空的结拜兄弟表 <code>user2</code>：</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>user_name</th>
+<th>title</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>孙悟空</td>
+<td>成佛</td>
+</tr>
+<tr>
+<td>2</td>
+<td>牛魔王</td>
+<td>被降服</td>
+</tr>
+<tr>
+<td>3</td>
+<td>蛟魔王</td>
+<td>被降服</td>
+</tr>
+<tr>
+<td>4</td>
+<td>鹏魔王</td>
+<td>被降服</td>
+</tr>
+<tr>
+<td>5</td>
+<td>狮驼王</td>
+<td>被降服</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>按日期记录了<code>user1</code>四人组中每个人打怪的数量<code>user_kills</code>：</p>
+<table>
+<thead>
+<tr>
+<th>Id</th>
+<th>user_id</th>
+<th>timestr</th>
+<th>kills</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>2</td>
+<td>2018-06-05</td>
+<td>10</td>
+</tr>
+<tr>
+<td>2</td>
+<td>2</td>
+<td>2018-06-06</td>
+<td>2</td>
+</tr>
+<tr>
+<td>3</td>
+<td>2</td>
+<td>2018-07-05</td>
+<td>12</td>
+</tr>
+<tr>
+<td>4</td>
+<td>4</td>
+<td>2018-02-05</td>
+<td>3</td>
+</tr>
+<tr>
+<td>5</td>
+<td>2</td>
+<td>2018-07-15</td>
+<td>6</td>
+</tr>
+<tr>
+<td>6</td>
+<td>2</td>
+<td>2018-06-13</td>
+<td>2</td>
+</tr>
+<tr>
+<td>7</td>
+<td>3</td>
+<td>2018-04-28</td>
+<td>12</td>
+</tr>
+<tr>
+<td>8</td>
+<td>2</td>
+<td>2018-09-04</td>
+<td>10</td>
+</tr>
+<tr>
+<td>9</td>
+<td>2</td>
+<td>2018-03-05</td>
+<td>18</td>
+</tr>
+</tbody></table>
+</li>
+</ol>
+<p>之后通过这三张表，来帮助我们理解Join从句的使用方式。</p>
+<h2 id="如何正确的使用Join从句"><a href="#如何正确的使用Join从句" class="headerlink" title="如何正确的使用Join从句"></a>如何正确的使用Join从句</h2><p>Join从句的类型：</p>
+<ul>
+<li>内连接（INNER）</li>
+<li>全外连接（FULL OUTER）</li>
+<li>左外连接（LEFT OUTER）</li>
+<li>右外连接（RIGHT OUTER）</li>
+<li>交叉连接（CROSS）</li>
+</ul>
+<h3 id="INNER-JOIN"><a href="#INNER-JOIN" class="headerlink" title="INNER JOIN"></a>INNER JOIN</h3><p>​    内连接<code>INNER JOIN</code>基于连接谓词将两种表（如A和B）的列组合在一起，产生新的表结果。</p>
+<p><img src="https://raw.githubusercontent.com/ccbeango/blogImages/master/Mysql/join%E8%AF%AD%E5%8F%A5%E7%9A%84%E6%AD%A3%E7%A1%AE%E4%BD%BF%E7%94%A801.png" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT &lt;select_list&gt; FROM TableA A INNER JOIN TableB B ON A.Key &#x3D; B.KEY;</span><br></pre></td></tr></table></figure>
+
+<p>例子：</p>
+<p>取出取经四人组<code>user1</code>和悟空朋友们<code>user2</code>这两张表中同时存在于两张表中的用户记录。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">SELECT a.user_name,a.title,b.title FROM user1 a INNER JOIN user2 b on a.user_name &#x3D; b.user_name;</span><br><span class="line">+-----------+--------------+--------+</span><br><span class="line">| user_name | title        | title  |</span><br><span class="line">+-----------+--------------+--------+</span><br><span class="line">| 孙悟空     | 斗战胜佛      | 成佛    |</span><br><span class="line">+-----------+--------------+--------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h3 id="LEFT-JOIN"><a href="#LEFT-JOIN" class="headerlink" title="LEFT JOIN"></a>LEFT JOIN</h3><p>以A表为基础，包含A表中所有的数据与B表中谓词连接词相等的数据。</p>
+<p><img src="https://raw.githubusercontent.com/ccbeango/blogImages/master/Mysql/join%E8%AF%AD%E5%8F%A5%E7%9A%84%E6%AD%A3%E7%A1%AE%E4%BD%BF%E7%94%A802.png" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT &lt;select_list&gt; FROM TableA A LEFT JOIN TABLEB B ON A.Key &#x3D; B.Key;</span><br></pre></td></tr></table></figure>
+
+<p>以A表为基础，查询只存在A表中的数据。</p>
+<p><img src="https://raw.githubusercontent.com/ccbeango/blogImages/master/Mysql/join%E8%AF%AD%E5%8F%A5%E7%9A%84%E6%AD%A3%E7%A1%AE%E4%BD%BF%E7%94%A803.png" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT &lt;select_list&gt; FROM TableA A LEFT JOIN TableB B ON A.Key &#x3D; B.Key WHERE B.Key IS NULL;</span><br></pre></td></tr></table></figure>
+
+<p>在使用<code>not in</code>时，不可以使用索引优化，使用<code>left join</code>这种方法可以用来优化<code>not in</code>查询。</p>
+<p>例子：</p>
+<p>查询取经四人组中哪些人不是悟空的结拜兄弟？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">SELECT a.user_name, a.title, b.title FROM user1 a LEFT JOIN user2 b ON a.user_name &#x3D; b.user_name WHERE b.user_name is NULL;</span><br><span class="line">+-----------+-----------------+-------+</span><br><span class="line">| user_name | title           | title |</span><br><span class="line">+-----------+-----------------+-------+</span><br><span class="line">| 唐僧      | 旖檀功德佛        | NULL  |</span><br><span class="line">| 猪八戒    | 净坛使者          | NULL  |</span><br><span class="line">| 沙僧      | 金身罗汉          | NULL  |</span><br><span class="line">+-----------+-----------------+-------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h3 id="RIGHT-JOIN"><a href="#RIGHT-JOIN" class="headerlink" title="RIGHT JOIN"></a>RIGHT JOIN</h3><p><img src="https://raw.githubusercontent.com/ccbeango/blogImages/master/Mysql/join%E8%AF%AD%E5%8F%A5%E7%9A%84%E6%AD%A3%E7%A1%AE%E4%BD%BF%E7%94%A804.png" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT &lt;select_list&gt; FROM TableA A RIGHT JOIN TableB B ON A.Key &#x3D; B.key</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/ccbeango/blogImages/master/Mysql/join%E8%AF%AD%E5%8F%A5%E7%9A%84%E6%AD%A3%E7%A1%AE%E4%BD%BF%E7%94%A805.png" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT &lt;select_list&gt; FROM TableA A RIGHT JOIN TableB B ON A.Key &#x3D; B.Key WHERE A.Key IS NULL;</span><br></pre></td></tr></table></figure>
+
+<p>例子：</p>
+<p>悟空的结拜兄弟中哪些人没有去取经？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">SELECT b.user_name,b.title,a.title FROM user1 A RIGHT JOIN user2 b ON a.user_name&#x3D;b.user_name WHERE a.user_name is NULL;</span><br><span class="line">+-----------+-----------+-------+</span><br><span class="line">| user_name | title     | title |</span><br><span class="line">+-----------+-----------+-------+</span><br><span class="line">| 牛魔王     | 被降服     | NULL  |</span><br><span class="line">| 蛟魔王     | 被降服     | NULL  |</span><br><span class="line">| 鹏魔王     | 被降服     | NULL  |</span><br><span class="line">| 狮驼王     | 被降服     | NULL  |</span><br><span class="line">+-----------+-----------+-------+</span><br><span class="line">4 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h3 id="FULL-JOIN"><a href="#FULL-JOIN" class="headerlink" title="FULL JOIN"></a>FULL JOIN</h3><p>查询A、B表所有的数据都显示出来，如果连接谓词中无法对应它们，则以<code>NULL</code>来填充。</p>
+<p><img src="https://raw.githubusercontent.com/ccbeango/blogImages/master/Mysql/join%E8%AF%AD%E5%8F%A5%E7%9A%84%E6%AD%A3%E7%A1%AE%E4%BD%BF%E7%94%A806.png" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT &lt;select_list&gt; FROM TableA A FULL OUTER JOIN TableB B ON A.Key &#x3D; B.Key;</span><br></pre></td></tr></table></figure>
+
+<p>查询只存在于A或B表中的数据，即过滤A、B表的公共部分。</p>
+<p><img src="https://raw.githubusercontent.com/ccbeango/blogImages/master/Mysql/join%E8%AF%AD%E5%8F%A5%E7%9A%84%E6%AD%A3%E7%A1%AE%E4%BD%BF%E7%94%A807.png" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT &lt;select_list&gt; FROM TableA A FULL OUTER JOIN TableB B ON A.Key &#x3D; B.Key WHERE A.Key IS NULL OR B.Key IS NULL;</span><br></pre></td></tr></table></figure>
+
+<p><strong>问题</strong>：</p>
+<p>在mysql中执行<code>FULL JOIN</code>会报错<code>1064</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SELECT a.user_name,a.title,b.title FROM user1 a FULL JOIN user2 b ON a.user_name&#x3D;b.user_name;</span><br><span class="line">ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &#39;FULL JOIN user2 b ON a.user_name&#x3D;b.user_name&#39; at line 1</span><br></pre></td></tr></table></figure>
+
+<p>这是因为<code>MySQL</code>中不支持<code>FULL JOIN</code>的连接。如果想要在<code>MySQL</code>中使用<code>FULL JOIN</code>，可以通过使用 <code>UNION ALL</code>来解决。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">SELECT a.user_name,a.title,b.title FROM user1 a LEFT JOIN user2 b ON a.user_name&#x3D;b.user_name UNION ALL SELECT b.user_name,b.title,a.title FROM user1 a RIGHT JOIN user2 b ON b.user_name&#x3D;a.user_name;</span><br><span class="line">+-----------+-----------------+--------------+</span><br><span class="line">| user_name | title           | title        |</span><br><span class="line">+-----------+-----------------+--------------+</span><br><span class="line">| 孙悟空    | 斗战胜佛        | 成佛         |</span><br><span class="line">| 唐僧      | 旖檀功德佛      | NULL         |</span><br><span class="line">| 猪八戒    | 净坛使者        | NULL         |</span><br><span class="line">| 沙僧      | 金身罗汉        | NULL         |</span><br><span class="line">| 孙悟空    | 成佛            | 斗战胜佛     |</span><br><span class="line">| 牛魔王    | 被降服          | NULL         |</span><br><span class="line">| 蛟魔王    | 被降服          | NULL         |</span><br><span class="line">| 鹏魔王    | 被降服          | NULL         |</span><br><span class="line">| 狮驼王    | 被降服          | NULL         |</span><br><span class="line">+-----------+-----------------+--------------+</span><br><span class="line">9 rows in set (0.01 sec)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>UNION 操作符用于合并两个或多个 SELECT 语句的结果集。</p>
+<p>请注意，UNION 内部的 SELECT 语句必须拥有相同数量的列。列也必须拥有相似的数据类型。同时，每条 SELECT 语句中的列的顺序必须相同。</p>
+<h3 id="SQL-UNION-语法"><a href="#SQL-UNION-语法" class="headerlink" title="SQL UNION 语法"></a>SQL UNION 语法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT column_name(s) FROM table_name1</span><br><span class="line">UNION</span><br><span class="line">SELECT column_name(s) FROM table_name2</span><br></pre></td></tr></table></figure>
+
+<p>注释：默认地，UNION 操作符选取不同的值。如果允许重复的值，请使用 UNION ALL。</p>
+<h3 id="SQL-UNION-ALL-语法"><a href="#SQL-UNION-ALL-语法" class="headerlink" title="SQL UNION ALL 语法"></a>SQL UNION ALL 语法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT column_name(s) FROM table_name1</span><br><span class="line">UNION ALL</span><br><span class="line">SELECT column_name(s) FROM table_name2</span><br></pre></td></tr></table></figure>
+
+<p>另外，UNION 结果集中的列名总是等于 UNION 中第一个 SELECT 语句中的列名。</p>
+</blockquote>
+<h3 id="CROSS-JOIN"><a href="#CROSS-JOIN" class="headerlink" title="CROSS JOIN"></a>CROSS JOIN</h3><p>交叉连接，又称笛卡尔连接（cartesian join）或叉乘（Product）,如果<code>A</code>和<code>B</code>是两个集合，它们的交叉连接就记为：<code>A×B</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">SELECT a.user_name,a.title,a.user_name,b.title FROM user1 a CROSS JOIN user2 b;</span><br><span class="line">+-----------+-----------------+-----------+-----------+</span><br><span class="line">| user_name | title           | user_name | title     |</span><br><span class="line">+-----------+-----------------+-----------+-----------+</span><br><span class="line">| 唐僧      | 旖檀功德佛      | 唐僧      | 成佛      |</span><br><span class="line">| 猪八戒    | 净坛使者        | 猪八戒    | 成佛      |</span><br><span class="line">| 孙悟空    | 斗战胜佛        | 孙悟空    | 成佛      |</span><br><span class="line">| 沙僧      | 金身罗汉        | 沙僧      | 成佛      |</span><br><span class="line">| 唐僧      | 旖檀功德佛      | 唐僧      | 被降服    |</span><br><span class="line">| 猪八戒    | 净坛使者        | 猪八戒    | 被降服    |</span><br><span class="line">| 孙悟空    | 斗战胜佛        | 孙悟空    | 被降服    |</span><br><span class="line">| 沙僧      | 金身罗汉        | 沙僧      | 被降服    |</span><br><span class="line">| 唐僧      | 旖檀功德佛      | 唐僧      | 被降服    |</span><br><span class="line">| 猪八戒    | 净坛使者        | 猪八戒    | 被降服    |</span><br><span class="line">| 孙悟空    | 斗战胜佛        | 孙悟空    | 被降服    |</span><br><span class="line">| 沙僧      | 金身罗汉        | 沙僧      | 被降服    |</span><br><span class="line">| 唐僧      | 旖檀功德佛      | 唐僧      | 被降服    |</span><br><span class="line">| 猪八戒    | 净坛使者        | 猪八戒    | 被降服    |</span><br><span class="line">| 孙悟空    | 斗战胜佛        | 孙悟空    | 被降服    |</span><br><span class="line">| 沙僧      | 金身罗汉        | 沙僧      | 被降服    |</span><br><span class="line">| 唐僧      | 旖檀功德佛      | 唐僧      | 被降服    |</span><br><span class="line">| 猪八戒    | 净坛使者        | 猪八戒    | 被降服    |</span><br><span class="line">| 孙悟空    | 斗战胜佛        | 孙悟空    | 被降服    |</span><br><span class="line">| 沙僧      | 金身罗汉        | 沙僧      | 被降服    |</span><br><span class="line">+-----------+-----------------+-----------+-----------+</span><br><span class="line">20 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="Join使用技巧"><a href="#Join使用技巧" class="headerlink" title="Join使用技巧"></a>Join使用技巧</h2><h3 id="使用Join更新表"><a href="#使用Join更新表" class="headerlink" title="使用Join更新表"></a>使用Join更新表</h3><p>如何更新使用过滤条件中包含自身的表？</p>
+<p>情景：</p>
+<p>​    把同时存在于取经四人组和悟空兄弟表中的记录的人在取经四人组表中的<code>title</code>字段更新为“齐天大圣”。</p>
+<p>最容易想到的是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">UPDATE user1 SET title&#x3D;&#39;齐天大圣&#39; WHERE user1.user_name IN (SELECT b.user_name FROM user1 a INNER JOIN user2 b ON a.user_name&#x3D;b.user_name);</span><br><span class="line">ERROR 1093 (HY000): You can&#39;t specify target table &#39;user1&#39; for update in FROM clause</span><br></pre></td></tr></table></figure>
+
+<p>会报错不能更新<code>FROM</code>从句中出现的表，<code>MySQL</code>不支持这种更新。如果放在<code>Oracle</code>或<code>SQLServer</code>中，是完全可以执行的。</p>
+<p><strong>联合更新</strong>，在<code>MySQL</code>中这种方式更新可以使用<code>JOIN</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UPDATE user1 a JOIN (SELECT b.user_name FROM user1 a INNER JOIN user2 b ON a.user_name&#x3D;b.user_name) b ON a.user_name&#x3D;b.user_name SET a.title&#x3D;&#39;齐天大圣&#39;;</span><br></pre></td></tr></table></figure>
+
+<p>利用<code>join</code>进行更新，其实就是将<code>user1</code>与<code>user2</code>表中查询出的结果进行联合，然后进行更新。</p>
+<p>在实际工作中如果遇到需要更新自身表的情况，即==更新出现在<code>FROM</code>从句中的表的话==(???)，就可使用此方法。</p>
+<h3 id="使用JOIN优化子查询"><a href="#使用JOIN优化子查询" class="headerlink" title="使用JOIN优化子查询"></a>使用JOIN优化子查询</h3><p>查询存在于<strong>取经四人组</strong>和<strong>悟空的结拜兄弟</strong>的数据：</p>
+<ol>
+<li>利用子查询：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">SELECT a.user_name,a.title,(SELECT b.title FROM user2 b WHERE a.user_name&#x3D;b.user_name) AS title2 FROM user1 a;</span><br><span class="line">+-----------+-----------------+--------+</span><br><span class="line">| user_name | title           | title2 |</span><br><span class="line">+-----------+-----------------+--------+</span><br><span class="line">| 唐僧       | 旖檀功德佛       | NULL   |</span><br><span class="line">| 猪八戒     | 净坛使者         | NULL   |</span><br><span class="line">| 孙悟空     | 斗战胜佛         | 成佛    |</span><br><span class="line">| 沙僧       | 金身罗汉         | NULL   |</span><br><span class="line">+-----------+-----------------+--------+</span><br><span class="line">4 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<p>​        如果两张表中的数据非常多，那么<code>user1</code>表中的每一条数据都要进行一次子查询，那么这种查询方式是非常低效的。</p>
+<ol start="2">
+<li>使用联合查询：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">SELECT a.user_name,a.title,b.title AS title2 FROM user1 a LEFT JOIN user2 b ON a.user_name&#x3D;b.user_name;</span><br><span class="line">+-----------+-----------------+--------+</span><br><span class="line">| user_name | title           | title2 |</span><br><span class="line">+-----------+-----------------+--------+</span><br><span class="line">| 唐僧       | 旖檀功德佛       | NULL   |</span><br><span class="line">| 猪八戒     | 净坛使者         | NULL   |</span><br><span class="line">| 孙悟空     | 斗战胜佛         | 成佛    |</span><br><span class="line">| 沙僧       | 金身罗汉         | NULL   |</span><br><span class="line">+-----------+-----------------+--------+</span><br><span class="line">4 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用JOIN优化聚合子查询"><a href="#使用JOIN优化聚合子查询" class="headerlink" title="使用JOIN优化聚合子查询"></a>使用JOIN优化聚合子查询</h3><p>如何查询出四人组中打怪最多的日期？</p>
+<ol>
+<li>聚合子查询</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">SELECT a.user_name,b.timestr,b.kills FROM user1 a INNER JOIN user_kills b ON a.id&#x3D;b.user_id WHERE b.kills&#x3D;(SELECT MAX(kills) FROM user_kills c WHERE c.user_id&#x3D;b.user_id); </span><br><span class="line">+-----------+------------+-------+</span><br><span class="line">| user_name | timestr    | kills |</span><br><span class="line">+-----------+------------+-------+</span><br><span class="line">| 猪八戒     | 2018-03-05 |    18 |</span><br><span class="line">| 孙悟空     | 2018-04-28 |    12 |</span><br><span class="line">| 沙僧       | 2018-02-05 |     3 |</span><br><span class="line">+-----------+------------+-------+</span><br><span class="line">3 rows in set (0.01 sec)</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>JOIN优化查询</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">SELECT a.user_name,b.timestr,b.kills FROM user1 a JOIN user_kills b ON a.id&#x3D;b.user_id JOIN user_kills c ON c.user_id&#x3D;b.user_id GROUP BY a.user_name,b.timestr,b.kills HAVING b.kills&#x3D;MAX(c.kills);</span><br><span class="line">+-----------+------------+-------+</span><br><span class="line">| user_name | timestr    | kills |</span><br><span class="line">+-----------+------------+-------+</span><br><span class="line">| 孙悟空    | 2018-04-28 |    12 |</span><br><span class="line">| 沙僧      | 2018-02-05 |     3 |</span><br><span class="line">| 猪八戒    | 2018-03-05 |    18 |</span><br><span class="line">+-----------+------------+-------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<p>​    这个例子中<code>user_kills</code>这张表关联了两次，目的是第一次是为了查询出最终的结果集==时间==和==杀怪数量==，第二次是为了跟<code>HAVING</code>从句中使用来得出最大的杀怪数量是多少。</p>
+<h3 id="实现分组选择"><a href="#实现分组选择" class="headerlink" title="实现分组选择"></a>实现分组选择</h3>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Mysql/" rel="tag"># Mysql</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/03/JavaScript/Node%E5%AE%9E%E7%8E%B0%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0/" rel="prev" title="Node实现canvas图片上传">
+      <i class="fa fa-chevron-left"></i> Node实现canvas图片上传
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/03/Linux/Linux%E4%B8%8B%E6%90%AD%E5%BB%BALNMP%E7%8E%AF%E5%A2%83/" rel="next" title="Linux系统目录结构">
+      Linux系统目录结构 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Join语句的正确使用"><span class="nav-number">1.</span> <span class="nav-text">Join语句的正确使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何正确的使用Join从句"><span class="nav-number">1.2.</span> <span class="nav-text">如何正确的使用Join从句</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#INNER-JOIN"><span class="nav-number">1.2.1.</span> <span class="nav-text">INNER JOIN</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LEFT-JOIN"><span class="nav-number">1.2.2.</span> <span class="nav-text">LEFT JOIN</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RIGHT-JOIN"><span class="nav-number">1.2.3.</span> <span class="nav-text">RIGHT JOIN</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FULL-JOIN"><span class="nav-number">1.2.4.</span> <span class="nav-text">FULL JOIN</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SQL-UNION-语法"><span class="nav-number">1.2.5.</span> <span class="nav-text">SQL UNION 语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SQL-UNION-ALL-语法"><span class="nav-number">1.2.6.</span> <span class="nav-text">SQL UNION ALL 语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CROSS-JOIN"><span class="nav-number">1.2.7.</span> <span class="nav-text">CROSS JOIN</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Join使用技巧"><span class="nav-number">1.3.</span> <span class="nav-text">Join使用技巧</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用Join更新表"><span class="nav-number">1.3.1.</span> <span class="nav-text">使用Join更新表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用JOIN优化子查询"><span class="nav-number">1.3.2.</span> <span class="nav-text">使用JOIN优化子查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用JOIN优化聚合子查询"><span class="nav-number">1.3.3.</span> <span class="nav-text">使用JOIN优化聚合子查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现分组选择"><span class="nav-number">1.3.4.</span> <span class="nav-text">实现分组选择</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Ccbeango</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ccbeango</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/disqusjs@1/dist/disqusjs.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/disqusjs@1/dist/disqus.js', () => {
+    window.dsqjs = new DisqusJS({
+      api       : '' || 'https://disqus.com/api/',
+      apikey    : 'n0H52UV8sKsjEsyFEXK4e2qtX0Qk564dFYnOS40Bx8qLbFBVBw7sDeJipwjAPxyM',
+      shortname : 'ccbeango',
+      url       : "http://yoursite.com/2018/03/Mysql/join%E8%AF%AD%E5%8F%A5%E7%9A%84%E6%AD%A3%E7%A1%AE%E4%BD%BF%E7%94%A8/",
+      identifier: "2018/03/Mysql/join语句的正确使用/",
+      title     : "Join语句的正确使用",
+    });
+  }, window.DisqusJS);
+});
+</script>
+
+</body>
+</html>
