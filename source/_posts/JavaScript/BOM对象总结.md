@@ -9,7 +9,7 @@ tag:
   - BOM
 ---
 
-# BOM对象总结
+# BOM对象总结（未完）
 
 >  读《JavaScript高级程序设计》
 
