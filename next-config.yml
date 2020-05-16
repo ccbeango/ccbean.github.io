@@ -40,15 +40,15 @@ custom_file_path:
 # ---------------------------------------------------------------
 
 favicon:
-  small: /images/favicon-16x16-next.png
-  medium: /images/favicon-32x32-next.png
-  apple_touch_icon: /images/apple-touch-icon-next.png
+  small: /images/avatar.png
+  medium: /images/avatar.png
+  apple_touch_icon: /images/avatar.png
   safari_pinned_tab: /images/logo.svg
   #android_manifest: /images/manifest.json
   #ms_browserconfig: /images/browserconfig.xml
 
 # Show multilingual switcher in footer.
-language_switcher: false
+language_switcher: true
 
 footer:
   # Specify the date when the site was setup. If not defined, current year will be used.
@@ -129,7 +129,7 @@ menu:
 # Enable / Disable menu icons / item badges.
 menu_settings:
   icons: true
-  badges: false
+  badges: true
 
 
 # ---------------------------------------------------------------
@@ -164,7 +164,7 @@ sidebar:
 # Sidebar Avatar
 avatar:
   # Replace the default image and set the url here.
-  url: #/images/avatar.gif
+  url: /images/avatar.png #/images/avatar.gif
   # If true, the avatar will be dispalyed in circle.
   rounded: false
   # If true, the avatar will be rotated with the cursor.
@@ -178,8 +178,8 @@ site_state: true
 # Key is the link label showing to end users.
 # Value before `||` delimiter is the target permalink, value after `||` delimiter is the name of Font Awesome icon.
 social:
-  #GitHub: https://github.com/yourname || github
-  #E-Mail: mailto:yourname@gmail.com || envelope
+  GitHub: https://github.com/ccbeango || github
+  E-Mail: mailto:liuyh940@gmail.com || envelope
   #Weibo: https://weibo.com/yourname || weibo
   #Google: https://plus.google.com/yourname || google
   #Twitter: https://twitter.com/yourname || twitter
@@ -233,7 +233,7 @@ chat:
 # ---------------------------------------------------------------
 
 # Automatically excerpt description in homepage as preamble text.
-excerpt_description: false
+excerpt_description: true
 
 # Read more button
 # If true, the read more button will be displayed in excerpt section.
@@ -256,7 +256,7 @@ symbols_count_time:
   item_text_total: false
 
 # Use icon instead of the symbol # to indicate the tag at the bottom of the post
-tag_icon: false
+tag_icon: true
 
 # Reward (Donate)
 # Front-matter variable (unsupport animation).
@@ -302,7 +302,7 @@ post_edit:
 
 # Show previous post and next post in post footer if exists
 # Available values: left | right | false
-post_navigation: left
+post_navigation: right
 
 
 # ---------------------------------------------------------------
@@ -373,7 +373,7 @@ back2top:
 
 # Reading progress bar
 reading_progress:
-  enable: false
+  enable: true
   # Available values: top | bottom
   position: top
   color: "#37c6c0"
@@ -381,17 +381,17 @@ reading_progress:
 
 # Bookmark Support
 bookmark:
-  enable: false
+  enable: true
   # Customize the color of the bookmark.
-  color: "#222"
+  color: "#af4c4c"
   # If auto, save the reading progress when closing the page or clicking the bookmark-icon.
   # If manual, only save it by clicking the bookmark-icon.
   save: auto
 
 # `Follow me on GitHub` banner in the top-right corner.
 github_banner:
-  enable: false
-  permalink: https://github.com/yourname
+  enable: true
+  permalink: https://github.com/ccbeango
   title: Follow me on GitHub
 
 
@@ -479,7 +479,7 @@ yandex_site_verification:
 baidu_site_verification:
 
 # Enable baidu push so that the blog will push the url to baidu automatically which is very helpful for SEO.
-baidu_push: false
+baidu_push: true
 
 
 # ---------------------------------------------------------------
