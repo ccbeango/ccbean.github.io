@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":true,"color":"#af4c4c","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="Node的简介与模块机制 阅读《深入浅出Node.js》  Node简介Node的由来Node.js的作者是Ryan Dahl，是一名C&#x2F;C++程序员，他发现高性能Web服务器主要有几个要点：事件驱动、非阻塞I&#x2F;O。所以他最初的目的就是写一个基于事件驱动、非阻塞I&#x2F;O的Web服务器，以达到更高的性能。 在实现Node时，Ryan Dahl评估过C、Lua、Haskell、Ruby等语言作为备选，结">
+  <meta name="description" content="Node的简介与模块机制 阅读《深入浅出Node.js》  Node简介Node的由来Node.js的作者是Ryan Dahl，是一名C&#x2F;C++程序员，他发现高性能Web服务器主要有几个要点：事件驱动、非阻塞I&#x2F;O。所以他最初的目的就是写一个基于事件驱动、非阻塞I&#x2F;O的Web服务器，以达到更高的性能。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Node的简介与模块机制">
 <meta property="og:url" content="http://yoursite.com/2019/04/JavaScript/Node%E7%9A%84%E7%AE%80%E4%BB%8B%E4%B8%8E%E6%A8%A1%E5%9D%97%E6%9C%BA%E5%88%B6/index.html">
 <meta property="og:site_name" content="凹凸豆的博客">
-<meta property="og:description" content="Node的简介与模块机制 阅读《深入浅出Node.js》  Node简介Node的由来Node.js的作者是Ryan Dahl，是一名C&#x2F;C++程序员，他发现高性能Web服务器主要有几个要点：事件驱动、非阻塞I&#x2F;O。所以他最初的目的就是写一个基于事件驱动、非阻塞I&#x2F;O的Web服务器，以达到更高的性能。 在实现Node时，Ryan Dahl评估过C、Lua、Haskell、Ruby等语言作为备选，结">
+<meta property="og:description" content="Node的简介与模块机制 阅读《深入浅出Node.js》  Node简介Node的由来Node.js的作者是Ryan Dahl，是一名C&#x2F;C++程序员，他发现高性能Web服务器主要有几个要点：事件驱动、非阻塞I&#x2F;O。所以他最初的目的就是写一个基于事件驱动、非阻塞I&#x2F;O的Web服务器，以达到更高的性能。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://raw.githubusercontent.com/ccbeango/blogImages/master/JavaScript/Node%E7%9A%84%E7%AE%80%E4%BB%8B%E4%B8%8E%E6%A8%A1%E5%9D%97%E6%9C%BA%E5%88%B601.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/ccbeango/blogImages/master/JavaScript/Node%E7%9A%84%E7%AE%80%E4%BB%8B%E4%B8%8E%E6%A8%A1%E5%9D%97%E6%9C%BA%E5%88%B602.png">
@@ -37,7 +37,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/ccbeango/blogImages/master/JavaScript/Node%E7%9A%84%E7%AE%80%E4%BB%8B%E4%B8%8E%E6%A8%A1%E5%9D%97%E6%9C%BA%E5%88%B608.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/ccbeango/blogImages/master/JavaScript/Node%E7%9A%84%E7%AE%80%E4%BB%8B%E4%B8%8E%E6%A8%A1%E5%9D%97%E6%9C%BA%E5%88%B609.png">
 <meta property="article:published_time" content="2019-04-01T06:20:10.000Z">
-<meta property="article:modified_time" content="2019-12-27T09:56:53.338Z">
+<meta property="article:modified_time" content="2020-05-16T14:05:59.629Z">
 <meta property="article:author" content="Ccbeango">
 <meta property="article:tag" content="JavaScript">
 <meta name="twitter:card" content="summary">
@@ -211,7 +211,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-12-27 17:56:53" itemprop="dateModified" datetime="2019-12-27T17:56:53+08:00">2019-12-27</time>
+                <time title="修改时间：2020-05-16 22:05:59" itemprop="dateModified" datetime="2020-05-16T22:05:59+08:00">2020-05-16</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -238,6 +238,8 @@
 <p>阅读《深入浅出Node.js》</p>
 </blockquote>
 <h2 id="Node简介"><a href="#Node简介" class="headerlink" title="Node简介"></a>Node简介</h2><h3 id="Node的由来"><a href="#Node的由来" class="headerlink" title="Node的由来"></a>Node的由来</h3><p>Node.js的作者是Ryan Dahl，是一名C/C++程序员，他发现高性能Web服务器主要有几个要点：事件驱动、非阻塞I/O。所以他最初的目的就是写一个基于事件驱动、非阻塞I/O的Web服务器，以达到更高的性能。</p>
+<a id="more"></a>
+
 <p>在实现Node时，Ryan Dahl评估过<code>C</code>、<code>Lua</code>、<code>Haskell</code>、<code>Ruby</code>等语言作为备选，结论为：<code>C</code>门槛过高，<code>Lua</code>自身存在许多阻塞I/O库，<code>Haskell</code>作者觉得自己不足以玩转，<code>Ruby</code>的虚拟机性能不好。相比之下，JavaScript比C的开发门槛低，比Lua的历史包袱少，又逢Chrome的V8引擎性能优秀。考虑到<strong>高性能</strong>、<strong>符合事件驱动</strong>、<strong>没有历史包袱</strong>，JavaScript成为了Node的实现语言。</p>
 <p>Chrome浏览器和Node的组件构成如图。</p>
 <p><img src="https://raw.githubusercontent.com/ccbeango/blogImages/master/JavaScript/Node%E7%9A%84%E7%AE%80%E4%BB%8B%E4%B8%8E%E6%A8%A1%E5%9D%97%E6%9C%BA%E5%88%B601.png" alt=""></p>

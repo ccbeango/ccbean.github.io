@@ -28,7 +28,7 @@
 <meta property="og:description" content="静态类型123456789const count: number &#x3D; 2020;count.toFixed();interface Point &amp;#123;  x: number  y: number&amp;#125;const point: Point &#x3D; &amp;#123; x: 1, y: 10 &amp;#125;;  对于静态类型，除了要知道count是静态类型number外，还要知道count具备numb">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-03-17T06:23:10.000Z">
-<meta property="article:modified_time" content="2020-05-16T02:42:09.212Z">
+<meta property="article:modified_time" content="2020-05-16T14:10:46.804Z">
 <meta property="article:author" content="Ccbeango">
 <meta property="article:tag" content="JavaScript">
 <meta property="article:tag" content="TypeScript">
@@ -202,7 +202,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-05-16 10:42:09" itemprop="dateModified" datetime="2020-05-16T10:42:09+08:00">2020-05-16</time>
+                <time title="修改时间：2020-05-16 22:10:46" itemprop="dateModified" datetime="2020-05-16T22:10:46+08:00">2020-05-16</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -232,6 +232,8 @@
         <h5 id="静态类型"><a href="#静态类型" class="headerlink" title="静态类型"></a>静态类型</h5><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> count: <span class="built_in">number</span> = <span class="number">2020</span>;</span><br><span class="line"></span><br><span class="line">count.toFixed();</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> Point &#123;</span><br><span class="line">  x: <span class="built_in">number</span></span><br><span class="line">  y: <span class="built_in">number</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> point: Point = &#123; x: <span class="number">1</span>, y: <span class="number">10</span> &#125;;</span><br></pre></td></tr></table></figure>
 
 <p>对于静态类型，除了要知道count是静态类型<code>number</code>外，还要知道<code>count</code>具备<code>number</code>类型上具备的所有属性和方法，IDE正是利用这点给我们进行了很好的提示</p>
+<a id="more"></a>
+
 <p><code>point</code>同理，除了是<code>Point</code>类型外，还具备Point类型上的所有属性和方法。</p>
 <p>当类型确定以后，不仅意味着类型不能再修改，也意味着属性和方法已经确定了。</p>
 <p>如果静态类型的声明和注解在一行，可以省略注解，TS会帮助我们自动推断，但是如果不在同一行，就需要进行类型注解，TS无法进行自行推断。</p>

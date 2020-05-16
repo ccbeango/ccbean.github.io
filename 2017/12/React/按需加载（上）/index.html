@@ -20,16 +20,16 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":true,"color":"#af4c4c","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="react实现按需加载-代码分割（上）前言我们直接使用webpack配置的react环境，在编译打包之后，页面只生成了一个文件bundle.js，这样在首屏加载时就会很慢，因为加载一个页面的时候也同时加载了其他页面的js，首次进入页面时，只加载自己的JS，这样首屏加载就会快很多。 一、按需加载1.首屏加载需要使用bundle-loader这个插件，所以先安装这个插件 1npm install bu">
+  <meta name="description" content="react实现按需加载-代码分割（上）前言我们直接使用webpack配置的react环境，在编译打包之后，页面只生成了一个文件bundle.js，这样在首屏加载时就会很慢，因为加载一个页面的时候也同时加载了其他页面的js，首次进入页面时，只加载自己的JS，这样首屏加载就会快很多。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="react实现按需加载-代码分割（上）">
 <meta property="og:url" content="http://yoursite.com/2017/12/React/%E6%8C%89%E9%9C%80%E5%8A%A0%E8%BD%BD%EF%BC%88%E4%B8%8A%EF%BC%89/index.html">
 <meta property="og:site_name" content="凹凸豆的博客">
-<meta property="og:description" content="react实现按需加载-代码分割（上）前言我们直接使用webpack配置的react环境，在编译打包之后，页面只生成了一个文件bundle.js，这样在首屏加载时就会很慢，因为加载一个页面的时候也同时加载了其他页面的js，首次进入页面时，只加载自己的JS，这样首屏加载就会快很多。 一、按需加载1.首屏加载需要使用bundle-loader这个插件，所以先安装这个插件 1npm install bu">
+<meta property="og:description" content="react实现按需加载-代码分割（上）前言我们直接使用webpack配置的react环境，在编译打包之后，页面只生成了一个文件bundle.js，这样在首屏加载时就会很慢，因为加载一个页面的时候也同时加载了其他页面的js，首次进入页面时，只加载自己的JS，这样首屏加载就会快很多。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://camo.githubusercontent.com/e9c041242d52d16bc841253126000ef029ebfd99/687474703a2f2f6f71636238646a6c772e626b742e636c6f7564646e2e636f6d2f7061636b6167652e706e67">
 <meta property="article:published_time" content="2017-12-29T02:27:10.000Z">
-<meta property="article:modified_time" content="2019-12-27T09:56:53.355Z">
+<meta property="article:modified_time" content="2020-05-16T14:09:50.114Z">
 <meta property="article:author" content="Ccbeango">
 <meta property="article:tag" content="HTML">
 <meta property="article:tag" content="React">
@@ -204,7 +204,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-12-27 17:56:53" itemprop="dateModified" datetime="2019-12-27T17:56:53+08:00">2019-12-27</time>
+                <time title="修改时间：2020-05-16 22:09:50" itemprop="dateModified" datetime="2020-05-16T22:09:50+08:00">2020-05-16</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -228,6 +228,8 @@
 
       
         <h1 id="react实现按需加载-代码分割（上）"><a href="#react实现按需加载-代码分割（上）" class="headerlink" title="react实现按需加载-代码分割（上）"></a>react实现按需加载-代码分割（上）</h1><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>我们直接使用<code>webpack</code>配置的<code>react</code>环境，在编译打包之后，页面只生成了一个文件<code>bundle.js</code>，这样在首屏加载时就会很慢，因为加载一个页面的时候也同时加载了其他页面的<code>js</code>，首次进入页面时，只加载自己的JS，这样首屏加载就会快很多。</p>
+<a id="more"></a>
+
 <h3 id="一、按需加载"><a href="#一、按需加载" class="headerlink" title="一、按需加载"></a>一、按需加载</h3><p>1.首屏加载需要使用<code>bundle-loader</code>这个插件，所以先安装这个插件</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install bundle-loader --save-dev</span><br></pre></td></tr></table></figure>
 

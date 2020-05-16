@@ -33,7 +33,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/ccbeango/blogImages/master/Linux/linux%E5%B0%8F%E8%A7%86%E9%A2%9107.jpg">
 <meta property="og:image" content="https://raw.githubusercontent.com/ccbeango/blogImages/master/Linux/linux%E5%B0%8F%E8%A7%86%E9%A2%9108.jpg">
 <meta property="article:published_time" content="2018-04-28T07:27:10.000Z">
-<meta property="article:modified_time" content="2019-12-27T09:56:53.343Z">
+<meta property="article:modified_time" content="2020-05-16T14:06:24.007Z">
 <meta property="article:author" content="Ccbeango">
 <meta property="article:tag" content="Linux">
 <meta name="twitter:card" content="summary">
@@ -207,7 +207,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-12-27 17:56:53" itemprop="dateModified" datetime="2019-12-27T17:56:53+08:00">2019-12-27</time>
+                <time title="修改时间：2020-05-16 22:06:24" itemprop="dateModified" datetime="2020-05-16T22:06:24+08:00">2020-05-16</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -231,6 +231,8 @@
 
       
         <h1 id="小视频笔记-三"><a href="#小视频笔记-三" class="headerlink" title="小视频笔记(三)"></a>小视频笔记(三)</h1><h1 id="8-权限管理"><a href="#8-权限管理" class="headerlink" title="8 权限管理"></a>8 权限管理</h1><h2 id="8-1-ACL权限"><a href="#8-1-ACL权限" class="headerlink" title="8.1 ACL权限"></a>8.1 ACL权限</h2><h3 id="1-权限简介"><a href="#1-权限简介" class="headerlink" title="1.权限简介"></a>1.权限简介</h3><p>Linux的文件有所有者，所属组，其他人三种权限，但这是远远不够的，比如说，有一个project，项目管理员将所有项目人员添加到该项目的所属组中，分配权限770，有一天，临时来了一个成员，该成员需要先进行学习，然后才能工作，这时我们需要对该成员对project分配读和可执行的权限，不能将其他人权限设为5，文件只有一个所属组，所以对project分配两个所属组的方式不成立，显然此时的权限管理方式无法满足要求，这时候就用到ACL权限了，所谓的ACL权限，可以简单的理解为为某一用户或某一组分配不属于所有，所属组，其他人的额外权限。</p>
+<a id="more"></a>
+
 <p><img src="https://raw.githubusercontent.com/ccbeango/blogImages/master/Linux/linux%E5%B0%8F%E8%A7%86%E9%A2%9104.png" alt=""></p>
 <h3 id="2-查看分区ACL权限是否开启"><a href="#2-查看分区ACL权限是否开启" class="headerlink" title="2.查看分区ACL权限是否开启"></a>2.查看分区ACL权限是否开启</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 查看分区使用状况</span></span><br><span class="line">~ andy$ df -h</span><br><span class="line">Filesystem      Size   Used  Avail Capacity iused      ifree %iused  Mounted on</span><br><span class="line">/dev/disk1     112Gi   61Gi   51Gi    55% 1632930 4293334349    0%   /</span><br><span class="line">devfs          182Ki  182Ki    0Bi   100%     632          0  100%   /dev</span><br><span class="line">map -hosts       0Bi    0Bi    0Bi   100%       0          0  100%   /net</span><br><span class="line">map auto_home    0Bi    0Bi    0Bi   100%       0          0  100%   /home</span><br></pre></td></tr></table></figure>
 
