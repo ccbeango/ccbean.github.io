@@ -15,6 +15,8 @@ tag: Webpack
 
 所以，找时间入门一下还是很有必要的。
 
+<!--more-->
+
 ## Webpack简介
 
 Webpack是一个打包模块化 JavaScript 的工具，在 Webpack 里一切文件皆模块，通过 Loader 转换文件，通过 Plugin 注入钩子，最后输出由多个模块组合成的文件。Webpack 专注于构建模块化项目。

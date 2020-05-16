@@ -16,6 +16,8 @@ tag: JavaScript
 
 2. 标识符就是指变量、函数、属性的名字，或者函数的参数。
 
+<!--more-->
+
 3. JS注释
 
    ```javascript

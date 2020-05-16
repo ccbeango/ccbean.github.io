@@ -20,6 +20,8 @@ bin   dev  home  lib64  mnt  proc  run   srv  tmp  var
 boot  etc  lib   media  opt  root  sbin  sys  usr
 ```
 
+<!--more-->
+
 树状目录结构：
 
 ![./images/1.jpg](https://raw.githubusercontent.com/ccbeango/blogImages/master/Linux/linux%E7%B3%BB%E7%BB%9F%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84.jpg)

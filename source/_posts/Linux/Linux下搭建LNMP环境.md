@@ -24,6 +24,8 @@ tag: Linux
 yum -y install gcc gcc-c++ openssl openssl-devel bzip2-devel libxslt libxslt-devel libmcrypt libmcrypt-devel libxml2 libxml2-devel autoconf libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel  zlib zlib-devel glibc glibc-devel glib2 glib2-devel
 ```
 
+<!--more-->
+
 ### 2.获取安装包
 
 官网上下载需要的包，解压进入解压目录。

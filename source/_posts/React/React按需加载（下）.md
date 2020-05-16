@@ -19,6 +19,8 @@ tag:
 
 上节中所使用的`webpack`配置的时候所安装的`react`，可以使用`bundle-loader`来实现按需加载，但是在`create-react-app`中使用会出现报错：
 
+<!--more-->
+
 ```javascript
 Line 4:   Unexpected '!' in 'bundle-loader?lazy&name=login!./container/login/login'. Do not use import syntax to configure webpack loaders                 import/no-webpack-loader-syntax
 Line 5:   Unexpected '!' in 'bundle-loader?lazy&name=register!./container/register/register'. Do not use import syntax to configure webpack loaders        import/no-webpack-loader-syntax

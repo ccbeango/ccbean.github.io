@@ -23,6 +23,8 @@ tag:
 
 那么，下面开始具体的配置记录。
 
+<!--more-->
+
 ## 调试配置记录
 
 这里直接使用[electron-vue](https://github.com/SimulatedGREG/electron-vue)项目安装并做配置，具体安装可点击查看。

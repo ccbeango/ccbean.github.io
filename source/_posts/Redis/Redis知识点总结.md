@@ -14,6 +14,8 @@ tag: Redis
 
 1. Redis的全称是Remote Dictionary Server，本质上是一个`key-value`类型的内存数据库，它支持的`value`类型有字符串`String`、哈希`Hash`、无序集合`Set`、有序集合`Sorted Set`、列表`List`。这些数据类型都支持push/pop、add/remove、取交集并集差集以及更丰富的操作，而且这些操作类型都是原子性的。与memcached类似，将数据都加载至内存中进行操作，不同之处在于redis会周期性地将更新数据写入到磁盘中。
 
+<!--more-->
+
 2. Redis支持的数据类型
 
    * String：用于管理redis字符串值；string类型是二进制安全的。意思是redis的string可以包含任何数据。比如jpg图片或者序列化的对象 。`set key value`、`get key value`

@@ -19,6 +19,8 @@ tag:
 
 2.`npm run eject`弹出配置文件，可以自定义配置 webpack配置
 
+<!--more-->
+
 3.`axios`  Axios 是一个基于 promise 的 HTTP 库，可以用在浏览器和 node.js 中。
 
 使用时，需要在package.json文件中添加后端的服务器代理地址：

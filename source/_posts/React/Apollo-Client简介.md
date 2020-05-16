@@ -28,6 +28,8 @@ npm install apollo-client apollo-cache-inmemory apollo-link-http react-apollo gr
 
 ```
 
+<!--more-->
+
 React中使用Apollo，首先需要创建`ApolloClient`和`ApolloProvider`：
 
 * `ApolloClient`是你应用程序中使用`Graphql`的中心，它管理你所有的`data`。

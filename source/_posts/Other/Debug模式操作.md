@@ -14,6 +14,8 @@ tag: Other
 
 之前写PHP只要在页面上调试即可，几乎没用过`debug`调试模式，今天学习js用到，记录下自己所用到的。
 
+<!--more-->
+
 1. `step into/step out/step over`的区别:
 
    * step into：单步执行，遇到子函数就进入并且继续单步执行（==进入子函数==）；

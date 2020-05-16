@@ -21,6 +21,8 @@ tag:
 
 > [http://www.ruanyifeng.com/blog/2016/09/redux\_tutorial\_part\_one\_basic\_usages.html](http://www.ruanyifeng.com/blog/2016/09/redux_tutorial_part_one_basic_usages.html)
 
+<!--more-->
+
 ### 一、构建自己的redux
 
 在redux中，对外主要提供`createStore`和`applyMiddleware`两种方法，具体的代码块如下：

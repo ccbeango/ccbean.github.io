@@ -12,6 +12,10 @@ tag: Python
 
 > 《Python编程从入门到实践》
 
+学习下Python基础，在此做下记录
+
+<!--more-->
+
 1. Python文件的后缀为`.py`
 
 ## 变量

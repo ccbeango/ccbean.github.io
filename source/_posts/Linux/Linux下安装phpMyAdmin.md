@@ -1,6 +1,6 @@
 ---
 
-title: Linux系统目录结构
+title: Linux下安装phpMyAdmin
 
 date: 2018-01-27 15:27:10
 
@@ -17,6 +17,8 @@ tag: Linux
 ```
 sudo wget  https://files.phpmyadmin.net/phpMyAdmin/4.7.4/phpMyAdmin-4.7.4-all-languages.zip
 ```
+
+<!--more-->
 
 ### 2.配置
 

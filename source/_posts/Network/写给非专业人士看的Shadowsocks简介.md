@@ -18,6 +18,8 @@ tag: Network
 
 在很久很久以前，我们访问各种网站都是简单而直接的，用户的请求通过互联网发送到服务提供方，服务提供方直接将信息反馈给用户。
 
+<!--more-->
+
 ![](https://raw.githubusercontent.com/ccbeango/blogImages/master/NetWork/Shadowsocks%E7%AE%80%E4%BB%8B01.png)
 
 ## when GFW comes

@@ -20,6 +20,8 @@ tag: JavaScript
 
 Node.js的作者是Ryan Dahl，是一名C/C++程序员，他发现高性能Web服务器主要有几个要点：事件驱动、非阻塞I/O。所以他最初的目的就是写一个基于事件驱动、非阻塞I/O的Web服务器，以达到更高的性能。
 
+<!--more-->
+
 在实现Node时，Ryan Dahl评估过`C`、`Lua`、`Haskell`、`Ruby`等语言作为备选，结论为：`C`门槛过高，`Lua`自身存在许多阻塞I/O库，`Haskell`作者觉得自己不足以玩转，`Ruby`的虚拟机性能不好。相比之下，JavaScript比C的开发门槛低，比Lua的历史包袱少，又逢Chrome的V8引擎性能优秀。考虑到**高性能**、**符合事件驱动**、**没有历史包袱**，JavaScript成为了Node的实现语言。
 
 Chrome浏览器和Node的组件构成如图。

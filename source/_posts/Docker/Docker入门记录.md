@@ -14,6 +14,10 @@ tag:
 
 # Docker入门记录
 
+记录一些Docker常用的命令和概念，帮助平常开发使用Docker
+
+<!--more-->
+
 ## Docker基本概念
 
 ## Docker的命令

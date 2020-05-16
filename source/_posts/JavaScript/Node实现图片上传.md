@@ -18,6 +18,8 @@ tag: JavaScript
 
 ​	目前流行的“你画我猜”应用，你有没有想过使用HTML5来实现过？那么不可避免的需要解决canvas保存图片到硬盘或mongodb之类的数据库。本文主要介绍使用nodejs将html5 canvas base64编码图片保存为文件，同时提供两种解决方案。
 
+<!--more-->
+
 ​	html5 canvas属于客户端API，没有权限去保存图片到硬盘，只有canvas . toDataURL()这一个接口可导出画布的base64编码，以提供给服务端进行处理保存，据我所知.net和php都有方法或类来进行简单的处理保存。nodejs呢？是的，没错！nodejs同样有能力来保存base64编码的图片。
 
 ## 解决方案一

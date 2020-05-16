@@ -14,6 +14,8 @@ tag: PHP
 
 ​	实际开发中，多多少少都会遇到数组的排序问题，除了常规的写简单的排序算法，PHP 还提供了内置数组排序函数，本次重点分享一下：[uasort](http://www.php.net/manual/zh/function.uasort.php)  使用用户自定义的比较函数对数组中的值进行排序并保持索引关联，可排序多维数组，本文重点讲解此函数。 
 
+<!--more-->
+
 **uasort 函数**
 
 ​	参数类型：bool uasort ( array &$array, callable $cmp_function)

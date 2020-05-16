@@ -14,6 +14,10 @@ tag: JavaScript
 
 > 摘自 《JavaScript高级程序设计》
 
+对JS基础的学习记录，方便个人查看
+
+<!--more-->
+
 ## 理解原型对象
 
 无论什么时候，只要创建一个新函数，就会根据一组特定的规则为该函数创建一个`prototype`属性，这个属性指向函数的原型对象。在默认情况下，所有原型对象都会获得一个`constructor`（构造函数）属性，这个属性包含一个指向`prototype`属性所在函数的指针。如`Person.prototype.constructor`指向`Person`。而通过这个构造函数，还可以继续为原型对象添加其他属性和方法。

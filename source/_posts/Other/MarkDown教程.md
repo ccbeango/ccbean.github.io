@@ -18,6 +18,8 @@ tag: Other
 
 > 引用文本：Markdown is a text formatting syntax inspired
 
+<!--more-->
+
 ## 语法指导
 
 ### 普通内容
