@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Mist","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Vscode中调试electron-vue的主进程和渲染进程背景最近接触了一个使用Electron-vue构建的项目，调试问题搞得人焦头烂额，使用electron自带的控制台断点调试，查看调用堆栈，常常回出现数据未定义的情况，而且难以找到自己想要断点的位置， 只能配合日志打印进行调试，每次保存都要进行热加载，等待项目重新编译，效率低下，身心备受折磨。 自接手项目以来已经两周，一直没有找到理想的调试">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vscode中调试electron-vue的主进程和渲染进程">
+<meta property="og:url" content="http://yoursite.com/2020/03/Electron/Vscode%E4%B8%AD%E8%B0%83%E8%AF%95electron-vue%E7%9A%84%E4%B8%BB%E8%BF%9B%E7%A8%8B%E5%92%8C%E6%B8%B2%E6%9F%93%E8%BF%9B%E7%A8%8B/index.html">
+<meta property="og:site_name" content="凹凸豆的博客">
+<meta property="og:description" content="Vscode中调试electron-vue的主进程和渲染进程背景最近接触了一个使用Electron-vue构建的项目，调试问题搞得人焦头烂额，使用electron自带的控制台断点调试，查看调用堆栈，常常回出现数据未定义的情况，而且难以找到自己想要断点的位置， 只能配合日志打印进行调试，每次保存都要进行热加载，等待项目重新编译，效率低下，身心备受折磨。 自接手项目以来已经两周，一直没有找到理想的调试">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/ccbeango/blogImages/master/Electron/Vscode%E4%B8%AD%E8%B0%83%E8%AF%95electron-vue01.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/ccbeango/blogImages/master/Electron/Vscode%E4%B8%AD%E8%B0%83%E8%AF%95electron-vue02.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/ccbeango/blogImages/master/Electron/Vscode%E4%B8%AD%E8%B0%83%E8%AF%95electron-vue03.png">
+<meta property="article:published_time" content="2020-03-31T03:10:42.000Z">
+<meta property="article:modified_time" content="2020-05-16T02:21:37.266Z">
+<meta property="article:author" content="Ccbeango">
+<meta property="article:tag" content="Node">
+<meta property="article:tag" content="Electron">
+<meta property="article:tag" content="Vue">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/ccbeango/blogImages/master/Electron/Vscode%E4%B8%AD%E8%B0%83%E8%AF%95electron-vue01.png">
+
+<link rel="canonical" href="http://yoursite.com/2020/03/Electron/Vscode%E4%B8%AD%E8%B0%83%E8%AF%95electron-vue%E7%9A%84%E4%B8%BB%E8%BF%9B%E7%A8%8B%E5%92%8C%E6%B8%B2%E6%9F%93%E8%BF%9B%E7%A8%8B/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Vscode中调试electron-vue的主进程和渲染进程 | 凹凸豆的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">凹凸豆的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">那天，黄昏，开始飘起来白雪</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/Electron/Vscode%E4%B8%AD%E8%B0%83%E8%AF%95electron-vue%E7%9A%84%E4%B8%BB%E8%BF%9B%E7%A8%8B%E5%92%8C%E6%B8%B2%E6%9F%93%E8%BF%9B%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ccbeango">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="凹凸豆的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Vscode中调试electron-vue的主进程和渲染进程
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-03-31 11:10:42" itemprop="dateCreated datePublished" datetime="2020-03-31T11:10:42+08:00">2020-03-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-05-16 10:21:37" itemprop="dateModified" datetime="2020-05-16T10:21:37+08:00">2020-05-16</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Node/" itemprop="url" rel="index"><span itemprop="name">Node</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Vscode中调试electron-vue的主进程和渲染进程"><a href="#Vscode中调试electron-vue的主进程和渲染进程" class="headerlink" title="Vscode中调试electron-vue的主进程和渲染进程"></a>Vscode中调试electron-vue的主进程和渲染进程</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>最近接触了一个使用<code>Electron-vue</code>构建的项目，调试问题搞得人焦头烂额，使用<code>electron</code>自带的控制台断点调试，查看调用堆栈，常常回出现数据未定义的情况，而且难以找到自己想要断点的位置， 只能配合日志打印进行调试，每次保存都要进行热加载，等待项目重新编译，效率低下，身心备受折磨。</p>
+<p>自接手项目以来已经两周，一直没有找到理想的调试方法，今天下午终于了解决此问题。</p>
+<p>那么，下面开始具体的配置记录。</p>
+<h2 id="调试配置记录"><a href="#调试配置记录" class="headerlink" title="调试配置记录"></a>调试配置记录</h2><p>这里直接使用<a href="https://github.com/SimulatedGREG/electron-vue" target="_blank" rel="noopener">electron-vue</a>项目安装并做配置，具体安装可点击查看。</p>
+<h3 id="只调试主进程配置（attach方法）"><a href="#只调试主进程配置（attach方法）" class="headerlink" title="只调试主进程配置（attach方法）"></a>只调试主进程配置（attach方法）</h3><h4 id="配置launch-json"><a href="#配置launch-json" class="headerlink" title="配置launch.json"></a>配置launch.json</h4><p>如果只想在Vscode中调试主进程，在Chrome Devtools中调试渲染进程，在<code>launch.json</code>的<code>configurations</code>中做如下配置：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"name"</span>: <span class="string">"Electron: Main (attach)"</span>,</span><br><span class="line">    <span class="attr">"type"</span>: <span class="string">"node"</span>,</span><br><span class="line">    <span class="attr">"request"</span>: <span class="string">"attach"</span>,</span><br><span class="line">    <span class="attr">"cwd"</span>: <span class="string">"$&#123;workspaceFolder&#125;"</span>,</span><br><span class="line">    <span class="attr">"outFiles"</span>: [<span class="string">"$&#123;workspaceFolder&#125;/**/*.js"</span>],</span><br><span class="line">    <span class="attr">"skipFiles"</span>: [<span class="string">"init.js"</span>],</span><br><span class="line">    <span class="attr">"smartStep"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">"sourceMaps"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">"protocol"</span>: <span class="string">"inspector"</span>,</span><br><span class="line">    <span class="attr">"port"</span>: <span class="number">5858</span>,</span><br><span class="line">    <span class="attr">"timeout"</span>: <span class="number">20000</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="配置webpack-main-config-js"><a href="#配置webpack-main-config-js" class="headerlink" title="配置webpack.main.config.js"></a>配置webpack.main.config.js</h4><p>第二步打开<code>.electron_vue/webpack.main.config.js</code>文件，添加<a href="#devtoolConfig">一行代码</a>：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Adjust mainConfig for development settings</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">if</span> (process.env.NODE_ENV !== <span class="string">'production'</span>) &#123;</span><br><span class="line">  mainConfig.devtool = <span class="string">'source-map'</span>; <span class="comment">// &lt; 这里</span></span><br><span class="line">  mainConfig.plugins.push(</span><br><span class="line">    <span class="keyword">new</span> webpack.DefinePlugin(&#123;</span><br><span class="line">      <span class="string">'__static'</span>: <span class="string">`"<span class="subst">$&#123;path.join(__dirname, <span class="string">'../static'</span>).replace(<span class="regexp">/\\/g</span>, <span class="string">'\\\\'</span>)&#125;</span>"`</span></span><br><span class="line">    &#125;)</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="配置package-json"><a href="#配置package-json" class="headerlink" title="配置package.json"></a>配置package.json</h4><p>同时修改<code>package.json</code>中<code>scriptspackage.json</code>下的<code>dev</code>，添加<code>--no-lazy</code>执行参数：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"dev"</span>: <span class="string">"node --no-lazy .electron-vue/dev-runner.js"</span>,</span><br></pre></td></tr></table></figure>
+
+<p><strong>Note</strong>：在终端运行<code>node --v8-options</code>可查看到其中一个选项：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">--lazy (use lazy compilation)</span><br><span class="line">      type: bool  default: true</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>使用前缀<code>no</code>可以设置此选项的值<code>false</code>，这将迫使V8引擎完成代码的完整编译，从而能与Vscode一起正常工作，不必使用<code>debugger</code>就可以在代码中进行断点调试。</li>
+</ul>
+<p>然后控制台使用<code>npm run dev</code>方式启动项目，再Vscode的Debug菜单中选择<code>Electron: Main (attach)</code>后F5运行，在主进程<code>./src/main/index.js</code>中打上断点，这里在时间<code>window-all-closed</code>的回调函数中断点。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">app.on(<span class="string">'window-all-closed'</span>, () =&gt; &#123;</span><br><span class="line">  <span class="keyword">if</span> (process.platform !== <span class="string">'darwin'</span>) &#123; <span class="comment">// &lt; 断点</span></span><br><span class="line">    app.quit()  <span class="comment">// &lt; 断点</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>关闭Electron的运行窗口，即可看到断点效果。</p>
+<p><img src="https://raw.githubusercontent.com/ccbeango/blogImages/master/Electron/Vscode%E4%B8%AD%E8%B0%83%E8%AF%95electron-vue01.png" alt=""></p>
+<h3 id="主-渲进程调试"><a href="#主-渲进程调试" class="headerlink" title="主+渲进程调试"></a>主+渲进程调试</h3><p>我比较习惯在vscode中进行所有的逻辑代码调试工作，方便断点，效率更高。但是此调试方法存在一个问题，在调试渲染进程代码时，如果打开Electron中的控制台，Vscode中的渲染进程会退出，详细原因下面进行总结说明。</p>
+<h4 id="主进程配置"><a href="#主进程配置" class="headerlink" title="主进程配置"></a>主进程配置</h4><p>在Vscode中点击调试&gt;添加配置&gt;Node，在<code>configurations</code>下添加配置。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"type"</span>: <span class="string">"node"</span>,</span><br><span class="line">    <span class="attr">"request"</span>: <span class="string">"launch"</span>,</span><br><span class="line">    <span class="attr">"name"</span>: <span class="string">"Electron: Main (npm)"</span>,</span><br><span class="line">    <span class="attr">"cwd"</span>: <span class="string">"$&#123;workspaceFolder&#125;"</span>,</span><br><span class="line">    <span class="attr">"outFiles"</span>: [<span class="string">"$&#123;workspaceFolder&#125;/dist/electron/*.js"</span>],</span><br><span class="line">    <span class="attr">"runtimeExecutable"</span>: <span class="string">"npm"</span>,</span><br><span class="line">    <span class="attr">"runtimeArgs"</span>: [<span class="string">"run-script"</span>, <span class="string">"dev"</span>],</span><br><span class="line">    <span class="attr">"outputCapture"</span>: <span class="string">"std"</span>,</span><br><span class="line">    <span class="attr">"smartStep"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">"sourceMaps"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">"protocol"</span>: <span class="string">"inspector"</span>,</span><br><span class="line">    <span class="attr">"port"</span>: <span class="number">5858</span>,</span><br><span class="line">    <span class="attr">"timeout"</span>: <span class="number">20000</span>,</span><br><span class="line">    <span class="attr">"console"</span>: <span class="string">"integratedTerminal"</span> <span class="comment">// 个人习惯在Terminal中output</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里也要记得在<code>.electron_vue/webpack.main.config.js</code>中添加<code>devtool</code>配置的<a name="devtoolConfig">代码</a>。</p>
+<h4 id="渲染进程配置"><a href="#渲染进程配置" class="headerlink" title="渲染进程配置"></a>渲染进程配置</h4><h5 id="配置launch-json-1"><a href="#配置launch-json-1" class="headerlink" title="配置launch.json"></a>配置launch.json</h5><p>在Vscode中点击调试&gt;添加配置&gt;Node，在<code>configurations</code>下添加渲染进程配置。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"name"</span>: <span class="string">"Electron: Renderer"</span>,</span><br><span class="line">    <span class="attr">"type"</span>: <span class="string">"chrome"</span>,</span><br><span class="line">    <span class="attr">"request"</span>: <span class="string">"attach"</span>,</span><br><span class="line">    <span class="attr">"port"</span>: <span class="number">9223</span>,</span><br><span class="line">    <span class="attr">"urlFilter"</span>: <span class="string">"http://localhost:*"</span>,</span><br><span class="line">    <span class="attr">"timeout"</span>: <span class="number">30000</span>,</span><br><span class="line">    <span class="attr">"webRoot"</span>: <span class="string">"$&#123;workspaceFolder&#125;/src"</span>,</span><br><span class="line">    <span class="attr">"sourceMapPathOverrides"</span>: &#123;</span><br><span class="line">        <span class="attr">"webpack:///./src/*"</span>: <span class="string">"$&#123;webRoot&#125;/*"</span>,</span><br><span class="line">        <span class="attr">"webpack:///src/*"</span>: <span class="string">"$&#123;webRoot&#125;/*"</span>,</span><br><span class="line">        <span class="attr">"webpack:///*"</span>: <span class="string">"*"</span>,</span><br><span class="line">        <span class="attr">"webpack:///./~/*"</span>: <span class="string">"$&#123;webRoot&#125;/node_modules/*"</span></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后添加<code>compounds</code>参数配置：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">"compounds": [</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="attr">"name"</span>: <span class="string">"Electron: All"</span>,</span><br><span class="line">        <span class="attr">"configurations"</span>: [<span class="string">"Electron: Main (npm)"</span>, <span class="string">"Electron: Renderer"</span>]</span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<h5 id="修改webpack配置"><a href="#修改webpack配置" class="headerlink" title="修改webpack配置"></a>修改webpack配置</h5><p>分别修改<code>webpack.renderer.config.js</code>和<code>webpack.web.config.js</code>中的<code>devtool</code>字段值为<code>source-map</code>。</p>
+<h5 id="修改dev-runner-js"><a href="#修改dev-runner-js" class="headerlink" title="修改dev-runner.js"></a>修改dev-runner.js</h5><p>想要在Vscode中调试前端代码，此处要开启远程调试端口<code>--remote-debugging-port</code>，在<code>dev-runner.js</code>中找到<code>startElectron()</code>方法，添加参数配置：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">startElectron</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> args = [</span><br><span class="line">    <span class="string">'--remote-debugging-port=9223'</span>, <span class="comment">// &lt; 这里</span></span><br><span class="line">    <span class="string">'--inspect=5858'</span>,</span><br><span class="line">    path.join(__dirname, <span class="string">'../dist/electron/main.js'</span>)</span><br><span class="line">  ]</span><br><span class="line"></span><br><span class="line"> ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="开启调试"><a href="#开启调试" class="headerlink" title="开启调试"></a>开启调试</h4><p>到此配置已经完成，回到Vscode打开debug，选择<code>Electron: All</code>，F5运行。</p>
+<h5 id="Chrome-Devtools正常运行"><a href="#Chrome-Devtools正常运行" class="headerlink" title="Chrome Devtools正常运行"></a>Chrome Devtools正常运行</h5><p>项目可以正常跑起来了，看似正常，等待几秒之后，会发现渲染进程报错：</p>
+<p><img src="https://raw.githubusercontent.com/ccbeango/blogImages/master/Electron/Vscode%E4%B8%AD%E8%B0%83%E8%AF%95electron-vue02.png" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Cannot connect to runtime process, timeout after 30000 ms - (reson: Can&#96;t attach to this target that may have Chrome Devtools attached: http:&#x2F;&#x2F;localhost:9080&#x2F;).</span><br></pre></td></tr></table></figure>
+
+<p>此问题在于项目在在测试环境中启动时，加载项目的入口文件是<code>src/main/index.dev.js</code>，此文件下加载了<a href="https://github.com/sindresorhus/electron-debug" target="_blank" rel="noopener">electron-debug</a>模块，此模块添加了<code>Chrome Devtools</code>，也就是我们看到的Electron的控制台。</p>
+<p>虽然chrome支持多debugger调试，但是<strong>Node仅支持单个debugger的attach</strong>，所以，当我们F5启动项目时，首先就加载了一个Chrome Devtools在项目中，然后才是Vscode的attach，此时便会看到上面的报错。</p>
+<p>解决办法就是，首先关掉此debug，修改<code>index.dev.js</code>，将<code>showDevTools</code>的参数改为<code>false</code>:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Install `electron-debug` with `devtron`</span></span><br><span class="line"><span class="built_in">require</span>(<span class="string">'electron-debug'</span>)(&#123; <span class="attr">showDevTools</span>: <span class="literal">false</span> &#125;)</span><br></pre></td></tr></table></figure>
+
+<p>重新F5启动项目，可进行断点调试，需要注意的是，<strong>如果在调试过程中打开electron的调试控制台，渲染进程便会退出。</strong>原因如上所述，控制台会强行挤掉Vscode中渲染进程的debugger。利用Vscode查看逻辑代码很方便。</p>
+<h5 id="疑惑点"><a href="#疑惑点" class="headerlink" title="疑惑点"></a>疑惑点</h5><p>有的时候，如果Chrome Devtools报错，就不会出现上述的争抢问题，Vscode和Chrome Devtools可以同时很好的运行，并未修改<code>showDevTools</code>参数，项目可以很好的运行，那么就会有近乎完美的调试体验。</p>
+<p>我在接手的项目中遇到的情况就是这种情况，Chrome控制台见如下报错：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DevTools failed to parse SourceMap: http://localhost:9080/renderer.js.map</span><br></pre></td></tr></table></figure>
+
+<p>Vscode终端报错：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[13056:1231/105120.982:ERROR:CONSOLE(5618)] "SyntaxError: Unexpected token i in JSON at position 2356435", source: chrome-devtools://devtools/bundled/shell.js (5618)</span><br></pre></td></tr></table></figure>
+
+<p>此实可以正常调试，不知道是不是与Devtools未正常加载有关系。</p>
+<p>项目中运行代码，有时并没有出现报错，也可以很好的运行，到底是怎么回事，摸不着头脑。</p>
+<p><img src="https://raw.githubusercontent.com/ccbeango/blogImages/master/Electron/Vscode%E4%B8%AD%E8%B0%83%E8%AF%95electron-vue03.png" alt=""></p>
+<h3 id="launch-json完整配置"><a href="#launch-json完整配置" class="headerlink" title="launch.json完整配置"></a>launch.json完整配置</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"version"</span>: <span class="string">"0.2.0"</span>,</span><br><span class="line">    <span class="attr">"configurations"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"type"</span>: <span class="string">"node"</span>,</span><br><span class="line">            <span class="attr">"request"</span>: <span class="string">"launch"</span>,</span><br><span class="line">            <span class="attr">"name"</span>: <span class="string">"Electron: Main (npm)"</span>,</span><br><span class="line">            <span class="attr">"cwd"</span>: <span class="string">"$&#123;workspaceFolder&#125;"</span>,</span><br><span class="line">            <span class="attr">"outFiles"</span>: [<span class="string">"$&#123;workspaceFolder&#125;/dist/electron/*.js"</span>],</span><br><span class="line">            <span class="attr">"runtimeExecutable"</span>: <span class="string">"npm"</span>,</span><br><span class="line">            <span class="attr">"runtimeArgs"</span>: [<span class="string">"run-script"</span>, <span class="string">"dev"</span>],</span><br><span class="line">            <span class="attr">"outputCapture"</span>: <span class="string">"std"</span>,</span><br><span class="line">            <span class="attr">"smartStep"</span>: <span class="literal">true</span>,</span><br><span class="line">            <span class="attr">"sourceMaps"</span>: <span class="literal">true</span>,</span><br><span class="line">            <span class="attr">"protocol"</span>: <span class="string">"inspector"</span>,</span><br><span class="line">            <span class="attr">"port"</span>: <span class="number">5858</span>,</span><br><span class="line">            <span class="attr">"timeout"</span>: <span class="number">20000</span>,</span><br><span class="line">            <span class="attr">"console"</span>: <span class="string">"integratedTerminal"</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"name"</span>: <span class="string">"Electron: Renderer"</span>,</span><br><span class="line">            <span class="attr">"type"</span>: <span class="string">"chrome"</span>,</span><br><span class="line">            <span class="attr">"request"</span>: <span class="string">"attach"</span>,</span><br><span class="line">            <span class="attr">"port"</span>: <span class="number">9223</span>,</span><br><span class="line">            <span class="attr">"urlFilter"</span>: <span class="string">"http://localhost:*"</span>,</span><br><span class="line">            <span class="attr">"timeout"</span>: <span class="number">30000</span>,</span><br><span class="line">            <span class="attr">"webRoot"</span>: <span class="string">"$&#123;workspaceFolder&#125;/src"</span>,</span><br><span class="line">            <span class="attr">"sourceMapPathOverrides"</span>: &#123;</span><br><span class="line">              <span class="attr">"webpack:///./src/*"</span>: <span class="string">"$&#123;webRoot&#125;/*"</span>,</span><br><span class="line">              <span class="attr">"webpack:///src/*"</span>: <span class="string">"$&#123;webRoot&#125;/*"</span>,</span><br><span class="line">              <span class="attr">"webpack:///*"</span>: <span class="string">"*"</span>,</span><br><span class="line">              <span class="attr">"webpack:///./~/*"</span>: <span class="string">"$&#123;webRoot&#125;/node_modules/*"</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"name"</span>: <span class="string">"Electron: Main (attach)"</span>,</span><br><span class="line">            <span class="attr">"type"</span>: <span class="string">"node"</span>,</span><br><span class="line">            <span class="attr">"request"</span>: <span class="string">"attach"</span>,</span><br><span class="line">            <span class="attr">"cwd"</span>: <span class="string">"$&#123;workspaceFolder&#125;"</span>,</span><br><span class="line">            <span class="attr">"outFiles"</span>: [<span class="string">"$&#123;workspaceFolder&#125;/**/*.js"</span>],</span><br><span class="line">            <span class="attr">"skipFiles"</span>: [<span class="string">"init.js"</span>],</span><br><span class="line">            <span class="attr">"smartStep"</span>: <span class="literal">true</span>,</span><br><span class="line">            <span class="attr">"sourceMaps"</span>: <span class="literal">true</span>,</span><br><span class="line">            <span class="attr">"protocol"</span>: <span class="string">"inspector"</span>,</span><br><span class="line">            <span class="attr">"port"</span>: <span class="number">5858</span>,</span><br><span class="line">            <span class="attr">"timeout"</span>: <span class="number">20000</span></span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">"compounds"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="attr">"name"</span>: <span class="string">"Electron: All"</span>,</span><br><span class="line">          <span class="attr">"configurations"</span>: [<span class="string">"Electron: Main (npm)"</span>, <span class="string">"Electron: Renderer"</span>]</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>参考：</p>
+<ol>
+<li><a href="https://stackoverflow.com/questions/48091899/electron-main-and-renderer-process-debug-configuration" target="_blank" rel="noopener">https://stackoverflow.com/questions/48091899/electron-main-and-renderer-process-debug-configuration</a></li>
+<li><a href="https://github.com/Microsoft/vscode/issues/57826" target="_blank" rel="noopener">https://github.com/Microsoft/vscode/issues/57826</a></li>
+<li><a href="https://github.com/Microsoft/vscode-recipes/tree/master/vuejs-cli" target="_blank" rel="noopener">https://github.com/Microsoft/vscode-recipes/tree/master/vuejs-cli</a></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Node/" rel="tag"># Node</a>
+              <a href="/tags/Electron/" rel="tag"># Electron</a>
+              <a href="/tags/Vue/" rel="tag"># Vue</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/TypeScript/TS%E5%85%A5%E9%97%A8%E6%A6%82%E5%BF%B5%E9%80%9F%E8%AE%B0/" rel="prev" title="TS入门概念速记">
+      <i class="fa fa-chevron-left"></i> TS入门概念速记
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/04/DataStructure/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="next" title="数据结构">
+      数据结构 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Vscode中调试electron-vue的主进程和渲染进程"><span class="nav-number">1.</span> <span class="nav-text">Vscode中调试electron-vue的主进程和渲染进程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#调试配置记录"><span class="nav-number">1.2.</span> <span class="nav-text">调试配置记录</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#只调试主进程配置（attach方法）"><span class="nav-number">1.2.1.</span> <span class="nav-text">只调试主进程配置（attach方法）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#配置launch-json"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">配置launch.json</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置webpack-main-config-js"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">配置webpack.main.config.js</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置package-json"><span class="nav-number">1.2.1.3.</span> <span class="nav-text">配置package.json</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主-渲进程调试"><span class="nav-number">1.2.2.</span> <span class="nav-text">主+渲进程调试</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#主进程配置"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">主进程配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#渲染进程配置"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">渲染进程配置</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#配置launch-json-1"><span class="nav-number">1.2.2.2.1.</span> <span class="nav-text">配置launch.json</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#修改webpack配置"><span class="nav-number">1.2.2.2.2.</span> <span class="nav-text">修改webpack配置</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#修改dev-runner-js"><span class="nav-number">1.2.2.2.3.</span> <span class="nav-text">修改dev-runner.js</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#开启调试"><span class="nav-number">1.2.2.3.</span> <span class="nav-text">开启调试</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Chrome-Devtools正常运行"><span class="nav-number">1.2.2.3.1.</span> <span class="nav-text">Chrome Devtools正常运行</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#疑惑点"><span class="nav-number">1.2.2.3.2.</span> <span class="nav-text">疑惑点</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#launch-json完整配置"><span class="nav-number">1.2.3.</span> <span class="nav-text">launch.json完整配置</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Ccbeango</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ccbeango</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/disqusjs@1/dist/disqusjs.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/disqusjs@1/dist/disqus.js', () => {
+    window.dsqjs = new DisqusJS({
+      api       : '' || 'https://disqus.com/api/',
+      apikey    : 'n0H52UV8sKsjEsyFEXK4e2qtX0Qk564dFYnOS40Bx8qLbFBVBw7sDeJipwjAPxyM',
+      shortname : 'ccbeango',
+      url       : "http://yoursite.com/2020/03/Electron/Vscode%E4%B8%AD%E8%B0%83%E8%AF%95electron-vue%E7%9A%84%E4%B8%BB%E8%BF%9B%E7%A8%8B%E5%92%8C%E6%B8%B2%E6%9F%93%E8%BF%9B%E7%A8%8B/",
+      identifier: "2020/03/Electron/Vscode中调试electron-vue的主进程和渲染进程/",
+      title     : "Vscode中调试electron-vue的主进程和渲染进程",
+    });
+  }, window.DisqusJS);
+});
+</script>
+
+</body>
+</html>

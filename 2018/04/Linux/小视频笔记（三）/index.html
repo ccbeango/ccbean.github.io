@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Mist","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="小视频笔记(三)8 权限管理8.1 ACL权限1.权限简介Linux的文件有所有者，所属组，其他人三种权限，但这是远远不够的，比如说，有一个project，项目管理员将所有项目人员添加到该项目的所属组中，分配权限770，有一天，临时来了一个成员，该成员需要先进行学习，然后才能工作，这时我们需要对该成员对project分配读和可执行的权限，不能将其他人权限设为5，文件只有一个所属组，所以对proje">
+<meta property="og:type" content="article">
+<meta property="og:title" content="小视频笔记(三)">
+<meta property="og:url" content="http://yoursite.com/2018/04/Linux/%E5%B0%8F%E8%A7%86%E9%A2%91%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%89%EF%BC%89/index.html">
+<meta property="og:site_name" content="凹凸豆的博客">
+<meta property="og:description" content="小视频笔记(三)8 权限管理8.1 ACL权限1.权限简介Linux的文件有所有者，所属组，其他人三种权限，但这是远远不够的，比如说，有一个project，项目管理员将所有项目人员添加到该项目的所属组中，分配权限770，有一天，临时来了一个成员，该成员需要先进行学习，然后才能工作，这时我们需要对该成员对project分配读和可执行的权限，不能将其他人权限设为5，文件只有一个所属组，所以对proje">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/ccbeango/blogImages/master/Linux/linux%E5%B0%8F%E8%A7%86%E9%A2%9104.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/ccbeango/blogImages/master/Linux/linux%E5%B0%8F%E8%A7%86%E9%A2%9105.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/ccbeango/blogImages/master/Linux/linux%E5%B0%8F%E8%A7%86%E9%A2%9106.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/ccbeango/blogImages/master/Linux/linux%E5%B0%8F%E8%A7%86%E9%A2%9107.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/ccbeango/blogImages/master/Linux/linux%E5%B0%8F%E8%A7%86%E9%A2%9108.jpg">
+<meta property="article:published_time" content="2018-04-28T07:27:10.000Z">
+<meta property="article:modified_time" content="2019-12-27T09:56:53.343Z">
+<meta property="article:author" content="Ccbeango">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/ccbeango/blogImages/master/Linux/linux%E5%B0%8F%E8%A7%86%E9%A2%9104.png">
+
+<link rel="canonical" href="http://yoursite.com/2018/04/Linux/%E5%B0%8F%E8%A7%86%E9%A2%91%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%89%EF%BC%89/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>小视频笔记(三) | 凹凸豆的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">凹凸豆的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">那天，黄昏，开始飘起来白雪</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/Linux/%E5%B0%8F%E8%A7%86%E9%A2%91%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%89%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ccbeango">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="凹凸豆的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          小视频笔记(三)
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-04-28 15:27:10" itemprop="dateCreated datePublished" datetime="2018-04-28T15:27:10+08:00">2018-04-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-12-27 17:56:53" itemprop="dateModified" datetime="2019-12-27T17:56:53+08:00">2019-12-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="小视频笔记-三"><a href="#小视频笔记-三" class="headerlink" title="小视频笔记(三)"></a>小视频笔记(三)</h1><h1 id="8-权限管理"><a href="#8-权限管理" class="headerlink" title="8 权限管理"></a>8 权限管理</h1><h2 id="8-1-ACL权限"><a href="#8-1-ACL权限" class="headerlink" title="8.1 ACL权限"></a>8.1 ACL权限</h2><h3 id="1-权限简介"><a href="#1-权限简介" class="headerlink" title="1.权限简介"></a>1.权限简介</h3><p>Linux的文件有所有者，所属组，其他人三种权限，但这是远远不够的，比如说，有一个project，项目管理员将所有项目人员添加到该项目的所属组中，分配权限770，有一天，临时来了一个成员，该成员需要先进行学习，然后才能工作，这时我们需要对该成员对project分配读和可执行的权限，不能将其他人权限设为5，文件只有一个所属组，所以对project分配两个所属组的方式不成立，显然此时的权限管理方式无法满足要求，这时候就用到ACL权限了，所谓的ACL权限，可以简单的理解为为某一用户或某一组分配不属于所有，所属组，其他人的额外权限。</p>
+<p><img src="https://raw.githubusercontent.com/ccbeango/blogImages/master/Linux/linux%E5%B0%8F%E8%A7%86%E9%A2%9104.png" alt=""></p>
+<h3 id="2-查看分区ACL权限是否开启"><a href="#2-查看分区ACL权限是否开启" class="headerlink" title="2.查看分区ACL权限是否开启"></a>2.查看分区ACL权限是否开启</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 查看分区使用状况</span></span><br><span class="line">~ andy$ df -h</span><br><span class="line">Filesystem      Size   Used  Avail Capacity iused      ifree %iused  Mounted on</span><br><span class="line">/dev/disk1     112Gi   61Gi   51Gi    55% 1632930 4293334349    0%   /</span><br><span class="line">devfs          182Ki  182Ki    0Bi   100%     632          0  100%   /dev</span><br><span class="line">map -hosts       0Bi    0Bi    0Bi   100%       0          0  100%   /net</span><br><span class="line">map auto_home    0Bi    0Bi    0Bi   100%       0          0  100%   /home</span><br></pre></td></tr></table></figure>
+
+<p>命令格式：<code>dumpefs [选项] 分区路径</code></p>
+<p>​    查询指定分区详细文件系统信息的命令 </p>
+<p>选项: </p>
+<p>​    -h 仅显示超级块中信息，而不显示磁盘块组的详细信息 </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dumpe2fs -h /dev/sda3</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-临时开启分区ACL权限"><a href="#3-临时开启分区ACL权限" class="headerlink" title="3.临时开启分区ACL权限"></a>3.临时开启分区ACL权限</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 重新挂载根分区，并挂载加入acl权限</span></span><br><span class="line">[root@localhost ~]# mount -o remount,acl /</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-永久开启分区ACL权限"><a href="#4-永久开启分区ACL权限" class="headerlink" title="4.永久开启分区ACL权限"></a>4.永久开启分区ACL权限</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# vi /etc/fstab</span><br><span class="line">UUID=c2ca6f57-b15c-43ea-bca0-f239083d8bd2 / ext4 defaults,acl #加入acl</span><br><span class="line">[root@localhost ~]# mount -o remount /</span><br><span class="line"><span class="meta">#</span><span class="bash">重新挂载文件系统或重启动系统，使修改生效</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>注：</strong> fastab是系统开机启动默认挂载的文件</p>
+<h3 id="5-设定ACL权限的命令"><a href="#5-设定ACL权限的命令" class="headerlink" title="5. 设定ACL权限的命令"></a>5. 设定ACL权限的命令</h3><p>命令：<code>setfacl 选项 文件名</code> 设置ACL权限</p>
+<p>选项：</p>
+<ul>
+<li>-m       设定ACL权限</li>
+<li>-x         删除指定的ACL权限</li>
+<li>-b         删除所有的ACL权限</li>
+<li>-d         设定默认ACL权限</li>
+<li>-k          删除默认ACL权限</li>
+<li>-R         递归设定ACL权限</li>
+</ul>
+<p>命令：<code>getacl 路径</code> 查看ACL权限</p>
+<p>准备工作，创建需要的用户和用户组</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@262e395bc9e9 ~]# useradd zhangsan</span><br><span class="line">[root@262e395bc9e9 ~]# useradd lisi</span><br><span class="line">[root@262e395bc9e9 ~]# useradd st</span><br><span class="line">[root@262e395bc9e9 ~]# groupadd tgroup</span><br><span class="line">[root@262e395bc9e9 ~]# mkdir /tmp/project</span><br><span class="line">[root@262e395bc9e9 ~]# chown root:tgroup /tmp/project/</span><br><span class="line">[root@262e395bc9e9 ~]# chmod 770 /tmp/project/</span><br></pre></td></tr></table></figure>
+
+<p>给用户设定ACL权限</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 给用户st赋予r-x权限，使用“u:用户名:权限”格式</span></span><br><span class="line">[root@262e395bc9e9 ~]# setfacl -m u:st:rx /tmp/project</span><br><span class="line"><span class="meta">#</span><span class="bash"> 设定结果 多了个“+”</span></span><br><span class="line">[root@262e395bc9e9 ~]# ll -d</span><br><span class="line">drwxrwx---+ 2 root tgroup 4096 Aug  9 07:22 /tmp/project</span><br><span class="line">[root@262e395bc9e9 project]# getfacl .</span><br><span class="line"><span class="meta">#</span><span class="bash"> file: .</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> owner: root</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> group: tgroup</span></span><br><span class="line">user::rwx</span><br><span class="line">user:st:r-x</span><br><span class="line">group::rwx</span><br><span class="line">mask::rwx</span><br><span class="line">other::---</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 切换用户测试 没有w权限</span></span><br><span class="line">[root@262e395bc9e9 project]# su - st</span><br><span class="line">[st@262e395bc9e9 ~]$ cd /tmp/project/</span><br><span class="line">[st@262e395bc9e9 project]$ touch test.js</span><br><span class="line">touch: cannot touch 'test.js': Permission denied</span><br></pre></td></tr></table></figure>
+
+<p>给用户组设定ACL权限</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@262e395bc9e9 project]# groupadd tgroup2</span><br><span class="line">[root@262e395bc9e9 project]# setfacl -m g:tgroup2:rwx /tmp/project</span><br><span class="line">[root@262e395bc9e9 project]# getfacl /tmp/project</span><br><span class="line">getfacl: Removing leading '/' from absolute path names</span><br><span class="line"><span class="meta">#</span><span class="bash"> file: tmp/project</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> owner: root</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> group: tgroup</span></span><br><span class="line">user::rwx</span><br><span class="line">user:st:r-x</span><br><span class="line">group::rwx</span><br><span class="line">group:tgroup2:rwx</span><br><span class="line">mask::rwx</span><br><span class="line">other::---</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-最大有效权限与删除"><a href="#6-最大有效权限与删除" class="headerlink" title="6.最大有效权限与删除"></a>6.最大有效权限与删除</h3><p>​    最大有效权限mask：mask是用来指定最大有效权限的。如果 我给用户赋予了ACL权限，是需要和 mask的权限“相与”才能得到用户的真正权限 。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[root@262e395bc9e9 project]# setfacl -m m:rx /tmp/project</span><br><span class="line">[root@262e395bc9e9 project]# getfacl /tmp/project</span><br><span class="line">getfacl: Removing leading '/' from absolute path names</span><br><span class="line"><span class="meta">#</span><span class="bash"> file: tmp/project</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> owner: root</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> group: tgroup</span></span><br><span class="line">user::rwx</span><br><span class="line">user:st:r-x</span><br><span class="line">group::rwx			    #effective:r-x</span><br><span class="line">group:tgroup2:rwx		#effective:r-x</span><br><span class="line">mask::r-x</span><br><span class="line">other::---</span><br></pre></td></tr></table></figure>
+
+<p>它并不影响所有者的权限，而是影响所属组和ACL的权限。</p>
+<p>删除ACL权限</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 删除指定用户的ACL权限</span></span><br><span class="line">[root@localhost /]# setfacl -x u:用户名 文件名</span><br><span class="line"><span class="meta">#</span><span class="bash"> 删除指定用户组的ACL权限</span></span><br><span class="line">[root@localhost /]# setfacl -x g:组名 文件名</span><br></pre></td></tr></table></figure>
+
+<p>使用：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">[root@262e395bc9e9 project]# setfacl -x g:tgroup2 /tmp/project</span><br><span class="line">[root@262e395bc9e9 project]# getfacl .</span><br><span class="line"><span class="meta">#</span><span class="bash"> file: .</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> owner: root</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> group: tgroup</span></span><br><span class="line">user::rwx</span><br><span class="line">user:st:r-x</span><br><span class="line">group::rwx</span><br><span class="line">mask::rwx</span><br><span class="line">other::---</span><br><span class="line"></span><br><span class="line">[root@262e395bc9e9 project]# setfacl -b /tmp/project</span><br><span class="line">[root@262e395bc9e9 project]# getfacl .</span><br><span class="line"><span class="meta">#</span><span class="bash"> file: .</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> owner: root</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> group: tgroup</span></span><br><span class="line">user::rwx</span><br><span class="line">group::rwx</span><br><span class="line">other::---</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 没“+”</span></span><br><span class="line">[root@262e395bc9e9 project]# ll -d</span><br><span class="line">drwxrwx--- 2 root tgroup 4096 Aug  9 07:22 .</span><br></pre></td></tr></table></figure>
+
+<h3 id="7-默认与递归ACL权限"><a href="#7-默认与递归ACL权限" class="headerlink" title="7.默认与递归ACL权限"></a>7.默认与递归ACL权限</h3><p>​    递归是父目录在设定ACL权限时，所有的子文件和子目录也会拥有相同的ACL权限。 </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setfacl -m u:用户名:权限 -R 目录</span><br></pre></td></tr></table></figure>
+
+<p>​    注：<code>-R</code>只能在这个位置，其他位置会报错</p>
+<p>使用：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@262e395bc9e9 project]# setfacl -m u:st:rx -R /tmp/project </span><br><span class="line">[root@262e395bc9e9 project]# ll -a</span><br><span class="line">total 16</span><br><span class="line">drwxrwx---+ 4 root tgroup 4096 Aug  9 08:26 .</span><br><span class="line">drwxrwxrwt  1 root root   4096 Aug  9 07:22 ..</span><br><span class="line">drwxr-xr-x+ 2 root root   4096 Aug  9 08:25 test1</span><br><span class="line">drwxr-xr-x+ 2 root root   4096 Aug  9 08:26 test2</span><br></pre></td></tr></table></figure>
+
+<p>​    默认ACL权限：如果给父目录设定 了默认ACL权限，那么父目录中所有新建 的子文件都会继承父目录的ACL权限 。这个操作只会对新创建在目录下的文件生效，对现有的文件无影响，如果现有文件也需要设置ACL权限，需要使用递归赋予权限。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setfacl -m d:u:用户名:权限 文件名</span><br></pre></td></tr></table></figure>
+
+<p>​    注：<code>d</code>指的是<code>default</code></p>
+<p>使用：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[root@262e395bc9e9 project]# setfacl -m d:u:st:rx /tmp/project</span><br><span class="line">[root@262e395bc9e9 project]# mkdir test3 </span><br><span class="line">[root@262e395bc9e9 project]# getfacl test3</span><br><span class="line"><span class="meta">#</span><span class="bash"> file: test3</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> owner: root</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> group: root</span></span><br><span class="line">user::rwx</span><br><span class="line">user:st:r-x</span><br><span class="line">group::rwx</span><br><span class="line">mask::rwx</span><br><span class="line">other::---</span><br><span class="line">default:user::rwx</span><br><span class="line">default:user:st:r-x</span><br><span class="line">default:group::rwx</span><br><span class="line">default:mask::rwx</span><br><span class="line">default:other::---</span><br></pre></td></tr></table></figure>
+
+<h2 id="8-2-文件特殊权限"><a href="#8-2-文件特殊权限" class="headerlink" title="8.2 文件特殊权限"></a>8.2 文件特殊权限</h2><h3 id="1-SetUID"><a href="#1-SetUID" class="headerlink" title="1.SetUID"></a>1.SetUID</h3><h3 id="2-SetUID"><a href="#2-SetUID" class="headerlink" title="2.SetUID"></a>2.SetUID</h3><h3 id="3-Sticky-BIT"><a href="#3-Sticky-BIT" class="headerlink" title="3.Sticky BIT"></a>3.Sticky BIT</h3><h2 id="8-3-文件系统属性权限"><a href="#8-3-文件系统属性权限" class="headerlink" title="8.3 文件系统属性权限"></a>8.3 文件系统属性权限</h2><h3 id="chattr"><a href="#chattr" class="headerlink" title="chattr"></a>chattr</h3><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>命令名称</td>
+<td>chattr</td>
+</tr>
+<tr>
+<td>原意</td>
+<td>change attributes</td>
+</tr>
+<tr>
+<td>所在路径</td>
+<td>/usr/bin/chattr</td>
+</tr>
+<tr>
+<td>功能描述</td>
+<td>更改系统文件属性</td>
+</tr>
+<tr>
+<td>语法</td>
+<td>chattr [+-=].  [选项] 文件或目录名</td>
+</tr>
+</tbody></table>
+<p><code>+:增加权限 -：删除权限 =：等于某权限</code></p>
+<p>选项说明:</p>
+<ul>
+<li><code>i</code>: 如果对文件设置i属性，那么不允许对文件进行删除、改名，也不能添加和修改数据;如果对目录设置i属性，那么只能修改目录下文件的数据，但不允许建立和删除文件 。</li>
+<li><code>a</code>: 如果对文件设置a属性，那么只能在文件中增加数据，但是不能删除也不能修改数据(数据增加只能是追加的方式);如果对目录设置<code>a</code>属性，那么只允许在目录中建立和修改文件 ，但是不允许删除 。</li>
+</ul>
+<p><code>chattr</code>对于保护文件系统当中重要数据免遭误操作是非常有效的。但是可以通过<code>+-</code>进行方便的设置是否可以操作，它不是为了限制用户，而是为了防止连在root用户在内的用户进行误操作的措施。</p>
+<h3 id="lsattr"><a href="#lsattr" class="headerlink" title="lsattr"></a>lsattr</h3><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>命令名称</td>
+<td>lsattr</td>
+</tr>
+<tr>
+<td>原意</td>
+<td>ls attributes</td>
+</tr>
+<tr>
+<td>所在路径</td>
+<td>/usr/bin/lsattr</td>
+</tr>
+<tr>
+<td>功能描述</td>
+<td>查看系统文件属性</td>
+</tr>
+<tr>
+<td>语法</td>
+<td>chattr  选项名 文件名</td>
+</tr>
+</tbody></table>
+<p>选项说明：</p>
+<ul>
+<li><code>-a</code>：显示所有文件和目录</li>
+<li><code>-d</code>：若目标是目录，仅列出目录本身的属性，而不是子文件的</li>
+</ul>
+<h2 id="8-4-系统命令sudo权限"><a href="#8-4-系统命令sudo权限" class="headerlink" title="8.4 系统命令sudo权限"></a>8.4 系统命令sudo权限</h2><h3 id="sudo"><a href="#sudo" class="headerlink" title="sudo"></a>sudo</h3><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>命令名称</td>
+<td>sudo</td>
+</tr>
+<tr>
+<td>原意</td>
+<td>super user do</td>
+</tr>
+<tr>
+<td>所在路径</td>
+<td>/usr/bin/sudo</td>
+</tr>
+<tr>
+<td>功能描述</td>
+<td>root把本来只能超级用户执行的命令赋予普通用户执行</td>
+</tr>
+<tr>
+<td>语法</td>
+<td>sudo 系统命令</td>
+</tr>
+</tbody></table>
+<p>使用：</p>
+<ol>
+<li>赋予普通用户权限或用户组权限</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 实际修改的是/etc/sudoers文件 直接用vi修改这个文件也可以</span></span><br><span class="line">[root@262e395bc9e9 tmp]# visudo</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 用户名 被管理主机的地址=(可使用的身份)  授权命令(绝对路径)</span></span><br><span class="line">root ALL=(ALL)          ALL</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> %组名 被管理主机的地址=(可使用的身份)   授权命令(绝对路径)</span></span><br><span class="line"><span class="meta">%</span><span class="bash">wheel  ALL=(ALL)       ALL</span></span><br></pre></td></tr></table></figure>
+
+<p><code>ALL=(ALL)</code>第一个<code>ALL</code>并不是定义允许哪个ip地址或网络允许访问我们，而是定义允许哪一个用户在哪一台计算机上执行某一条命令，即写的是被管理主机的地址。限制的是访问IP而不是来源IP。第二个<code>ALL</code>指的是可使用的用户。第三个<code>ALL</code>标识授权命令，写ALL其实是不合理的，赋予的能力过于强大，正常来讲，应该写具体哪个命令，使用的是绝对路径。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@262e395bc9e9 tmp]# visudo</span><br><span class="line">sc ALL= /sbin/shutdown –r now</span><br><span class="line"><span class="meta">#</span><span class="bash"> 赋予sc此权限很危险，用户可以操作任何文件。不过看公司使用全都给的ALL。。。</span></span><br><span class="line">sc ALL=/usr/bin/vim</span><br></pre></td></tr></table></figure>
+
+<p>注意：如果命令写的越简单，代表用户具有的权限越大。比如说上面的命令没有写<code>-r now</code>代表用户可以执行<code>shutdown</code>的所有参数。即命令可以根据需求，进行修改。</p>
+<p><code>sudo -l</code>可查看拥有的权限</p>
+<h1 id="9-文件系统管理"><a href="#9-文件系统管理" class="headerlink" title="9.文件系统管理"></a>9.文件系统管理</h1><h2 id="9-1-分区和文件系统"><a href="#9-1-分区和文件系统" class="headerlink" title="9.1 分区和文件系统"></a>9.1 分区和文件系统</h2><h3 id="1-分区类型"><a href="#1-分区类型" class="headerlink" title="1.分区类型"></a>1.分区类型</h3><p>分区有三种类型：</p>
+<ul>
+<li>主分区： 总共最多只能分四个</li>
+<li>扩展分区：只能有一个，也算作主分区的一种 ，也就是说主分区加扩展分区最多有四个。但是扩展分区不能存储数据和格式化，必须再划分成逻辑分区才能使用。 </li>
+<li>逻辑分区：逻辑分区是在扩展分区中划分的， 如果是<code>IDE</code>硬盘，<code>Linux</code>最多支持<strong>59</strong>个逻辑分区 ，如果是<code>SCSI</code>硬盘<code>Linux</code>最多支持<code>11</code>个逻辑分区 。</li>
+</ul>
+<p>​         分区可以理解为把一个大柜子分为几个小柜子，但是只允许打四个柜子，但当物品分类更多四个柜子不够用时，可以把其中一个小柜子再进行划分成更细致的柜子。这种分区方法的目的就是为了突破四个分区的限制。</p>
+<p>分区表示方法：</p>
+<p>设备文件名</p>
+<table>
+<thead>
+<tr>
+<th>分区名称</th>
+<th>文件名</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>主分区1</td>
+<td>/dev/sda1</td>
+</tr>
+<tr>
+<td>主分区2</td>
+<td>/dev/sda2</td>
+</tr>
+<tr>
+<td>主分区3</td>
+<td>/dev/sda3</td>
+</tr>
+<tr>
+<td>扩展分区</td>
+<td>/dev/sda4</td>
+</tr>
+<tr>
+<td>逻辑分区1</td>
+<td>/dev/sda5</td>
+</tr>
+<tr>
+<td>逻辑分区2</td>
+<td>/dev/sda6</td>
+</tr>
+<tr>
+<td>逻辑分区3</td>
+<td>/dev/sda7</td>
+</tr>
+</tbody></table>
+<p>注：<code>sd</code>代表<code>SCSI</code>或<code>sdtype</code>硬盘接口，<code>a</code>代表第一块硬盘，<code>1 2 3 4</code>代表四个主分区，只能给主分区使用，就算空下来也不能给逻辑分区使用。 从<code>5</code>开始代表逻辑分区。</p>
+<p><img src="https://raw.githubusercontent.com/ccbeango/blogImages/master/Linux/linux%E5%B0%8F%E8%A7%86%E9%A2%9105.png" alt=""></p>
+<p>更习惯的分区方式是:</p>
+<p><img src="https://raw.githubusercontent.com/ccbeango/blogImages/master/Linux/linux%E5%B0%8F%E8%A7%86%E9%A2%9106.jpg" alt=""></p>
+<h3 id="2-文件系统"><a href="#2-文件系统" class="headerlink" title="2.文件系统"></a>2.文件系统</h3><p>有了分区之后，硬盘还不能使用，必须格式化之后才可以使用。格式化就是为了写入文件系统。</p>
+<p>Linux默认文件系统分类：</p>
+<ul>
+<li><code>ext2</code>：是ext文件系统的升级版本，Red Hat Linux7.2版本以前的系统默认都是ext2 文件系统。1993年发布，最大支持16TB 的分区和最大2TB的文件<code>1TB=1024GB=1024*1024KB</code>。</li>
+<li><code>ext3</code>：ext3文件系统是ext2文件系统的升 级版本，最大的区别就是带日志功能，以在系统突然停止时提高文件系统的可靠性 。支持最大16TB的分区和最大2TB的文件 。</li>
+<li><code>ext4</code>：它是ext3文件系统的升级版。ext4 在性能 、伸缩性和可靠性方面进行了大量改进。EXT4的变化可以说是翻天覆地的，比如向下兼容 EXT3、最大1EB文件系统和16TB文件、无限数量子目录、Extents连续数据块概念、多块分配 、延迟分配、持久预分配、快速FSCK、日志校 验、无日志模式、在线碎片整理、inode增强、 默认启用barrier等。<code>1EB=1024PB=1024*1024TB</code></li>
+</ul>
+<h2 id="9-2-文件系统常用命令"><a href="#9-2-文件系统常用命令" class="headerlink" title="9.2 文件系统常用命令"></a>9.2 文件系统常用命令</h2><h3 id="1-挂载命令"><a href="#1-挂载命令" class="headerlink" title="1.  挂载命令"></a>1.  挂载命令</h3><h4 id="df"><a href="#df" class="headerlink" title="df"></a>df</h4><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>命令名称</td>
+<td>df</td>
+</tr>
+<tr>
+<td>原意</td>
+<td></td>
+</tr>
+<tr>
+<td>所在路径</td>
+<td>/usr/bin/df</td>
+</tr>
+<tr>
+<td>功能描述</td>
+<td>统计文件系统的占用情况</td>
+</tr>
+<tr>
+<td>语法</td>
+<td><code>df [选项] [挂载点]</code></td>
+</tr>
+</tbody></table>
+<p>选项说明：</p>
+<ul>
+<li><code>-a</code>：显示所有的文件系统信息，包括特殊文件系统，如 /proc、/sysfs </li>
+<li><code>-h</code>：使用习惯单位显示容量，如KB，MB或GB等 </li>
+<li><code>-T</code>：显示文件系统类型</li>
+<li><code>-m</code>：以MB为单位显示容量</li>
+<li><code>-k</code>：以KB为单位显示容量。默认就是以KB为单位</li>
+</ul>
+<h4 id="du"><a href="#du" class="headerlink" title="du"></a>du</h4><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>命令名称</td>
+<td>du</td>
+</tr>
+<tr>
+<td>原意</td>
+<td></td>
+</tr>
+<tr>
+<td>所在路径</td>
+<td>/usr/bin/du</td>
+</tr>
+<tr>
+<td>功能描述</td>
+<td>统计目录或文件大小</td>
+</tr>
+<tr>
+<td>语法</td>
+<td><code>df [选项] [挂载点]</code></td>
+</tr>
+</tbody></table>
+<p>选项说明：</p>
+<ul>
+<li><code>-a</code>：显示每个子文件的磁盘占用量。默认只统计子目录的磁盘占用量 </li>
+<li><code>-h</code>：使用习惯单位显示磁盘占用量，如KB，MB或GB等 </li>
+<li><code>-s</code>：统计总占用量，而不列出子目录和子文件的占用量 </li>
+</ul>
+<p>注:此命令一般不用做统计文件大小，因为完全可用<code>ls</code>代替，但<code>ls</code>统计目录大小时，只会统计目录下一级子目录和文件的文件名所占用空间大小，而不会统计子目录和文件中的数据占用的空间多大。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">[root@262e395bc9e9 /]# ls -lh /</span><br><span class="line">total 56K</span><br><span class="line">-rw-r--r--   1 root root  12K Aug  4 22:05 anaconda-post.log</span><br><span class="line">lrwxrwxrwx   1 root root    7 Aug  4 22:04 bin -&gt; usr/bin</span><br><span class="line">drwxr-xr-x   5 root root  360 Aug  8 09:30 dev</span><br><span class="line">drwxr-xr-x   1 root root 4.0K Aug  9 13:06 etc</span><br><span class="line">drwxr-xr-x   1 root root 4.0K Aug  9 07:39 home</span><br><span class="line">lrwxrwxrwx   1 root root    7 Aug  4 22:04 lib -&gt; usr/lib</span><br><span class="line">lrwxrwxrwx   1 root root    9 Aug  4 22:04 lib64 -&gt; usr/lib64</span><br><span class="line">drwxr-xr-x   2 root root 4.0K Apr 11 04:59 media</span><br><span class="line">drwxr-xr-x   2 root root 4.0K Apr 11 04:59 mnt</span><br><span class="line">drwxr-xr-x   2 root root 4.0K Apr 11 04:59 opt</span><br><span class="line">dr-xr-xr-x 166 root root    0 Aug  8 09:30 proc</span><br><span class="line">dr-xr-x---   1 root root 4.0K Aug  8 09:30 root</span><br><span class="line">drwxr-xr-x   1 root root 4.0K Aug 10 03:19 run</span><br><span class="line">lrwxrwxrwx   1 root root    8 Aug  4 22:04 sbin -&gt; usr/sbin</span><br><span class="line">drwxr-xr-x   2 root root 4.0K Apr 11 04:59 srv</span><br><span class="line">dr-xr-xr-x  13 root root    0 Aug 10 03:52 sys</span><br><span class="line">drwxrwxrwt   1 root root 4.0K Aug  9 12:28 tmp</span><br><span class="line">drwxr-xr-x   1 root root 4.0K Aug  4 22:04 usr</span><br><span class="line">drwxr-xr-x   1 root root 4.0K Aug  4 22:04 var</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@262e395bc9e9 /]# du -sh /etc/</span><br><span class="line">2.7M	/etc/</span><br></pre></td></tr></table></figure>
+
+<p><strong>du命令和df命令的区别：</strong></p>
+<p> <code>df</code>命令是从文件系统考虑的，不光要考虑文件占用的空间，还要统计被命令或程序占用的空间(最常见的就是文件已经删除 ，但是程序并没有释放空间) ；<code>du</code>命令是面向文件的，只会计算文件或目录占用的空间。</p>
+<h4 id="fsck"><a href="#fsck" class="headerlink" title="fsck"></a>fsck</h4><p>系统在启动时会自动执行，不需要手动执行，是底层修复命令，自己执行有时候反而会出问题，了解就好</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>命令名称</td>
+<td>fsck</td>
+</tr>
+<tr>
+<td>原意</td>
+<td></td>
+</tr>
+<tr>
+<td>所在路径</td>
+<td>/usr/sbin/fsck</td>
+</tr>
+<tr>
+<td>功能描述</td>
+<td>文件系统修复命令</td>
+</tr>
+<tr>
+<td>语法</td>
+<td><code>df [选项] [挂载点]</code></td>
+</tr>
+</tbody></table>
+<p>选项说明：</p>
+<ul>
+<li><code>-a</code>：不用显示用户提示，自动修复文件系统 </li>
+<li><code>-y</code>：自动修复。和-a作用一致，不过有些文件系统只支持<code>-y</code> </li>
+</ul>
+<h4 id="dumpe2fs"><a href="#dumpe2fs" class="headerlink" title="dumpe2fs"></a>dumpe2fs</h4><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>命令名称</td>
+<td>dumpe2fs</td>
+</tr>
+<tr>
+<td>原意</td>
+<td></td>
+</tr>
+<tr>
+<td>所在路径</td>
+<td>/usr/sbin/dumpe2fs</td>
+</tr>
+<tr>
+<td>功能描述</td>
+<td>显示磁盘状态 （主要用来查看数据块大小）</td>
+</tr>
+<tr>
+<td>语法</td>
+<td><code>dumpe2fs [选项] 分区设备文件名</code></td>
+</tr>
+</tbody></table>
+<h3 id="2-挂载命令"><a href="#2-挂载命令" class="headerlink" title="2.挂载命令"></a>2.挂载命令</h3><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>命令名称</td>
+<td>mount</td>
+</tr>
+<tr>
+<td>原意</td>
+<td></td>
+</tr>
+<tr>
+<td>所在路径</td>
+<td>/usr/bin/mount</td>
+</tr>
+<tr>
+<td>功能描述</td>
+<td>查询和挂载</td>
+</tr>
+<tr>
+<td>语法</td>
+<td><code>mount [-la][-t 文件系统][-L 卷标名][-o 特殊选项] 设备文件名 挂载点</code></td>
+</tr>
+</tbody></table>
+<p>选项说明：</p>
+<ul>
+<li><p><code>-l</code>：查询系统中已经挂载的设备时，会显示卷标名称。</p>
+</li>
+<li><p><code>-a</code>：根据配置文件<code>/etc/fstab</code>的内容，自动挂载</p>
+</li>
+<li><p><code>-t 文件系统</code>：加入文件系统类型来指定挂载的类型，可以<code>ext3</code>、<code>ext4</code>、<code>iso9600</code>等文件系统</p>
+</li>
+<li><p><code>-L 卷标名</code>：挂载指定卷标的分区，而不是安装设备文件名挂载</p>
+</li>
+<li><p><code>-o 特殊选项</code>：可以指定挂载的额外选项，用逗号隔开特殊选项，如：<code>remount,noexec</code></p>
+<p>特殊选项说明：</p>
+<p><img src="https://raw.githubusercontent.com/ccbeango/blogImages/master/Linux/linux%E5%B0%8F%E8%A7%86%E9%A2%9107.jpg" alt=""></p>
+</li>
+</ul>
+<p>把设备文件名和挂载点连接起来</p>
+<p>使用：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">重新挂载/boot分区，并使用noexec权限 </span></span><br><span class="line">[root@localhost sh]# mount -o remount,noexec /home</span><br><span class="line">[root@localhost sh]# cd /home </span><br><span class="line">[root@localhost boot]# vi hello.sh </span><br><span class="line">[root@localhost boot]# ./hello.sh</span><br><span class="line">[root@localhost boot]# chmod 755 hello.sh</span><br><span class="line">hello world</span><br><span class="line">[root@localhost boot]# mount -o remount,exec /home</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-挂载光盘与U盘"><a href="#3-挂载光盘与U盘" class="headerlink" title="3.挂载光盘与U盘"></a>3.挂载光盘与U盘</h3><h4 id="mount挂载光盘"><a href="#mount挂载光盘" class="headerlink" title="mount挂载光盘"></a>mount挂载光盘</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">建立挂载点</span></span><br><span class="line">[root@localhost ~]# mkdir /mnt/cdrom/</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">挂载光盘 </span></span><br><span class="line">[root@localhost ~]# mount -t iso9660 /dev/cdrom /mnt/cdrom/</span><br><span class="line"></span><br><span class="line">[root@localhost ~]# mount /dev/sr0 /mnt/cdrom/</span><br></pre></td></tr></table></figure>
+
+<p><code>mount</code>其实就是把设备文件和挂载点连接起来。上述就是把<code>/dev/cdrom</code>设备文件挂载到<code>/mnt/cdrom</code>。</p>
+<p>挂载挂盘时，设备文件使用<code>/dev/cdrom</code>和<code>/dev/sr0</code>效果相同，其实前者是后者的一个软链接。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# ll /dev/cdrom</span><br><span class="line">lrwxrwxrwx. l root root 3 1月 14 17：26 /dev/cdrom -&gt; sr0</span><br></pre></td></tr></table></figure>
+
+<p>访问数据的时候，直接去挂载点访问数据。</p>
+<h4 id="unmount卸载光盘"><a href="#unmount卸载光盘" class="headerlink" title="unmount卸载光盘"></a>unmount卸载光盘</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# umount 设备文件名或挂载点</span><br><span class="line">[root@localhost ~]# umount /mnt/cdrom</span><br></pre></td></tr></table></figure>
+
+<h4 id="挂载U盘"><a href="#挂载U盘" class="headerlink" title="挂载U盘"></a>挂载U盘</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 查看U盘设备文件名</span></span><br><span class="line">[root@localhost ~]# fdisk –l</span><br><span class="line">[root@localhost ~]# mount -t vfat /dev/sdb1 /mnt/usb/</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意:</strong>Linux默认是不支持NTFS文件系统的。在Linux中， 把<code>fat</code>和<code>fat16</code>分区识别为<code>fat</code>,把<code>fat32</code>分区识别为<code>vfat</code>。</p>
+<h3 id="4-fdisk分区"><a href="#4-fdisk分区" class="headerlink" title="4.fdisk分区"></a>4.fdisk分区</h3><h4 id="1-fdisk命令分区过程"><a href="#1-fdisk命令分区过程" class="headerlink" title="1.fdisk命令分区过程"></a>1.fdisk命令分区过程</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 1. 添加新硬盘</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 2. 查看新硬盘</span></span><br><span class="line">[root@localhost ~]# fdisk -l</span><br><span class="line"><span class="meta">#</span><span class="bash"> 3. 使用fdisk命令分区</span></span><br><span class="line">[root@localhost ~]# fdisk /dev/sdb</span><br><span class="line"><span class="meta">#</span><span class="bash"> 4. 重新读取分区</span></span><br><span class="line">[root@localhost ~]# partprobe</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/ccbeango/blogImages/master/Linux/linux%E5%B0%8F%E8%A7%86%E9%A2%9108.jpg" alt=""></p>
+<h4 id="2"><a href="#2" class="headerlink" title="2."></a>2.</h4>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/04/Linux/%E5%B0%8F%E8%A7%86%E9%A2%91%E7%AC%94%E8%AE%B0%EF%BC%88%E4%BA%8C%EF%BC%89/" rel="prev" title="小视频笔记（二）">
+      <i class="fa fa-chevron-left"></i> 小视频笔记（二）
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/07/JavaScript/%E5%85%B3%E4%BA%8EJSON/" rel="next" title="关于JSON">
+      关于JSON <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#小视频笔记-三"><span class="nav-number">1.</span> <span class="nav-text">小视频笔记(三)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#8-权限管理"><span class="nav-number">2.</span> <span class="nav-text">8 权限管理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#8-1-ACL权限"><span class="nav-number">2.1.</span> <span class="nav-text">8.1 ACL权限</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-权限简介"><span class="nav-number">2.1.1.</span> <span class="nav-text">1.权限简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-查看分区ACL权限是否开启"><span class="nav-number">2.1.2.</span> <span class="nav-text">2.查看分区ACL权限是否开启</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-临时开启分区ACL权限"><span class="nav-number">2.1.3.</span> <span class="nav-text">3.临时开启分区ACL权限</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-永久开启分区ACL权限"><span class="nav-number">2.1.4.</span> <span class="nav-text">4.永久开启分区ACL权限</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-设定ACL权限的命令"><span class="nav-number">2.1.5.</span> <span class="nav-text">5. 设定ACL权限的命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-最大有效权限与删除"><span class="nav-number">2.1.6.</span> <span class="nav-text">6.最大有效权限与删除</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-默认与递归ACL权限"><span class="nav-number">2.1.7.</span> <span class="nav-text">7.默认与递归ACL权限</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-2-文件特殊权限"><span class="nav-number">2.2.</span> <span class="nav-text">8.2 文件特殊权限</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-SetUID"><span class="nav-number">2.2.1.</span> <span class="nav-text">1.SetUID</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-SetUID"><span class="nav-number">2.2.2.</span> <span class="nav-text">2.SetUID</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-Sticky-BIT"><span class="nav-number">2.2.3.</span> <span class="nav-text">3.Sticky BIT</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-3-文件系统属性权限"><span class="nav-number">2.3.</span> <span class="nav-text">8.3 文件系统属性权限</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#chattr"><span class="nav-number">2.3.1.</span> <span class="nav-text">chattr</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#lsattr"><span class="nav-number">2.3.2.</span> <span class="nav-text">lsattr</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-4-系统命令sudo权限"><span class="nav-number">2.4.</span> <span class="nav-text">8.4 系统命令sudo权限</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#sudo"><span class="nav-number">2.4.1.</span> <span class="nav-text">sudo</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#9-文件系统管理"><span class="nav-number">3.</span> <span class="nav-text">9.文件系统管理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#9-1-分区和文件系统"><span class="nav-number">3.1.</span> <span class="nav-text">9.1 分区和文件系统</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-分区类型"><span class="nav-number">3.1.1.</span> <span class="nav-text">1.分区类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-文件系统"><span class="nav-number">3.1.2.</span> <span class="nav-text">2.文件系统</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-2-文件系统常用命令"><span class="nav-number">3.2.</span> <span class="nav-text">9.2 文件系统常用命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-挂载命令"><span class="nav-number">3.2.1.</span> <span class="nav-text">1.  挂载命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#df"><span class="nav-number">3.2.1.1.</span> <span class="nav-text">df</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#du"><span class="nav-number">3.2.1.2.</span> <span class="nav-text">du</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#fsck"><span class="nav-number">3.2.1.3.</span> <span class="nav-text">fsck</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dumpe2fs"><span class="nav-number">3.2.1.4.</span> <span class="nav-text">dumpe2fs</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-挂载命令"><span class="nav-number">3.2.2.</span> <span class="nav-text">2.挂载命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-挂载光盘与U盘"><span class="nav-number">3.2.3.</span> <span class="nav-text">3.挂载光盘与U盘</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#mount挂载光盘"><span class="nav-number">3.2.3.1.</span> <span class="nav-text">mount挂载光盘</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#unmount卸载光盘"><span class="nav-number">3.2.3.2.</span> <span class="nav-text">unmount卸载光盘</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#挂载U盘"><span class="nav-number">3.2.3.3.</span> <span class="nav-text">挂载U盘</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-fdisk分区"><span class="nav-number">3.2.4.</span> <span class="nav-text">4.fdisk分区</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-fdisk命令分区过程"><span class="nav-number">3.2.4.1.</span> <span class="nav-text">1.fdisk命令分区过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2"><span class="nav-number">3.2.4.2.</span> <span class="nav-text">2.</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Ccbeango</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ccbeango</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/disqusjs@1/dist/disqusjs.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/disqusjs@1/dist/disqus.js', () => {
+    window.dsqjs = new DisqusJS({
+      api       : '' || 'https://disqus.com/api/',
+      apikey    : 'n0H52UV8sKsjEsyFEXK4e2qtX0Qk564dFYnOS40Bx8qLbFBVBw7sDeJipwjAPxyM',
+      shortname : 'ccbeango',
+      url       : "http://yoursite.com/2018/04/Linux/%E5%B0%8F%E8%A7%86%E9%A2%91%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%89%EF%BC%89/",
+      identifier: "2018/04/Linux/小视频笔记（三）/",
+      title     : "小视频笔记(三)",
+    });
+  }, window.DisqusJS);
+});
+</script>
+
+</body>
+</html>

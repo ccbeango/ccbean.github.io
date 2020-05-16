@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Mist","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="react实现按需加载-代码分割（上）前言我们直接使用webpack配置的react环境，在编译打包之后，页面只生成了一个文件bundle.js，这样在首屏加载时就会很慢，因为加载一个页面的时候也同时加载了其他页面的js，首次进入页面时，只加载自己的JS，这样首屏加载就会快很多。 一、按需加载1.首屏加载需要使用bundle-loader这个插件，所以先安装这个插件 1npm install bu">
+<meta property="og:type" content="article">
+<meta property="og:title" content="react实现按需加载-代码分割（上）">
+<meta property="og:url" content="http://yoursite.com/2017/12/React/%E6%8C%89%E9%9C%80%E5%8A%A0%E8%BD%BD%EF%BC%88%E4%B8%8A%EF%BC%89/index.html">
+<meta property="og:site_name" content="凹凸豆的博客">
+<meta property="og:description" content="react实现按需加载-代码分割（上）前言我们直接使用webpack配置的react环境，在编译打包之后，页面只生成了一个文件bundle.js，这样在首屏加载时就会很慢，因为加载一个页面的时候也同时加载了其他页面的js，首次进入页面时，只加载自己的JS，这样首屏加载就会快很多。 一、按需加载1.首屏加载需要使用bundle-loader这个插件，所以先安装这个插件 1npm install bu">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://camo.githubusercontent.com/e9c041242d52d16bc841253126000ef029ebfd99/687474703a2f2f6f71636238646a6c772e626b742e636c6f7564646e2e636f6d2f7061636b6167652e706e67">
+<meta property="article:published_time" content="2017-12-29T02:27:10.000Z">
+<meta property="article:modified_time" content="2019-12-27T09:56:53.355Z">
+<meta property="article:author" content="Ccbeango">
+<meta property="article:tag" content="HTML">
+<meta property="article:tag" content="React">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://camo.githubusercontent.com/e9c041242d52d16bc841253126000ef029ebfd99/687474703a2f2f6f71636238646a6c772e626b742e636c6f7564646e2e636f6d2f7061636b6167652e706e67">
+
+<link rel="canonical" href="http://yoursite.com/2017/12/React/%E6%8C%89%E9%9C%80%E5%8A%A0%E8%BD%BD%EF%BC%88%E4%B8%8A%EF%BC%89/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>react实现按需加载-代码分割（上） | 凹凸豆的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">凹凸豆的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">那天，黄昏，开始飘起来白雪</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/React/%E6%8C%89%E9%9C%80%E5%8A%A0%E8%BD%BD%EF%BC%88%E4%B8%8A%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ccbeango">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="凹凸豆的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          react实现按需加载-代码分割（上）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-12-29 10:27:10" itemprop="dateCreated datePublished" datetime="2017-12-29T10:27:10+08:00">2017-12-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-12-27 17:56:53" itemprop="dateModified" datetime="2019-12-27T17:56:53+08:00">2019-12-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/React/" itemprop="url" rel="index"><span itemprop="name">React</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="react实现按需加载-代码分割（上）"><a href="#react实现按需加载-代码分割（上）" class="headerlink" title="react实现按需加载-代码分割（上）"></a>react实现按需加载-代码分割（上）</h1><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>我们直接使用<code>webpack</code>配置的<code>react</code>环境，在编译打包之后，页面只生成了一个文件<code>bundle.js</code>，这样在首屏加载时就会很慢，因为加载一个页面的时候也同时加载了其他页面的<code>js</code>，首次进入页面时，只加载自己的JS，这样首屏加载就会快很多。</p>
+<h3 id="一、按需加载"><a href="#一、按需加载" class="headerlink" title="一、按需加载"></a>一、按需加载</h3><p>1.首屏加载需要使用<code>bundle-loader</code>这个插件，所以先安装这个插件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install bundle-loader --save-dev</span><br></pre></td></tr></table></figure>
+
+<p>2.新建<code>Bundle.js</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123;Component&#125; <span class="keyword">from</span> <span class="string">'react'</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bundle</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(props)&#123;</span><br><span class="line">        <span class="keyword">super</span>(props);</span><br><span class="line">        <span class="keyword">this</span>.state = &#123;</span><br><span class="line">            <span class="comment">// short for "module" but that's a keyword in js, so "mod"</span></span><br><span class="line">            mod: <span class="literal">null</span></span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    componentWillMount() &#123;</span><br><span class="line">        <span class="keyword">this</span>.load(<span class="keyword">this</span>.props)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    componentWillReceiveProps(nextProps) &#123;</span><br><span class="line">        <span class="keyword">if</span> (nextProps.load !== <span class="keyword">this</span>.props.load) &#123;</span><br><span class="line">            <span class="keyword">this</span>.load(nextProps)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    load(props) &#123;</span><br><span class="line">        <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">            mod: <span class="literal">null</span></span><br><span class="line">        &#125;);</span><br><span class="line">        props.load(<span class="function">(<span class="params">mod</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">                <span class="comment">// handle both es imports and cjs</span></span><br><span class="line">                mod: mod.default ? mod.default : mod</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    render() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.props.children(<span class="keyword">this</span>.state.mod)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> Bundle;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>此文件是官方提供，参考文档</p>
+</blockquote>
+<p>3.改造路由器</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 原路由文件</span></span><br><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;Route,Switch,Redirect&#125; <span class="keyword">from</span> <span class="string">'react-router-dom'</span>;</span><br><span class="line"><span class="keyword">import</span> Login <span class="keyword">from</span> <span class="string">'./container/login/login'</span></span><br><span class="line"><span class="keyword">import</span> Register <span class="keyword">from</span> <span class="string">"./container/register/register"</span>;</span><br><span class="line"><span class="keyword">import</span> Bossinfo <span class="keyword">from</span> <span class="string">"./container/bossinfo/bossinfo"</span>;</span><br><span class="line"><span class="keyword">import</span> Geniusinfo <span class="keyword">from</span> <span class="string">"./container/geniusinfo/geniusinfo"</span>;</span><br><span class="line"><span class="keyword">import</span> AuthRoute <span class="keyword">from</span> <span class="string">"./components/authroute/authroute"</span>;</span><br><span class="line"><span class="keyword">import</span> Dashboard <span class="keyword">from</span> <span class="string">"./components/dashboard/dashboard"</span>;</span><br><span class="line"><span class="keyword">import</span> Chat <span class="keyword">from</span> <span class="string">'./components/chat/chat'</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">App</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span></span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(props)&#123;</span><br><span class="line">        <span class="keyword">super</span>(props);</span><br><span class="line">        <span class="keyword">this</span>.state = &#123;</span><br><span class="line">            hasError:<span class="literal">false</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    componentDidCatch(err,info)&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(err,info);</span><br><span class="line">        <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">            hasError:<span class="literal">true</span></span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    render()&#123;</span><br><span class="line">        <span class="keyword">return</span>(</span><br><span class="line">            <span class="keyword">this</span>.state.hasError ? <span class="xml"><span class="tag">&lt;<span class="name">Redirect</span> <span class="attr">to</span>=<span class="string">'/msg'</span>&gt;</span><span class="tag">&lt;/<span class="name">Redirect</span>&gt;</span></span></span><br><span class="line">                :</span><br><span class="line">            &lt;div&gt;</span><br><span class="line">                &lt;AuthRoute/&gt;</span><br><span class="line">                &lt;Switch&gt;</span><br><span class="line">                    &lt;Route path=<span class="string">'/login'</span> component=&#123;Login&#125;&gt;&lt;<span class="regexp">/Route&gt;</span></span><br><span class="line"><span class="regexp">                    &lt;Route path='/</span>register<span class="string">' component=&#123;Register&#125;&gt;&lt;/Route&gt;</span></span><br><span class="line"><span class="string">                    &lt;Route path='</span>/bossinfo<span class="string">' component=&#123;Bossinfo&#125;&gt;&lt;/Route&gt;</span></span><br><span class="line"><span class="string">                    &lt;Route path='</span>/geniusinfo<span class="string">' component=&#123;Geniusinfo&#125;&gt;&lt;/Route&gt;</span></span><br><span class="line"><span class="string">                    &lt;Route path='</span>/chat/:user<span class="string">' component=&#123;Chat&#125;&gt;&lt;/Route&gt;</span></span><br><span class="line"><span class="string">                    &lt;Route component=&#123;Dashboard&#125;&gt;&lt;/Route&gt;</span></span><br><span class="line"><span class="string">                &lt;/Switch&gt;</span></span><br><span class="line"><span class="string">            &lt;/div&gt;</span></span><br><span class="line"><span class="string">        )</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">export default App;</span></span><br></pre></td></tr></table></figure>
+
+<p>改造：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;Route,Switch,Redirect&#125; <span class="keyword">from</span> <span class="string">'react-router-dom'</span>;</span><br><span class="line"><span class="keyword">import</span> Bundle <span class="keyword">from</span> <span class="string">'./Bundle'</span>;</span><br><span class="line"><span class="keyword">import</span> Login <span class="keyword">from</span> <span class="string">'bundle-loader?lazy&amp;name=login!./container/login/login'</span></span><br><span class="line"><span class="keyword">import</span> Register <span class="keyword">from</span> <span class="string">"bundle-loader?lazy&amp;name=register!./container/register/register"</span>;</span><br><span class="line"><span class="keyword">import</span> Bossinfo <span class="keyword">from</span> <span class="string">"bundle-loader?lazy&amp;name=bossinfo!./container/bossinfo/bossinfo"</span>;</span><br><span class="line"><span class="keyword">import</span> Geniusinfo <span class="keyword">from</span> <span class="string">"bundle-loader?lazy&amp;name=geniusinfo!./container/geniusinfo/geniusinfo"</span>;</span><br><span class="line"><span class="keyword">import</span> AuthRoute <span class="keyword">from</span> <span class="string">"bundle-loader?lazy&amp;name=authroute!./components/authroute/authroute"</span>;</span><br><span class="line"><span class="keyword">import</span> Dashboard <span class="keyword">from</span> <span class="string">"bundle-loader?lazy&amp;name=dashboard!./components/dashboard/dashboard"</span>;</span><br><span class="line"><span class="keyword">import</span> Chat <span class="keyword">from</span> <span class="string">'bundle-loader?lazy&amp;name=chat!./components/chat/chat'</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Loading = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span>Loading...<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 调用bundle高阶组件，包裹原始组件</span></span><br><span class="line"><span class="keyword">const</span> createComponent = <span class="function">(<span class="params">component</span>) =&gt;</span> <span class="function">(<span class="params">props</span>) =&gt;</span> (</span><br><span class="line">    &lt;Bundle load=&#123;component&#125;&gt;</span><br><span class="line">        &#123;</span><br><span class="line">            (Component) =&gt; Component ? <span class="xml"><span class="tag">&lt;<span class="name">Component</span> &#123;<span class="attr">...props</span>&#125;/&gt;</span></span> : <span class="xml"><span class="tag">&lt;<span class="name">Loading</span>/&gt;</span></span></span><br><span class="line">        &#125;</span><br><span class="line">    &lt;<span class="regexp">/Bundle&gt;</span></span><br><span class="line"><span class="regexp">);</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">class App extends React.Component&#123;</span></span><br><span class="line"><span class="regexp">    constructor(props)&#123;</span></span><br><span class="line"><span class="regexp">        super(props);</span></span><br><span class="line"><span class="regexp">        this.state = &#123;</span></span><br><span class="line"><span class="regexp">            hasError:false</span></span><br><span class="line"><span class="regexp">        &#125;</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">    componentDidCatch(err,info)&#123;</span></span><br><span class="line"><span class="regexp">        console.log(err,info);</span></span><br><span class="line"><span class="regexp">        this.setState(&#123;</span></span><br><span class="line"><span class="regexp">            hasError:true</span></span><br><span class="line"><span class="regexp">        &#125;)</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">    render()&#123;</span></span><br><span class="line"><span class="regexp">        return(</span></span><br><span class="line"><span class="regexp">            this.state.hasError ? &lt;Redirect to='/m</span>sg<span class="string">'&gt;&lt;/Redirect&gt;</span></span><br><span class="line"><span class="string">                :</span></span><br><span class="line"><span class="string">            &lt;div&gt;</span></span><br><span class="line"><span class="string">                &lt;AuthRoute/&gt;</span></span><br><span class="line"><span class="string">                &lt;Switch&gt;</span></span><br><span class="line"><span class="string">                    &lt;Route path='</span>/login<span class="string">' component=&#123;createComponent(Login)&#125;&gt;&lt;/Route&gt;</span></span><br><span class="line"><span class="string">                    &lt;Route path='</span>/register<span class="string">' component=&#123;createComponent(Register)&#125;&gt;&lt;/Route&gt;</span></span><br><span class="line"><span class="string">                    &lt;Route path='</span>/bossinfo<span class="string">' component=&#123;createComponent(Bossinfo)&#125;&gt;&lt;/Route&gt;</span></span><br><span class="line"><span class="string">                    &lt;Route path='</span>/geniusinfo<span class="string">' component=&#123;createComponent(Geniusinfo)&#125;&gt;&lt;/Route&gt;</span></span><br><span class="line"><span class="string">                    &lt;Route path='</span>/chat/:user<span class="string">' component=&#123;createComponent(Chat)&#125;&gt;&lt;/Route&gt;</span></span><br><span class="line"><span class="string">                    &lt;Route component=&#123;createComponent(Dashboard)&#125;&gt;&lt;/Route&gt;</span></span><br><span class="line"><span class="string">                &lt;/Switch&gt;</span></span><br><span class="line"><span class="string">            &lt;/div&gt;</span></span><br><span class="line"><span class="string">        )</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">export default App;</span></span><br></pre></td></tr></table></figure>
+
+<p>现在你可以<code>npm start</code>，打开浏览器，看是不是进入新的页面，都会加载自己的JS的~</p>
+<p>但是发现，名字都是<code>0.bundle.js</code>这样子的，分不清楚是哪个页面的<code>js</code>。</p>
+<p>修改下<code>webpack.dev.config.js</code>,加个<code>chunkFilename</code>。<code>chunkFilename</code>是除了<code>entry</code>定义的入口<code>js</code>之外的<code>js</code>~</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">output: &#123;</span><br><span class="line">    path: path.join(__dirname, './dist'),</span><br><span class="line">    filename: 'bundle.js',</span><br><span class="line">    chunkFilename: '[name].js'</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>现在运行发现名字变成<code>home.js</code>,这样的了。</p>
+<p>那么问题来了<code>home</code>是在哪里设置的？<code>webpack</code>怎么知道他叫<code>home</code>？</p>
+<p>其实在这里我们定义了，<code>router.js</code>里面</p>
+<p><code>import Home from &#39;bundle-loader?lazy&amp;name=home!pages/Home/Home&#39;;</code></p>
+<p>这里有个<code>name=home</code>。</p>
+<h3 id="二、缓存"><a href="#二、缓存" class="headerlink" title="二、缓存"></a>二、缓存</h3><p>想象一下这个场景~</p>
+<p>我们网站上线了，用户第一次访问首页，下载了<code>home.js</code>，第二次访问又下载了<code>home.js</code>~</p>
+<p>这肯定不行呀，所以我们一般都会做一个缓存，用户下载一次<code>home.js</code>后，第二次就不下载了。</p>
+<p>有一天，我们更新了<code>home.js</code>，但是用户不知道呀，用户还是使用本地旧的<code>home.js</code>。出问题了~</p>
+<p>怎么解决？每次代码更新后，打包生成的名字不一样。比如第一次叫<code>home.a.js</code>，第二次叫<code>home.b.js</code>。</p>
+<p>文档<a href="https://doc.webpack-china.org/guides/caching" target="_blank" rel="noopener">看这里</a></p>
+<p>我们照着文档来</p>
+<p><code>webpack.dev.config.js</code></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">output: &#123;</span><br><span class="line">    path: path.join(__dirname, './dist'),</span><br><span class="line">    filename: '[name].[hash].js',</span><br><span class="line">    chunkFilename: '[name].[chunkhash].js'</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>每次打包都用增加<code>hash</code>~</p>
+<p>现在我们试试，是不是修改了文件，打包后相应的文件名字就变啦？</p>
+<p><a href="https://camo.githubusercontent.com/e9c041242d52d16bc841253126000ef029ebfd99/687474703a2f2f6f71636238646a6c772e626b742e636c6f7564646e2e636f6d2f7061636b6167652e706e67" target="_blank" rel="noopener"><img src="https://camo.githubusercontent.com/e9c041242d52d16bc841253126000ef029ebfd99/687474703a2f2f6f71636238646a6c772e626b742e636c6f7564646e2e636f6d2f7061636b6167652e706e67" alt="package"></a></p>
+<p>但是你可能发现了，网页打开报错了~因为你<code>dist/index.html</code>里面引用<code>js</code>名字还是<code>bundle.js</code>老名字啊,改成新的名字就可以啦。</p>
+<p>这样每次都去改名字是不现实的。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/HTML/" rel="tag"># HTML</a>
+              <a href="/tags/React/" rel="tag"># React</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/12/React/React%E9%9B%B6%E7%A2%8E%E7%82%B9%E6%80%BB%E7%BB%93/" rel="prev" title="React零碎点总结">
+      <i class="fa fa-chevron-left"></i> React零碎点总结
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/12/React/%E6%9E%84%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84redux/" rel="next" title="构建自己的redux">
+      构建自己的redux <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#react实现按需加载-代码分割（上）"><span class="nav-number">1.</span> <span class="nav-text">react实现按需加载-代码分割（上）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.0.1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一、按需加载"><span class="nav-number">1.0.2.</span> <span class="nav-text">一、按需加载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、缓存"><span class="nav-number">1.0.3.</span> <span class="nav-text">二、缓存</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Ccbeango</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ccbeango</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/disqusjs@1/dist/disqusjs.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/disqusjs@1/dist/disqus.js', () => {
+    window.dsqjs = new DisqusJS({
+      api       : '' || 'https://disqus.com/api/',
+      apikey    : 'n0H52UV8sKsjEsyFEXK4e2qtX0Qk564dFYnOS40Bx8qLbFBVBw7sDeJipwjAPxyM',
+      shortname : 'ccbeango',
+      url       : "http://yoursite.com/2017/12/React/%E6%8C%89%E9%9C%80%E5%8A%A0%E8%BD%BD%EF%BC%88%E4%B8%8A%EF%BC%89/",
+      identifier: "2017/12/React/按需加载（上）/",
+      title     : "react实现按需加载-代码分割（上）",
+    });
+  }, window.DisqusJS);
+});
+</script>
+
+</body>
+</html>

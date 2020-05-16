@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Mist","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="React零碎点总结1.create-ract-app可创建项目 2.npm run eject弹出配置文件，可以自定义配置 webpack配置 3.axios  Axios 是一个基于 promise 的 HTTP 库，可以用在浏览器和 node.js 中。 使用时，需要在package.json文件中添加后端的服务器代理地址： 1&quot;proxy&quot;: &quot;http:&amp;#">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React零碎点总结">
+<meta property="og:url" content="http://yoursite.com/2017/12/React/React%E9%9B%B6%E7%A2%8E%E7%82%B9%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="凹凸豆的博客">
+<meta property="og:description" content="React零碎点总结1.create-ract-app可创建项目 2.npm run eject弹出配置文件，可以自定义配置 webpack配置 3.axios  Axios 是一个基于 promise 的 HTTP 库，可以用在浏览器和 node.js 中。 使用时，需要在package.json文件中添加后端的服务器代理地址： 1&quot;proxy&quot;: &quot;http:&amp;#">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-12-21T02:27:10.000Z">
+<meta property="article:modified_time" content="2019-12-27T09:56:53.355Z">
+<meta property="article:author" content="Ccbeango">
+<meta property="article:tag" content="HTML">
+<meta property="article:tag" content="React">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2017/12/React/React%E9%9B%B6%E7%A2%8E%E7%82%B9%E6%80%BB%E7%BB%93/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>React零碎点总结 | 凹凸豆的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">凹凸豆的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">那天，黄昏，开始飘起来白雪</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/React/React%E9%9B%B6%E7%A2%8E%E7%82%B9%E6%80%BB%E7%BB%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Ccbeango">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="凹凸豆的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          React零碎点总结
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-12-21 10:27:10" itemprop="dateCreated datePublished" datetime="2017-12-21T10:27:10+08:00">2017-12-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-12-27 17:56:53" itemprop="dateModified" datetime="2019-12-27T17:56:53+08:00">2019-12-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/React/" itemprop="url" rel="index"><span itemprop="name">React</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="React零碎点总结"><a href="#React零碎点总结" class="headerlink" title="React零碎点总结"></a>React零碎点总结</h1><p>1.<code>create-ract-app</code>可创建项目</p>
+<p>2.<code>npm run eject</code>弹出配置文件，可以自定义配置 webpack配置</p>
+<p>3.<code>axios</code>  Axios 是一个基于 promise 的 HTTP 库，可以用在浏览器和 node.js 中。</p>
+<p>使用时，需要在package.json文件中添加后端的服务器代理地址：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;proxy&quot;: &quot;http:&#x2F;&#x2F;localhost:9093&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>安装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install axios —-save</span><br></pre></td></tr></table></figure>
+
+<p>4.<code>antd-mobile</code> 是样式插件，实现按需加载，需要在package.json中的babel的plugins下添加：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">  <span class="string">"import"</span>,</span><br><span class="line">  &#123;</span><br><span class="line"></span><br><span class="line">    <span class="attr">"libraryName"</span>: <span class="string">"antd-mobile"</span>,</span><br><span class="line"></span><br><span class="line">    <span class="attr">"style"</span>: <span class="string">"css"</span></span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">],</span><br></pre></td></tr></table></figure>
+
+<p>安装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install antd-mobile —-save</span><br></pre></td></tr></table></figure>
+
+<p>5.<code>babel-plugin-transform-decorators-legacy</code>  装饰器语法支，安装之后需要在babel的plugins下添加：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;plugins&quot;: [&quot;transform-decorators-legacy&quot;]</span><br></pre></td></tr></table></figure>
+
+<p>安装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install babel-plugin-transform-decorators-legacy —-save</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">"babel": &#123;</span><br><span class="line">    "presets": [</span><br><span class="line">      <span class="string">"react-app"</span></span><br><span class="line">    ],</span><br><span class="line">    "plugins": [</span><br><span class="line">      [</span><br><span class="line">        <span class="string">"import"</span>,</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="attr">"libraryName"</span>: <span class="string">"antd-mobile"</span>,</span><br><span class="line">          <span class="attr">"style"</span>: <span class="string">"css"</span></span><br><span class="line">        &#125;</span><br><span class="line">      ],</span><br><span class="line">      <span class="string">"transform-decorators-legacy"</span></span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure>
+
+<p>非eject模式下：</p>
+<h1 id="支持装饰器写法"><a href="#支持装饰器写法" class="headerlink" title="支持装饰器写法"></a>支持装饰器写法</h1><ul>
+<li>找到<code>node_modules/babel-preset-react-app/index.js</code>，然后加入装饰器支持。</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> plugins = [</span><br><span class="line">  <span class="built_in">require</span>.resolve(<span class="string">'babel-plugin-transform-decorators-legacy'</span>),<span class="comment">// 支持装饰器写法 增加此行</span></span><br><span class="line">  <span class="comment">// Necessary to include regardless of the environment because</span></span><br><span class="line">  <span class="comment">// in practice some other transforms (such as object-rest-spread)</span></span><br><span class="line">  <span class="comment">// don't work without it: https://github.com/babel/babel/issues/7215</span></span><br><span class="line">  <span class="built_in">require</span>.resolve(<span class="string">'babel-plugin-transform-es2015-destructuring'</span>),</span><br><span class="line">  <span class="comment">// class &#123; handleClick = () =&gt; &#123; &#125; &#125;</span></span><br><span class="line">  <span class="built_in">require</span>.resolve(<span class="string">'babel-plugin-transform-class-properties'</span>),</span><br></pre></td></tr></table></figure>
+
+<p>​</p>
+<ul>
+<li>同目录下打开<code>package.json</code>文件，末尾添加</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&quot;babel&quot;:  &#123;</span><br><span class="line">    &quot;presets&quot;: [</span><br><span class="line">      &quot;react-app&quot;</span><br><span class="line">    ],</span><br><span class="line">    &quot;plugins&quot;: [</span><br><span class="line">      &quot;transform-decorators-legacy&quot;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>6.<code>redux</code> 状态管理，提供<code>createStore</code>  <code>applyMiddleware</code> 和 <code>compose</code></p>
+<p>安装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install redux —-save</span><br></pre></td></tr></table></figure>
+
+<p>7.<code>redux-thunk</code> ：中间件，使redux支持异步处理</p>
+<p>安装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install redux-thunk —-save</span><br></pre></td></tr></table></figure>
+
+<p>8.<code>redux-devtools-extension</code>：chrome支持redux插件，在chrome中安装Redux DevTool，之后需要添加配置， 使用compose结合thunk和window.devToolsExtension：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> reduxDevTools = <span class="built_in">window</span>.devToolsExtension ? <span class="built_in">window</span>.devToolsExtension() : <span class="function"><span class="params">f</span> =&gt;</span>f;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> store = createStore(reducers,compose(</span><br><span class="line">    applyMiddleware(thunk),</span><br><span class="line">    reduxDevTools</span><br><span class="line">));</span><br></pre></td></tr></table></figure>
+
+<p>安装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install redux-devtools-extension —-save</span><br></pre></td></tr></table></figure>
+
+<p>9.<code>react-redux</code>:提供<code>Provider</code>和<code>connect</code>两个接口，方便react和redux进行链接</p>
+<ul>
+<li>Provider组件在应用最外层，传入store即可，只用一次</li>
+<li>Connect负责从外部获取组件需要的参数</li>
+</ul>
+<p>安装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install react-redux —-save</span><br></pre></td></tr></table></figure>
+
+<p>10.<code>express</code>：基于nodejs，快速、开放、极简的web开发框架</p>
+<ul>
+<li>app.get、app.post 分别开发 get 和 post 接口</li>
+<li>app.use 使用模块</li>
+<li>代 res.send（返回html）、res.json（返回json）、res.sendfile（） 响应不同的内容</li>
+</ul>
+<p>安装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install express —-save</span><br></pre></td></tr></table></figure>
+
+<p>11.<code>nodemon</code>：可以自动重启修改后的后端服务</p>
+<p>安装:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install nodemon —-save</span><br></pre></td></tr></table></figure>
+
+<p>12.<code>mongoose</code>: 操作mongodb的驱动，即通过mongoose来操作mongodb，</p>
+<p>mongoose的基础使用：</p>
+<ul>
+<li>Connect 链接数据库</li>
+<li>定义文档模型，Schema 和 model 新建模型</li>
+<li>代一个数据库文档对应一个模型，通过模型对数据库进行操作</li>
+</ul>
+<p>mongoose的文档类型：</p>
+<ul>
+<li>String，Number 等数据结构</li>
+<li>create，remove , update 分别用来增、删、改的操作</li>
+<li>Find  和 findOne 用来查询数据</li>
+</ul>
+<p>安装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install mongoose —-save</span><br></pre></td></tr></table></figure>
+
+<p>13.<code>cookie-parser</code>:后端支持cookie的存储</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> bodyParser = <span class="built_in">require</span>(<span class="string">'body-parser’)；</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">app.use(bodyParser.json());</span></span><br></pre></td></tr></table></figure>
+
+<p>安装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install cookie-parser —-save</span><br></pre></td></tr></table></figure>
+
+<p>14.<code>body-parser</code>: 解析post过来的json数据</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> bodyParser = <span class="built_in">require</span>(<span class="string">'body-parser’)；</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">app.use(bodyParser.json());</span></span><br></pre></td></tr></table></figure>
+
+<p>安装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install body-parser —-save</span><br></pre></td></tr></table></figure>
+
+<p>15.<code>react-router-dom</code>:路由支持</p>
+<p>安装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install react-router-dom —-save</span><br></pre></td></tr></table></figure>
+
+<p>16.<code>utility</code>：密码加密库,可用于用户密码加密</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> utils = <span class="built_in">require</span>(<span class="string">'utility'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// md5</span></span><br><span class="line">utils.md5(<span class="string">'苏千'</span>).should.equal(<span class="string">'5f733c47c58a077d61257102b2d44481'</span>);</span><br><span class="line">utils.md5(<span class="keyword">new</span> Buffer(<span class="string">'苏千'</span>)).should.equal(<span class="string">'5f733c47c58a077d61257102b2d44481'</span>);</span><br><span class="line"><span class="comment">// md5 base64 format</span></span><br><span class="line">utils.md5(<span class="string">'苏千'</span>, <span class="string">'base64'</span>); <span class="comment">// 'X3M8R8WKB31hJXECstREgQ=='</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Object md5 hash. Sorted by key, and JSON.stringify. See source code for detail</span></span><br><span class="line">utils.md5(&#123;<span class="attr">foo</span>: <span class="string">'bar'</span>, <span class="attr">bar</span>: <span class="string">'foo'</span>&#125;).should.equal(utils.md5(&#123;<span class="attr">bar</span>: <span class="string">'foo'</span>, <span class="attr">foo</span>: <span class="string">'bar'</span>&#125;))</span><br><span class="line"></span><br><span class="line"><span class="comment">// sha1</span></span><br><span class="line">utils.sha1(<span class="string">'苏千'</span>).should.equal(<span class="string">'0a4aff6bab634b9c2f99b71f25e976921fcde5a5'</span>);</span><br><span class="line">utils.sha1(<span class="keyword">new</span> Buffer(<span class="string">'苏千'</span>)).should.equal(<span class="string">'0a4aff6bab634b9c2f99b71f25e976921fcde5a5'</span>);</span><br><span class="line"><span class="comment">// sha1 base64 format</span></span><br><span class="line">utils.sha1(<span class="string">'苏千'</span>, <span class="string">'base64'</span>); <span class="comment">// 'Ckr/a6tjS5wvmbcfJel2kh/N5aU='</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Object sha1 hash. Sorted by key, and JSON.stringify. See source code for detail</span></span><br><span class="line">utils.sha1(&#123;<span class="attr">foo</span>: <span class="string">'bar'</span>, <span class="attr">bar</span>: <span class="string">'foo'</span>&#125;).should.equal(utils.sha1(&#123;<span class="attr">bar</span>: <span class="string">'foo'</span>, <span class="attr">foo</span>: <span class="string">'bar'</span>&#125;));</span><br></pre></td></tr></table></figure>
+
+<p>安装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install utility —-save</span><br></pre></td></tr></table></figure>
+
+<p>17.<code>prop-types</code>:对属性类型进行检查</p>
+<p>安装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install prop-types —-save</span><br></pre></td></tr></table></figure>
+
+<p>18.<code>browser-cookies</code>:浏览器端处理cookie</p>
+<p>安装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install browser-cookies —-save</span><br></pre></td></tr></table></figure>
+
+<p>19.socket.io:服务端支持websocket</p>
+<p>安装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install socket.io —-save</span><br></pre></td></tr></table></figure>
+
+<p>20.<code>socket.io-client</code>:客户端支持websocket</p>
+<p>安装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install socket.io-client —-save</span><br></pre></td></tr></table></figure>
+
+<p>21.<code>immutable</code>：数据创建后不会被改变，可用于react和redux的性能优化</p>
+<p>优点：</p>
+<ul>
+<li>减少内存使用</li>
+<li>并发安全</li>
+<li>降低项目复杂度</li>
+<li>便于比较复杂数据，定制shouldComponentUpdate方便</li>
+<li>时间旅行功能方便</li>
+<li>函数式编程</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>学习成本</li>
+<li>库的大小</li>
+<li>对原有项目入侵严重，所以新项目使用比较合适</li>
+</ul>
+<p>安装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install immutable —-save</span><br></pre></td></tr></table></figure>
+
+<p>22.<code>reselect：redux</code>数据优化缓存，reselect为selector设置了缓存，只有当selector的输入改变时，程序才重新调用selector函数。</p>
+<p>使用：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;createSelector&#125; <span class="keyword">from</span> <span class="string">'reselect'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// reselect是对redux进行优化的库</span></span><br><span class="line"><span class="keyword">const</span> numSelector = createSelector(</span><br><span class="line">    state =&gt; state,</span><br><span class="line">    <span class="comment">// 第二个函数的参数，是第一个的返回值</span></span><br><span class="line">    state =&gt; (&#123;<span class="attr">num</span>:state*<span class="number">2</span>&#125;)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">*  使用装饰器优化connect的代码</span></span><br><span class="line"><span class="comment">* */</span></span><br><span class="line">@connect(</span><br><span class="line">    state =&gt; numSelector(state),</span><br><span class="line">    &#123;addGun,removeGun,removeGunAsync,twiceGun&#125;</span><br></pre></td></tr></table></figure>
+
+<p>安装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install reselect —-save</span><br></pre></td></tr></table></figure>
+
+<p>23.<code>eslint</code>：可组装的JavaScript和JSX检查工具</p>
+<p><code>create-react-app</code>安装后有<code>eslint</code>模块，添加配置就在<code>eslintConfig</code>下进行添加，默认还扩展了react-app的配置。</p>
+<p><code>package.json</code>添加的额外配置的代号加上等级，等级有off（0）、warning（1）、error（2），代号在控制台上可以看到，也可以去官网上看到。</p>
+<p>这些错误可以关闭，也可以进行修复。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">"eslintConfig": &#123;</span><br><span class="line">    "extends": "react-app",</span><br><span class="line">    "rules": &#123;</span><br><span class="line">      "eqeqeq": [</span><br><span class="line">        <span class="string">"off"</span></span><br><span class="line">      ],</span><br><span class="line">      "jsx-a11y/accessible-emoji": [</span><br><span class="line">        <span class="number">0</span></span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure>
+
+<p>24.<code>async+await</code>: 用同步方式写异步</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 最原始的是使用callback，会陷入callback hell</span></span><br><span class="line"><span class="comment">// 然后是promise方案 es6</span></span><br><span class="line"><span class="comment">// 使用async和await来改变promise的写法  es7</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> readMsg = <span class="function"><span class="params">from</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// async和await写法</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">async</span> (dispatch,getState) =&gt; &#123;</span><br><span class="line">        <span class="keyword">const</span> res = <span class="keyword">await</span> axios.post(<span class="string">'/user/readmsg'</span>,&#123;<span class="keyword">from</span>&#125;);</span><br><span class="line">        <span class="keyword">const</span> userid = getState().user._id;</span><br><span class="line">        <span class="keyword">if</span>(res.status ==<span class="number">200</span> &amp;&amp; res.data.code === <span class="number">0</span>)&#123;</span><br><span class="line">            dispatch(msgRead(&#123;<span class="keyword">from</span>,userid,<span class="attr">num</span>:res.data.num&#125;));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// promise写法</span></span><br><span class="line">    <span class="keyword">return</span> <span class="function">(<span class="params">dispatch,getState</span>) =&gt;</span>&#123;</span><br><span class="line">        axios.post(<span class="string">'/user/readmsg'</span>,&#123;<span class="keyword">from</span>&#125;)</span><br><span class="line">            .then(<span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">                <span class="keyword">const</span> userid = getState().user._id;</span><br><span class="line">                <span class="keyword">if</span>(res.status ==<span class="number">200</span> &amp;&amp; res.data.code === <span class="number">0</span>)&#123;</span><br><span class="line">                    dispatch(msgRead(&#123;<span class="keyword">from</span>,userid,<span class="attr">num</span>:res.data.num&#125;));</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>25.<code>bundle-loader</code>:按需加载所需插件</p>
+<p>安装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install bundle-loader --save-dev</span><br></pre></td></tr></table></figure>
+
+<p>26.create-react-app支持<code>less</code></p>
+<p>首先安装所需插件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install less-loader less --save-dev</span><br></pre></td></tr></table></figure>
+
+<p>修改 <code>webpack.config.dev.js</code> 和 <code>webpack.config-prod.js</code> 配置文件</p>
+<ul>
+<li><code>test: /\.css$/</code> 改为 <code>/\.(css|less)$/</code></li>
+<li><code>test: /\.css$/</code> 的 <code>use</code> 数组配置增加 <code>less-loader</code></li>
+</ul>
+<p>修改后如下：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  test: /\.(css|less)$/,</span><br><span class="line">  use: [</span><br><span class="line">    require.resolve('style-loader'),</span><br><span class="line">    &#123;</span><br><span class="line">      loader: require.resolve('css-loader'),</span><br><span class="line">      options: &#123;</span><br><span class="line">        importLoaders: 1,</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      loader: require.resolve('postcss-loader'),</span><br><span class="line">      options: &#123;</span><br><span class="line">        <span class="comment">// Necessary for external CSS imports to work</span></span><br><span class="line">        <span class="comment">// https://github.com/facebookincubator/create-react-app/issues/2677</span></span><br><span class="line">        ident: 'postcss',</span><br><span class="line">        plugins: () =&gt; [</span><br><span class="line">          require('postcss-flexbugs-fixes'),</span><br><span class="line">          autoprefixer(&#123;</span><br><span class="line">            browsers: [</span><br><span class="line">              '&gt;1%',</span><br><span class="line">              'last 4 versions',</span><br><span class="line">              'Firefox ESR',</span><br><span class="line">              'not ie &lt; 9', // React doesn't support IE8 anyway</span><br><span class="line">            ],</span><br><span class="line">            flexbox: 'no-2009',</span><br><span class="line">          &#125;),</span><br><span class="line">        ],</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      loader:require.resolve('less-loader') // compiles Less to CSS</span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+
+
+<p>27 <code>babel-node</code>:后台支持import语法</p>
+<p>安装插件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install babel-node --save</span><br></pre></td></tr></table></figure>
+
+<p>使用：<code>package.json</code>修改<code>script</code>的server为最新的server</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">"scripts": &#123;</span><br><span class="line">    ...</span><br><span class="line">    "server": "NODE_ENV=test nodemon --exec babel-node server/server.js",</span><br><span class="line">    "server_bak": "nodemon server/server.js"</span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure>
+
+<p>设备<code>node</code>的运行环境为<code>test</code>，即<code>NODE_ENV=test</code>，默认启用<code>node</code>，改为启用<code>babel-node</code>，再启动<code>server</code>。启用之后就会发现，后台也支持import语法了。</p>
+<p>28 后端设置也支持jsx语法:</p>
+<p>创建<code>.babelrc</code>，然后将package.json中的babel字段粘贴至此，使整个项目全局都支持此babel配置的语法</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"presets"</span>: [</span><br><span class="line">    <span class="string">"react-app"</span></span><br><span class="line">  ],</span><br><span class="line">  <span class="attr">"plugins"</span>: [</span><br><span class="line">    [</span><br><span class="line">      <span class="string">"import"</span>,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"libraryName"</span>: <span class="string">"antd-mobile"</span>,</span><br><span class="line">        <span class="attr">"style"</span>: <span class="string">"css"</span></span><br><span class="line">      &#125;</span><br><span class="line">    ],</span><br><span class="line">    <span class="string">"transform-decorators-legacy"</span></span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/HTML/" rel="tag"># HTML</a>
+              <a href="/tags/React/" rel="tag"># React</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/03/React/Apollo-Client%E7%AE%80%E4%BB%8B/" rel="prev" title="Apollo-Client简介">
+      <i class="fa fa-chevron-left"></i> Apollo-Client简介
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/12/React/%E6%8C%89%E9%9C%80%E5%8A%A0%E8%BD%BD%EF%BC%88%E4%B8%8A%EF%BC%89/" rel="next" title="react实现按需加载-代码分割（上）">
+      react实现按需加载-代码分割（上） <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#React零碎点总结"><span class="nav-number">1.</span> <span class="nav-text">React零碎点总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#支持装饰器写法"><span class="nav-number">2.</span> <span class="nav-text">支持装饰器写法</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Ccbeango</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ccbeango</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/disqusjs@1/dist/disqusjs.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/disqusjs@1/dist/disqus.js', () => {
+    window.dsqjs = new DisqusJS({
+      api       : '' || 'https://disqus.com/api/',
+      apikey    : 'n0H52UV8sKsjEsyFEXK4e2qtX0Qk564dFYnOS40Bx8qLbFBVBw7sDeJipwjAPxyM',
+      shortname : 'ccbeango',
+      url       : "http://yoursite.com/2017/12/React/React%E9%9B%B6%E7%A2%8E%E7%82%B9%E6%80%BB%E7%BB%93/",
+      identifier: "2017/12/React/React零碎点总结/",
+      title     : "React零碎点总结",
+    });
+  }, window.DisqusJS);
+});
+</script>
+
+</body>
+</html>
