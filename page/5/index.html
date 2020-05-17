@@ -204,7 +204,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-05-16 22:07:01" itemprop="dateModified" datetime="2020-05-16T22:07:01+08:00">2020-05-16</time>
+                <time title="修改时间：2020-05-16 22:12:56" itemprop="dateModified" datetime="2020-05-16T22:12:56+08:00">2020-05-16</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -228,35 +228,14 @@
 
       
           <h1 id="Linux下安装phpMyAdmin"><a href="#Linux下安装phpMyAdmin" class="headerlink" title="Linux下安装phpMyAdmin"></a>Linux下安装phpMyAdmin</h1><h3 id="1-下载phpMyAdmin"><a href="#1-下载phpMyAdmin" class="headerlink" title="1.下载phpMyAdmin"></a>1.下载phpMyAdmin</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo wget  https:&#x2F;&#x2F;files.phpmyadmin.net&#x2F;phpMyAdmin&#x2F;4.7.4&#x2F;phpMyAdmin-4.7.4-all-languages.zip</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-配置"><a href="#2-配置" class="headerlink" title="2.配置"></a>2.配置</h3><p>解压并改名</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo unzip phpMyAdmin-4.7.4-all-languages.zip </span><br><span class="line">sudo mv phpMyAdmin-4.7.4-all-languages phpMyAdmin</span><br></pre></td></tr></table></figure>
-
-<p>找到 <code>phpMyAdmin/libraries/config.default.php</code>文件，将<code>config.default.php</code>复制到<code>phpmyadmin</code>目录下，然后更名为<code>config.inc.php</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo cp  libraries&#x2F;config.default.php .&#x2F;config.inc.php</span><br></pre></td></tr></table></figure>
-
-<p><strong>对config.inc.php文件进行vi编辑：</strong></p>
-<ol>
-<li><p>查找 <code>$cfg[&#39;PmaAbsoluteUri&#39;]</code> 修改为你将上传到空间的phpMyAdmin的网址：</p>
-<p>如：$cfg[‘PmaAbsoluteUri’] = ‘<a href="http://192.168.1.11/phpMyAdmin/" target="_blank" rel="noopener">http://192.168.11.115/phpMyAdmin/</a>‘;</p>
-</li>
-<li><p>查找 <code>$cfg[&#39;Servers&#39;][$i][&#39;host&#39;] = &#39;localhost&#39;;</code>（通常用默认，也有例外，可以不用修改）</p>
-</li>
-<li><p>查找<code>$cfg[&#39;Servers&#39;][$i][&#39;auth_type&#39;] = &#39;config&#39;;</code></p>
-<p>　　在自己的机子里调试用config；如果在网络上的空间用cookie，这里我们既然在前面已经添加了网址，就修改成cookie ，这里建议使用cookie。</p>
-</li>
-<li><p>查找 <code>$cfg[&#39;Servers&#39;][$i][&#39;user&#39;] = &#39;root&#39;;</code>   MySQL user（mysql用户名，自己机里用root；）</p>
-</li>
-<li><p>查找<code>$cfg[&#39;Servers&#39;][$i][&#39;password&#39;] = &#39;&#39;;</code>   MySQL password (mysql用户的密码,自己的服务器一般都是mysql用户root的密码)</p>
-</li>
-<li><p>查找 <code>$cfg[&#39;Servers&#39;][$i][&#39;only_db&#39;] = &#39;&#39;;</code>   If set to a db-name, only（你只有一个数据就设置一下；如果你在本机或想架设服务器，那么建议留空</p>
-</li>
-<li><p>查找<code>$cfg[&#39;DefaultLang&#39;] = &#39;zh&#39;;</code> （这里是选择语言，zh代表简体中文的意思,这里不知道填gbk对否）</p>
-</li>
-<li><p>设置完毕后保存退出即可。</p>
-</li>
-</ol>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/01/Linux/Linux%E4%B8%8B%E5%AE%89%E8%A3%85phpMyAdmin/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
