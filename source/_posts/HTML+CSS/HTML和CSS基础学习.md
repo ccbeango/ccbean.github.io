@@ -318,9 +318,60 @@ table的常用属性
 
 ### tr和td相关属性
 
+tr常见属性
+
+| 属性   | 说明                                                  |
+| ------ | ----------------------------------------------------- |
+| valign | 单元格的垂直对齐方式<br>top、middle、bottom、baseline |
+| align  | 单元格的水平对齐方式<br>left、center、right           |
+
+th和td常见属性
+
+| 属性    | 说明                                               |
+| ------- | -------------------------------------------------- |
+| valign  | 单元格的垂直对齐方式 top、middle、bottom、baseline |
+| align   | 单元格的水平对齐方式 left、center、right           |
+| width   | 单元格的宽度                                       |
+| height  | 单元格的高度                                       |
+| rowspan | 单元格可横跨的行数                                 |
+| colspan | 单元格可横跨的列数                                 |
+
+### 细线表格
+
+使用`cellspacing = 0`边框会合在一起，但是边框宽度是border*2。
+
+可以使用`border-collapse`将边框合并。
+
+```css
+table {
+  border: 1px solid #000;
+  border-collapse: collapse;
+}
+```
+
+### 表格的其他元素
+
+**thead** 表格的表头
+
+**tbody** 表格的主体 内容放在tbody中
+
+**tfoot** 表格的页脚
+
+**caption** 表格的标题
+
+**th** 表格的表头单元格
+
+### 单元格的合并
+
+合并方向是向右、向下。
+
+**colspan** 跨列合并
+
+**rowspan** 跨行合并
 
 
-# Emmet语法
+
+#  Emmet语法
 
 ## ！ 和 html:x
 

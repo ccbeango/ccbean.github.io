@@ -20,6 +20,8 @@ BOM对象提供了很多对象，如window、location、navigator，用于访问
 
 W3C为了把浏览器中JavaScript最基本的部分标准化，已经将BOM的主要方面纳入了HTML5的规范中。
 
+<!-- more -->
+
 ## window对象
 
 BOM的核心对象是window，它表示浏览器的一个实例。在浏览器中，window对象有双重角色，它既是通过JavaScript访问浏览器窗口的一个接口，又是ECMAScript规定的Global对象。
