@@ -183,6 +183,8 @@ a元素和base元素可以结合使用：
 
 虽然很多标签之间互换之后也能实现功能，但还要遵守标签语义化原则。
 
+比如自己可以用一个div去加上相应样式模仿h1标签，但是不推荐这么做，标签语义化很重要。
+
 ## 列表
 
 HTMl提供了3组常用的用来展示列表的元素：
@@ -369,7 +371,230 @@ table {
 
 **rowspan** 跨行合并
 
+### 表格CSS属性
 
+设置单元格之间的间距，使用这个，尽量不要使用上面的
+
+`border-spacing`用于设置单元格之间的水平、垂直间距。
+
+* 2个值分别是cell之间的水平、垂直间距
+* 如果只设置一个值，同时代表水平、垂直间距
+
+```css
+table {
+  border-sapcing: 10px 20px;
+}
+```
+
+![微信截图_20200913101720](https://raw.githubusercontent.com/ccbeango/blogImages/master/HTML+CSS/HTML%E5%92%8CCSS%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A001.png)
+
+## 表单
+
+表单常用元素：
+
+* `form` 表单 一般情况下，其他表单元素都是它的后代元素
+* `input` 单行文本框、单选框、复选框、按钮等元素
+* `textarea` 多行文本框
+* `select、option` 下拉选择框
+* `button` 按钮
+* `label` 表单元素的标题
+* `fieldset` 表单元素组
+* `legend` fieldset的标题
+
+### input元素
+
+**input也是行内元素，准确地说是行内替换元素。**与img元素相似，页面最终展示的不是img元素，而是img中对应的那张图片，使用图片替换掉了img元素。input也是，不展示编写的input，而是展示成一个框。基本上所有的替换元素都是行内元素。
+
+`input`的`type`类型：
+
+* `text` 文本输入框（明文输入）
+* `password` 文本输入框（密文输入）
+* `radio` 单选框
+* `checkbox` 复选框
+* `button` 按钮
+* `reset` 重置
+* `submit` 提交表单数据给服务器
+* `file` 文件上传
+
+`input`其他属性：
+
+* `maxlength` 允许输入的最大字数
+* `placeholder` 占位文字
+* `readonly` 只读
+* `disabled` 禁用
+* `checked` 默认被选中
+* `selected` 下拉框默认选中选项 
+* `multiple` 下拉框多选
+* `autofocus` 当页面加载时，自动聚焦
+* `name` 名字
+* `value` 取值
+* `tableindex` 
+* `form` 设置所属的form元素（填写form元素的id），一旦使用了此属性，input元素即使不在form元素内部，它的数据也能提交给服务器。
+
+布尔属性：
+
+布尔属性可以没有属性值，写上属性就代表使用了这个属性。常见的布尔属性有，`diasbled`、`checked`、`readonly`、`multiple`、`autofocus`、`selected`。
+
+如果要给这些布尔属性设置值，值就是属性名本身。
+
+```html
+<!-- 以下两种写法是等价的，建议采用第一种 -->
+<input type="text" readonly disabled>
+<input type="radio" checked>
+
+<input type="text" readonly="readonly" disabled="disabled">
+<input type="radio" checked="checked">
+```
+
+按钮的两种实现方式，在`form`中`button`按钮如果不设置任何属性，默认的作用是重置。但如果`form`设置了`action`属性，那么默认行为是提交
+
+```html
+ <!-- reset不写value，浏览器会默认赋值 -->
+<input type="reset" value="重置">
+<button>重置</button>
+```
+
+label可以跟某个input绑定，点击label就可以激活对应的input；有两种写法
+
+```html
+<div>
+  <label for="phone">手机</label>
+  <input type="text" value="" id="phone">
+</div>
+
+<label for="phone">
+  手机
+  <input type="text" value="" id="phone">
+</label>
+
+<div>
+   <span>性别</span>
+   <label for="male">男</label>
+   <input type="radio" name="sex" id="male">
+   <label for="female">女</label>
+   <input type="radio" name="sex" id="female">
+</div>
+```
+
+input去除边框，设置CSS属性`outline: none;`
+
+例子：
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <form action="" method="post">
+    <fieldset>
+      <legend>必填信息</legend>
+      <div>
+        <label for="phone">手机</label>
+        <input type="text" value="" id="phone">
+      </div>
+
+      <div>
+        <span>密码</span>
+        <input type="password">
+      </div>
+
+      <div>
+        <span>验证码</span>
+        <input type="text">
+        <input type="submit" value="获取验证码">
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend>选填信息</legend>
+      <div>
+        <span>照片</span>
+        <input type="file">
+      </div>
+      <div>
+        <span>性别</span>
+        <label for="male">男</label>
+        <input type="radio" name="sex" id="male">
+        <label for="female">女</label>
+        <input type="radio" name="sex" id="female">
+      </div>
+      <div>
+        <span>爱好</span>
+        唱<input type="checkbox" name="hobby">
+        跳<input type="checkbox" name="hobby">
+        rap<input type="checkbox" name="hobby">
+        篮球<input type="checkbox" name="hobby">
+      </div>
+      <div>
+        <span>学历</span>
+        <select name="" id="">
+          <option value="0">小学</option>
+          <option value="1">初中</option>
+          <option value="2">高中</option>
+        </select>
+      </div>
+      <div>
+        <span>简介</span>
+        <textarea name="" id="" cols="10" rows="3"></textarea>
+      </div>
+    </fieldset>
+    <!-- reset不写value，浏览器会默认赋值 -->
+    <input type="reset" value="重置">
+    <!-- button按钮有一个默认的reset属性 -->
+    <button>重置</button>
+    <input type="submit" value="提交">
+  </form>
+</body>
+
+</html>
+```
+
+### textarea元素
+
+常用属性：
+
+* `cols` 列数
+* `rows` 行数
+
+缩放的css设置
+
+* 禁止缩放 `resize: none`
+* 水平缩放 `resize: horizontal`
+* 垂直缩放 `resize: vertical`
+* 水平垂直缩放（默认） `resize: both`
+
+### select和option
+
+option是select的子元素，一个option代表一个选项
+
+select常用属性：
+
+* multiple 可以多选
+* size 同时显示多少项
+
+option常用属性
+
+* selected 默认被选中
+
+### form元素
+
+常用属性：
+
+* `action` 提交地址
+* `method` 提交方法
+* `target` 跳转方式 
+  * `_blank`：打开新页面跳转 
+  * `_self`在本页面跳转
+* `enctype` 规定了在向服务器发送表单数据之前如何对数据进行编码
+  * `application/x-www-form-urlencoded` 默认的编码方式
+  * `multipart/form-data` 文件上传时必须为这个值，并且method为post
+  * `text/plain` 普通文本传输
+* `accept` 规定表单提交时使用的字符编码（默认UNKNOW，和文档相同的编码）
 
 #  Emmet语法
 
@@ -609,10 +834,6 @@ table {
 }
 ```
 
-
-
-
-
 # CSS
 
 CSS全称是Cascading Style Sheets。
@@ -629,6 +850,286 @@ CSS3：是CSS2.x以后对某一些CSS模块进行升级更新后的称呼，比�
 * 表格：border-collapse
 * 显示：display、visibility、overflow、opacity、filter
 * 定位：vertical-align、position、left、top、right、bottom、float、clear
+
+## CSS元素类型
+
+元素类型可以用两种方式进行划分
+
+### 块级、行内级元素
+
+根据元素的显示类型，即能否在同一行显示，HTML元素可以主要分为两大类。
+
+* 块级元素`block-level elements`
+  * **独占父元素一行。**即==块级元素的宽度独占父级元素一整行==。高度会由内容撑起来。
+  * 如div、p、pre、h1~h6、ul、ol、li、dl、dt、dd、table、form、article、aside、footer、header、hgroup、main、nav、section、blockquote、hr等
+* 行内级元素`inline-level elements`
+  * **多个行内级元素可以在父元素的同一行中显示**
+  * 如a、img、span、strong、code、iframe、label、input、button、canvas、embed、object、video、audio等
+
+例子
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .box {
+      width: 500px;
+      height: 500px;
+      background-color: orange;
+    }
+
+    .inner {
+      height: 30px;
+      background-color: red;
+    }
+
+    p {
+      background-color: palegreen;
+    }
+  </style>
+</head>
+<body>
+  <!-- 块级元素 -->
+  <div class="box">
+    <div class="inner"></div>
+    <p>我是段落</p>
+  </div>
+
+  <!-- 行内级元素 -->
+  <span>我是span元素</span>
+  <strong>我是strong元素</strong>
+  <input type="text">
+</body>
+</html>
+```
+
+### 替换、非替换元素
+
+根据元素的内容类型，即是否浏览器会替换掉元素，HTML元素可以主要分为2大类
+
+* 替换元素`replaced elements`
+  * 元素本身没有实际内容，浏览器会根据元素的类型和属性，来决定元素的具体显示内容
+  * 如img、input、iframe、video、embed、canvas、audio、object等
+* 非替换元素`non-replaced elements`
+  * 和替换元素相反，元素本身是有实际内容的，浏览器会直接将其内容显示出来，而不需要根据元素类型和属性来判断到底显示什么内容
+  * 如div、p、pre、h1~h6、ul、ol、li、dl、dt、dd、table、form、article、aside、footer、header、hgroup、main、nav、section、blockquote、hr、a、strong、span、code、label等
+
+#### 行内非替换元素注意点
+
+以下属性对行内非替换元素不起作用
+
+* `width`
+* `height`
+* `margin-top` 
+* `margin-bottom`
+
+下面例子中`margin-left`生效，而`margin-top`是无效的。`width`和`height`也是无效的。
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    span {
+      background-color: red;
+      width: 100px;
+      height: 100px;
+      margin-left: 20px;
+      margin-top: 100px;
+    }
+  </style>
+</head>
+<body>
+  <span>span1</span>
+  <span>span2</span>
+</body>
+</html>
+```
+
+以下属性对行内元素比较特殊：
+
+* `padding-top`\\`padding-bottom`
+* `border-top`\\`border-bottom`
+
+ 这几个属性设置后上下会多出来区域，但不会占据空间。给它们设置成行内块级元素`display: inline-block`可以解决此问题。
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .outer {
+      margin-bottom: 100px;
+    }
+
+    span {
+      background-color: red;
+    }
+
+    .span1 {
+      padding-left: 20px;
+      padding-bottom: 10px;
+      padding-top: 20px;
+      /* display: inline-block; */
+    }
+
+    .box1 {
+      background-color: green;
+      width: 100px;
+      height: 50px;
+    }
+
+    .span2 {
+      border-right: 10px solid purple;
+      border-top: 10px solid blue;
+      border-bottom: 10px solid yellow;
+      /* display: inline-block; */
+    }
+  </style>
+</head>
+
+<body>
+  <div class="outer">
+    <span class="span1">span1</span>
+    <span class="span1">span2</span>
+    <div class="box1">div</div>
+    <span class="span1">span3</span>
+  </div>
+
+  <div class="outer">
+    <span class="span2">span1</span>
+    <span class="span2">span2</span>
+    <div class="box1">div</div>
+    <span class="span2">span3</span>
+  </div>
+</body>
+
+</html>
+```
+
+
+
+### 元素分类总结
+
+<table>
+    <tr>
+      <td colspan="2">元素分类</td>
+      <td>具体元素</td>
+      <td>默认特性</td>
+    </tr>
+    <tr>
+      <td rowspan="2">块级元素<br />（block-level elements）</td>
+      <td>替换元素<br />(replaced elements)</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>非替换元素(non-replaced elements)</td>
+      <td>div、p、pre、h1~h6、ul、ol、li、dl、dt、dd、table、form、article、aside、footer、header、hgroup、main、nav、section、blockquote、hr
+      </td>
+      <td>独占父元素一行<br />可以随意设置宽高<br />高度默认由内容决定</td>
+    </tr>
+    <tr>
+      <td rowspan="2">行内级元素<br />（inline-level elements）</td>
+      <td>替换元素<br />(replaced elements)</td>
+      <td>img、input、iframe、video、embed、canvas、audio、object等</td>
+      <td>跟其他行内级元素在同一行显示<br />可以随意设置宽高</td>
+    </tr>
+    <tr>
+      <td>非替换元素(non-replaced elements)</td>
+      <td>a、strong、span、code、label等</td>
+      <td>跟其他行内元素在同一行显示<br />不可以随意设置宽高<br />宽高由内容决定</td>
+    </tr>
+  </table>
+### 元素之间的空格
+
+行内级元素（包括`inline-block`元素）的代码之间如果有空格，会被解析显示为空格。
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    /* 方法3 */
+    body {
+      font-size: 0;
+    }
+    span, strong, div {
+      font-size: 16px;
+      
+      float: left; /* 方法4 */
+    }
+
+    
+    span {
+      background-color: blue;
+    }
+    strong {
+      background-color: coral;
+    }
+    div {
+      display: inline-block;
+      background-color: red;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <span>span</span>
+    <strong>strong</strong> 
+    <div>我是div元素</div>
+  </div>
+ 
+   <!-- 方法1 -->
+  <div>
+    <span>span</span><strong>strong</strong><div>我是div元素</div>
+  </div>
+  
+   <!-- 方法2 -->
+   <div>
+    <span>span</span><!--
+ --><strong>strong</strong><!--
+ --><div>我是div元素</div>
+  </div>
+</body>
+</html>
+```
+
+为什么会产生空格，因为浏览器在解析多个空格或换行符时，会将其解析成一个空格。上面的第一个div中`span`、`strong`、`div`各占一行，三者之间的空格被解析成了一个空格。第二个div中三者之间没有空格，浏览器中显示也没有空格。
+
+目前存在的解决方案：
+
+1. 元素之间不要留空格（不建议）
+
+2. 元素之间写注释（繁琐，不建议）
+3. 设置父级元素`font-size: 0`，然后在元素中重新设置自己需要的`font-size`（不推荐）
+   * 此方法不使用Safari
+4. 给元素加浮动，一般都是使用这种办法。
+
+### 元素之间的嵌套关系
+
+块级元素、行内块元素`inline-block`：
+
+* 一般情况下，可以嵌套任意的元素。如块级元素、行内级元素、`inline-block`元素
+* 特殊情况，p元素不能包含其他块级元素
+
+行内级元素（如`span`、`a`、`strong`等）
+
+* 一般情况下，只能包含行内元素
 
 ## CSS样式应用
 
@@ -1533,7 +2034,7 @@ div {
 
 ### CSS属性-文本
 
-#### text-transform
+#### 文本 text-transform
 
 转换文本大小写
 
@@ -1568,6 +2069,10 @@ u {
 
 设置单词之间的间距
 
+#### 文本 word-break
+
+指定非中日韩脚本的单词换行规则。
+
 #### 文本 text-ident
 
 设置文本首行缩进。
@@ -1580,8 +2085,6 @@ p {
   text-indet: 2em;
 }
 ```
-
-
 
 #### 文本 text-align
 
@@ -1627,6 +2130,48 @@ div {
   display: inline-block
 }
 ```
+
+#### 文本 text-shadow
+
+text-shadow用法与box-shadow类似，是用来设置文字阴影的。
+
+text-shadow同样适用于伪元素`::first-line`、`::first-letter`
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    h1 {
+      text-shadow: 5px 5px 3px orange;
+    }
+
+    p::first-line {
+      text-shadow: 3px 3px 3px green;
+    }
+
+    p::first-letter {
+      font-size: 25px;
+      text-shadow: 5px 5px 5px purple;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>你好啊</h1>
+  <p>
+    无论是灾区搜救的机器人、无人驾驶的汽车、还是监视地面影像的卫星，穿透云层和雾霾的能力都非常有用。目前，科学家已开发出最先进的再成像系统LiDAR，通过配套的算法——可以测量单个光子的运动。这项技术特别与众不同之处在于，它可以复原被障碍物散射和反射掉的光子。
+  </p>
+</body>
+
+</html>
+```
+
+
 
 ### CSS属性-字体
 
@@ -1883,6 +2428,1862 @@ ul {
 一般最常用对还是直接设置为`none`，去掉前面的默认标记`list-style: none`。
 
 ### CSS属性-表格
+
+### CSS属性-display
+
+块级元素是浏览器给它默认加上了块级元素的属性。
+
+display属性能够改变元素的显示类型，常见常用的：
+
+* `block` 让元素显示为块级元素
+* `inline` 让元素显示为行内级元素
+* `inline-block` 让元素同时具备行内级、块级元素的特征。即既可以跟其他行内级元素在同一行显示，也可以随意设置宽高。若没有设置宽高，宽高有内容决定。可以理解为，对外是一个行内级元素，对内是一个块级元素。
+* `none` 隐藏元素 元素不再占用空间
+
+以下取值，等同于某些HTML元素：
+
+* `table` <table> 一个block-level表格
+* `inline-table` <table> 一个inline-level表格
+* `table-row` <tr>
+* `table-row-group` <tbody>
+* `table-header-group` <thead>
+* `table-footer-group` <tfoot>
+* `table-cell` <td>、<th>，一个单元格
+* `table-caption` <caption>， 表格的标题
+* `list-item` <li>
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    h1 {
+      display: inline-block;
+      width: 100px;
+      height: 200px;
+      background-color: red;
+    }
+    span {
+      display: inline-block;
+      width: 100px;
+      height: 100px;
+      background-color: blue;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 非浮动元素是基线对齐的，看着会有点奇怪 -->
+  <h1>你好</h1>
+  <span>哈哈</span>
+</body>
+</html>
+```
+
+邮箱练习：
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    ul, li {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    a {
+      text-decoration: none;
+      color: #000;
+    }
+
+    .email {
+      width: 100px;
+      border: 2px solid #999;
+      text-align: center;
+    }
+
+    .email  .header {
+      background-color: #999;
+      color: #fff;
+    }
+
+    /* 移动到div.email上时，显示ul邮箱列表 */
+    .email:hover > ul {
+      display: block;
+    }
+
+    .email ul {
+      display: none;
+    }
+
+    .email ul li:hover {
+      background-color: rosybrown;
+    }
+
+    /* 将a标签设置成块级元素，宽度占满父级元素宽度，实现整行都显示小手光标 */
+    .email ul li a {
+      display: block;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div class="email">
+    <div class="header">邮箱</div>
+    <ul>
+      <li><a href="">qq邮箱</a></li>
+      <li><a href="">163邮箱</a></li>
+      <li><a href="">gmail邮箱</a></li>
+    </ul>
+  </div>
+</body>
+</html>
+```
+
+分页练习：
+
+### CSS属性-visibility
+
+`visibility`能控制元素的可见性，有2个常用值：
+
+* `visible` 显示元素
+* `hidden` 隐藏元素
+
+`visibility: hidden;`和`display: none;` 的区别：
+
+* `visibility: hidden;` 虽然元素看不见了，但元素的框依旧还留着，还会占着原来的位置
+* `display: none;` 不仅元素看不见了，而且元素的框也会被移除，不会占着任何位置
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    div {
+      width: 100px;
+      height: 100px;
+      background-color: red;
+      display: none;
+      /* visibility: hidden; */
+    }
+  </style>
+</head>
+<body>
+  <div>
+    我是div元素
+  </div>
+  <p>我是段落</p>
+</body>
+</html>
+```
+
+### CSS属性-overflow
+
+overflow用于控制内容溢出时的行为
+
+* `visible` 默认值，溢出的内容照样可见
+* `hidden` 溢出的内容直接剪裁，被隐藏
+* `scroll` 溢出的内容被剪裁隐藏，但可以通过滚动机制查看
+* `auto` 自动根据内容是否溢出来决定是否提供滚动机制
+
+还有`overflow-x`和`overflow-y`可以分别设置水平垂直方向。建议还是直接使用`overflow`，因为目前`overflow-x`、`overflow-y`还没有成为标准，有些浏览器可能不支持。
+
+### CSS属性-盒子模型
+
+HTML中每一个元素都可以看做是一个盒子。可以具备四个属性：
+
+* 内容`content` 盒子里面装的东西
+* 内边距`padding` 盒子边缘和里面装的东西之间的间距
+* 边框`border` 盒子的边框，边缘部分
+* 外边距`margin` 盒子和其他盒子之间的间距
+
+![微信截图_20200919141401](https://raw.githubusercontent.com/ccbeango/blogImages/master/HTML+CSS/HTML%E5%92%8CCSS%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A002.png)
+
+#### 内容 content
+
+相关属性值：
+
+* `width` 宽度
+* `min-width` 最小宽度，无论内容多少，宽度都小于或等于其值。
+* `max-width` 最大宽度，无论内容多少，宽度都大于或等于其值。常用于`inline-block`，用于达到一定宽度后换行。
+* `height` 高度
+* `min-height` 最小高度，无论内容多少，高度都小于或等于其值
+* `max-height` 最大高度，无论内容多少，高度都大于或等于其值
+
+#### 内边距 padding
+
+相关属性值：
+
+* `padding-left` 左内边距
+* `padding-right` 右内边距
+* `padding-top` 上内边距
+* `padding-bottom` 下内边距
+* `padding` 上面四个的简写，顺序是上、右、下、左。
+
+padding的规律：
+
+* 四个值`padding: 10px 20px 30px 40px` 上右下左
+
+* 三个值`padding: 10px 20px 30px ` 上右下，左边跟随右边的值
+
+* 两个值`padding:10px 20px ` 上和右，没有下，跟随上，没有左，跟随右
+
+* 一个值`padding: 10px` 上下左右都使用同一个值
+
+#### 外边距 margin
+
+相关属性值：
+
+* `margin-left` 左外边距
+* `margin-right` 右外边距
+* `margin-top` 上外边距
+* `margin-bottom` 下外边距
+* `margin` 上面四个属性的简写。规律同`padding`
+
+#### 上下margin的传递，父子关系
+
+**`margin-top`传递**：如果块级元素的顶部线和父元素的顶部线重叠，那么这个块级元素的margin-top值会传递给父元素。
+
+下面的margin-top设置是在inner上，但是传递到了box2上
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .box1 {
+      width: 100px;
+      height: 100px;
+      background-color: red;
+    }
+
+    .box2 {
+      width: 200px;
+      height: 200px;
+      background-color: orange;
+    } 
+
+    .inner {
+      width: 100px;
+      height: 100px;
+      background-color: orchid;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box1"></div>
+  <div class="box2">
+    <div class="inner"></div>
+  </div>
+</body>
+
+</html>
+```
+
+**margin-bottom传递**：如果块级元素的底部线和父元素的底部线重叠，并且父元素的高度是`auto`，那么这个块级元素的`margin-bottom`值会传递给父元素。
+
+下面的margin-bottom设置是在inner上，box2的高度是auto（没有设置），inner的`margin-bottom`传递到了box2上。
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .box1 {
+      width: 100px;
+      height: 100px;
+      background-color: red;
+    }
+
+    .box2 {
+      width: 200px;
+      background-color: orange;
+    } 
+
+    .inner {
+      width: 100px;
+      height: 100px;
+      background-color: orchid;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box2">
+    <div class="inner"></div>
+  </div>
+  <div class="box1"></div>
+</body>
+
+</html>
+```
+
+如何防止出现传递问题？
+
+1. 给父元素设置`padding-top`\\`padding-bottom`，让父级元素和内部元素的顶部、底部线不重叠，就可以防止此问题。不推荐。
+
+   ```css
+   .box2 {
+     width: 200px;
+     background-color: orange;
+     padding-bottom: 5px;
+   } 
+   ```
+
+2. 给父元素设置`border`，也是让元素边界线不重叠。不推荐
+
+   ```css
+   .box2 {
+     border-bottom: 5px solid yellowgreen;
+     width: 200px;
+     background-color: orange;
+   } 
+   ```
+
+3. 触发`BFC`（`block format context`）结界。BFC是解决此类问题最好的方法。
+
+   * 浮动可以触发
+
+   * 设置一个元素的`overflow`为非`visible`，如`hidden`、`auto`、`scroll`
+
+     ```css
+     .box2 {
+       overflow: hidden;
+       width: 200px;
+       background-color: orange;
+     } 
+     ```
+
+建议：
+
+* `margin`一般是用来设置兄弟元素之间的间距
+* `padding`一般是用来设置父子元素之间的间距
+
+#### 上下margin折叠
+
+垂直方向上相邻的2个`margin`（`margin-top`、`margin-bottom`）有可能会合并为1个`margin`，这种现象叫做折叠`collapse`。
+
+水平方向上的`margin`永远不会折叠。
+
+折叠后最终值的计算规则：两个值进行比较，取较大的值。
+
+* 两个兄弟块级元素之间上下margin的折叠。
+
+![微信截图_20200919175937](https://raw.githubusercontent.com/ccbeango/blogImages/master/HTML+CSS/HTML%E5%92%8CCSS%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A003.png)
+
+* 父子块级元素之间的margin折叠。
+
+![微信截图_20200919180151](C:%5CUsers%5CAdministrator%5CDesktop%5C%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20200919180151.png)
+
+块级元素折叠问题看似有点莫名其妙，实际上还有有用处的。比如连续的段落之间的`margin`，恰好需要这种折叠效果。
+
+![微信截图_20200919180523](https://raw.githubusercontent.com/ccbeango/blogImages/master/HTML+CSS/HTML%E5%92%8CCSS%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A004.png)
+
+如何防止折叠？
+
+* 只设置其中一个元素的`margin`。
+
+#### 边框 border
+
+边框宽度：
+
+* `border-top-width` 
+* `border-right-width`
+* `border-bottom-width`
+* `border-left-width`
+* `border-width`
+
+边框颜色
+
+* `border-top-color` 
+* `border-right-color`
+* `border-bottom-color`
+* `border-left-color`
+* `border-color`
+
+边框样式
+
+* `border-top-style` 
+* `border-right-style`
+* `border-bottom-style`
+* `border-left-style`
+* `border-style`
+
+边框样式取值如图
+
+![微信截图_20200919195202](https://raw.githubusercontent.com/ccbeango/blogImages/master/HTML+CSS/HTML%E5%92%8CCSS%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A005.png)
+
+`border-top`、`border-right`、`border-bottom`、`border-left`各个边的属性简写。
+
+`border` 上面三个属性的简写，且不缺分顺序。按照个人习惯写就好。
+
+#### 边框 形状
+
+边框的形状可能是：
+
+* 矩形
+* 梯形
+* 三角形
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    div {
+      margin-bottom: 30px;
+    }
+
+    /* 矩形 */
+    .box1 {
+      width: 100px;
+      
+      border-top: 20px solid red;
+    }
+
+    /* 梯形 */
+    .box2 {
+      width: 50px;
+      height: 50px;
+      background-color: blue;
+      border-top: 50px solid red;
+      border-right: 50px solid yellow;
+      border-bottom: 50px solid green;
+      border-left: 50px solid purple;
+    }
+
+    /* 三角形1 */
+    .box3 {
+      width: 0;
+      height: 0;
+      border-top: 100px solid red;
+      border-left: 100px solid green;
+    }
+
+    /* 三角形2 */
+    .box4 {
+      width: 0;
+      height: 0;
+      border-top: 50px solid red;    
+      border-left: 50px solid green;      
+      border-bottom: 50px solid blue;      
+      border-right: 50px solid purple;      
+    }
+
+    /* 三角形3 */
+    .box5 {
+      width: 0;
+      height: 0;
+      border-top: 50px solid red;    
+      border-left: 50px solid transparent;      
+      border-right: 50px solid transparent;   
+    }
+
+    /* 三角形4 */
+    .box6 {
+      width: 0;
+      height: 0;
+      border-top: 100px solid red;
+      border-left: 100px solid transparent;
+      transform: rotate(-45deg);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box1"></div>
+  <div class="box2"></div>
+  <div class="box3"></div>
+  <div class="box4"></div>
+  <div class="box5"></div>
+  <div class="box6"></div>
+</body>
+</html>
+```
+
+#### 边框 border-radius
+
+圆角可以设置具体数值，也可以设置百分比值。
+
+圆角相关属性：
+
+* `border-top-left-radius`
+* `border-top-right-radius`
+* `border-bottom-left-radius`
+* `border-bottom-right-radius`
+* `border-radius`
+
+`broder-*-*-radius`定义的是四分之一椭圆的半径
+
+* 第一个是水平半径
+
+* 第二个是垂直半径（如果不设置，就跟随水平的半径值）
+
+* `border-top-left-radius: 55pt 25pt;` 设置如图：
+
+  ![微信截图_20200920110818](https://raw.githubusercontent.com/ccbeango/blogImages/master/HTML+CSS/HTML%E5%92%8CCSS%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A006.png)
+
+`border-radius`是一个缩写属性
+
+* `border-radius: 10px 20px 30px 40px/15px 25px 35px 45px;`
+* 斜线`/`前面是水平半径，后面是垂直半径。
+* 四个值的顺序是顺时针方向，上左`top-left`、上右`top-right`、下右`bottom-right`、下左`bottom-left`。也还是上右下左。不过很少这么用，一般只用来设置一个值。
+  * 如果下左`bottom-left`没设置，就跟随上右`top-right`
+  * 如果下右`bottom-right`没设置，就跟随上左`top-left`
+  * 如果上右`top-right`没设置，就跟随`top-left`
+
+#### 外轮廓 outline
+
+`outline`表示元素的外轮廓，特点是
+
+* 不占用空间
+* 默认显示在`border`的外面
+
+`outline`相关属性有
+
+* `outline-width` 宽度
+* `outline-style` 样式，取值跟`border`样式一样，如`solid`、`dotted`等
+* `outline-color` 颜色
+* `outline` 是上面三个属性的简写。用法和`border`类似
+
+应用实例：
+
+* 去除`a`元素、`input`元素的focus轮廓效果。
+
+  ```css
+  a, input {
+    outline: none;
+  }
+  ```
+
+#### 阴影 box-shadow
+
+`<shadow>= inset? && length{2, 4} && color?`
+
+* `inset` 外框阴影变内框阴影
+* 第一个`length` 水平方向的偏移，正数往右偏移
+* 第二个`length` 垂直方向的偏移，正数往下偏移
+* 第三个`length` 模糊半径（blur radius）
+* 第四个`length` 阴影向四周的延伸距离
+* `<color>` 阴影的颜色，如果没有设置，就跟随color属性的颜色。
+
+注：`&&`就表示顺序是任意的。所以这三个设置的顺序就是任意的。
+
+阴影可以设置一个或多个，多个阴影设置使用逗号`,`隔开。
+
+```css
+box-shadow: inset 10px 5px 5px orange, 5px 10px 5px green;
+```
+
+例子:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    div {
+      margin: 20px auto;
+    }
+    .box1 {
+      width: 100px;
+      height: 100px;
+      background-color: red;
+      box-shadow: 10px 5px 5px 3px orange;
+    }
+
+    .box2 {
+      width: 100px;
+      height: 100px;
+      background-color: green;
+      box-shadow: inset 10px 5px 5px orange;
+    }
+  </style>
+</head>
+<body>
+  <div class="box1"></div>
+  <div class="box2"></div>
+</body>
+</html>
+```
+
+#### 尺寸 box-sizing
+
+用来设置盒子模型中的宽高的行为。
+
+默认情况下，盒子尺寸是内容盒子，即设置的宽度和高度只是指定内容的高度。
+
+`border-sizing`的属性值
+
+* `content-box` 内容盒子。padding、border都布置在width、height外边
+* `border-box` 盒子内减 padding、border都布置在width、height里边
+
+#### 水平居中
+
+在一些需求中，需要元素在父元素中水平居中显示（父元素一般都是块级元素、inline-block）
+
+行内元素、`inline-block`元素水平居中方法是：在父元素中设置`text-align: center;`
+
+块级元素水平居中：在自身上设置`margin: 0 auto;`
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .box {
+      height: 200px;
+      background-color: red;
+      /* 1.普通文本 */
+      /* text-align: center; */
+      /* 2.行内元素 */
+      /* text-align: center; */
+      /* 3.行内替换元素 */
+      /* text-align: center; */
+      /* 4.行内块级元素 */
+      /* text-align: center; */
+      /* 5.块级元素 这个设置只能文字居中 */
+      /* text-align: center; */
+    }
+
+    .ib {
+      width: 100px;
+      height: 100px;
+      background-color: green;
+      display: inline-block;
+    }
+
+    .block {
+      width: 200px;
+      height: 100px;
+      background-color: yellow;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box">
+    <!-- 1.普通文本 -->
+    <!-- 我是普通文本 -->
+
+    <!-- 2.行内元素 -->
+    <!-- <strong>我是行内元素</strong> -->
+
+    <!-- 3.行内替换元素 -->
+    <!-- <a href="#">我是a链接</a> -->
+
+    <!-- 4.行内块级元素: inline-block -->
+    <!-- <span class="ib">我是行内块级元素</span> -->
+
+    <!-- 5.块级元素 -->
+    <div class="block">我是块级元素</div>
+  </div>
+</body>
+
+</html>
+```
+
+#### margin水平居中原理
+
+`maragin: 0 auto;`中设置了`margin-left`和`margin-right`都为`auto`，这两个值如果不设置都有默认值0。如果只设置这两个值其中之一为`auto`，比如设置`margin-left: auto;`，此时`margin-right`是0，浏览器会把当前行剩余的宽度自动分配给`margin-left`。
+
+下面的设置，`div.inner`就会靠右侧显示。
+
+```html
+<style>
+  .box {
+    height: 200px;
+    background-color: red;
+
+  }
+
+  .inner {
+    width: 200px;
+    height: 100px;
+    background-color: yellow;
+    margin-left: auto;
+    margin-right: 0;      
+  }
+</style>
+
+<body>
+  <div class="box">
+    <div class="inner"></div>
+  </div>
+</body>
+```
+
+那么，如果把`margin-left`和`margin-right`都设置为`auto`，浏览器就会把剩余的空间让两者均分。
+
+垂直方向如果也设置auto，是不会居中的，如果想要垂直方向的居中，意味着父元素垂直高度必须是`auto`。但如果设置父元素高度是`auto`，父元素的高度就必须由其内部的元素撑起，那么它的高度就等于其中子元素的高度，也就不存在垂直居中了。如下：
+
+```html
+<style>
+  .box {
+    height: auto;
+    background-color: red;
+  }
+
+
+  .inner {
+    width: 200px;
+    height: 100px;
+    background-color: yellow;
+    margin-left: auto;
+    margin-right: auto;      
+  }
+</style>
+
+<body>
+  <div class="box">
+    <div class="inner"></div>
+  </div>
+</body>
+```
+
+### CSS属性-背景
+
+#### 背景 background-image
+
+用于设置元素的背景图片。
+
+* 会**盖在（不是覆盖）**background-color的上面。
+* 如果设置了多张图片`background-image: url("bg001.png"), url("bg002.png"), url("bg003.png");`，设置的第一张图片将显示在最上面，其他图片按顺序层叠在下面。
+* 如果设置了背景图片后，元素没有具体的宽高，背景图片是不会显示出来的。即背景图不会把盒子撑起来。
+
+例子：
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .box {
+      width: 800px;
+      height: 600px;
+      background-color: red;
+      background-image: url('https://lh3.googleusercontent.com/proxy/JxeDPDa1PJJA55FcVdr3K12W-7gHVoUS3YsSIfg1kl7P_ZNO6cW537L5FYeJoACiIXFMRPHLnPTEuiJ20XHfglwstM80py-NYd4ZELtl67KN_EdHr_rPWO3eX7DZwd1K'), url('https://pic1.zhimg.com/v2-3b4fc7e3a1195a081d0259246c38debc_720w.jpg?source=172ae18b');
+      background-repeat: repeat-y;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div class="box">
+    <div class="inner"></div>
+  </div>
+</body>
+
+</html>
+```
+
+#### 背景 background-repeat
+
+用于设置背景图片是否需要平铺。
+
+常见设置有:
+
+* `repeat` 平铺，默认值
+* `no-repeat` 不平铺
+* `repeat-x` 只在水平方向平铺
+* `repeat-y` 只在垂直方向平铺
+
+#### 背景 background-size 
+
+用于设置背景图片的大小。
+
+* `auto` 以背景图本身大小显示  默认值
+* `cover` 缩放背景图，以完全覆盖铺满元素
+* `contain` 缩放背景图，宽度或高度铺满元素，但是图片保持宽高比
+* `<percentage>` 百分比，相对于背景区（background positioning area）。当只设置一个值时，是设置说水平方向的大小，垂直方向是`auto`，即使用默认值。设置两个值时，是水平、垂直方向。`background-size: auto 180px;`表示宽度保持原来宽高比自动计算，高度`180px`。`background-size: 150px`等价于`background-size: 150px auto`
+* `length` 具体的大小，比如100px 可以设置一个或两个值。规则同上。
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .box {
+      width: 1200px;
+      height: 500px;
+      background-color: red;
+      background-image: url('https://pic1.zhimg.com/v2-3b4fc7e3a1195a081d0259246c38debc_720w.jpg?source=172ae18b');
+      background-repeat: no-repeat;
+      /* 背景图片进行拉伸，让背景图片覆盖整个元素 */
+      /* background-size: cover; */
+      /* 对背景进行拉伸，拉升到一个方向的宽度（高度），不再进行拉伸，保持图片的宽高比 */
+      background-size: contain;
+
+      /* 设置百分比或具体值 */
+      /* background-size: 33% 80%; */
+      /* background-size: 300px 100px; */
+    }
+
+  </style>
+</head>
+
+<body>
+  <div class="box"></div>
+</body>
+
+</html>
+```
+
+#### 背景 background-position
+
+ `background-position`用于设置背景图片在水平、垂直方向上的具体位置。可以设置一个或两个值
+
+* `<number>`  设置具体值  水平或垂直方向
+* `<percentage>` 设置百分比 水平或垂直方向
+* 水平方向还可以设置值 `left`、`center`、`bottom`
+* 垂直方向还可以设置 `top`、`center`、`bottom`
+* 如果只设置了一个方向，另一个方向默认是`center`，如`background-position: 80px;`等价于`background-position: 80px center;` 
+
+#### 背景 background-attachment
+
+可以设置以下3个值：
+
+* `scroll` 背景图片跟随元素一起滚动 默认值
+* `local` 背景图片跟随元素以及元素内容一起滚动
+* `fixed` 背景图片相对于浏览器窗口固定
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .box {
+      width: 200px;
+      height: 300px;
+      background-image: url('http://res.xyq.netease.com/pc/zt/20151119153357/images/top_aec1ab4.jpg');
+      overflow: auto;
+      /* 随着box的滚动（浏览器），背景一起滚动 */
+      /* background-attachment: scroll; */
+
+      /* local 图片会随着box内容的滚动而滚动 */
+      /* background-attachment: local; */
+
+      /* 背景是固定的，不会随着box的滚动而滚动 游戏网站使用较多 */
+      background-attachment: fixed;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    MongoDB是一个基于分布式文件存储 [1] 的数据库。由C++语言编写。旨在为WEB应用提供可扩展的高性能数据存储解决方案。
+    MongoDB是一个介于关系数据库和非关系数据库之间的产品，是非关系数据库当中功能最丰富，最像关系数据库的。它支持的数据结构非常松散，是类似json的bson格式，因此可以存储比较复杂的数据类型。Mongo最大的特点是它支持的查询语言非常强大，其语法有点类似于面向对象的查询语言，几乎可以实现类似关系数据库单表查询的绝大部分功能，而且还支持对数据建立索引。
+  </div>
+  <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+</body>
+</html>
+```
+
+#### 背景 background
+
+`background`是一系列背景相关属性的简写属性
+
+* 它是这些属性的缩写：`image position/size repeat attachment color`
+* `background-size`可以省略，如果不省略，`/background-size`必须紧跟在`background-position`的后面
+* 其他属性也都可以省略，而且顺序任意
+
+```css
+background: url("images/beer.png") center center/150px 150px no-repeat #fff;
+```
+
+#### background-image和img的选择
+
+|                        | img                | background-image         |
+| ---------------------- | ------------------ | ------------------------ |
+| 性质                   | HTML元素           | CSS样式                  |
+| 图片是否占用空间       | `√`                | `X`                      |
+| 浏览器右键直接查看地址 | `√`                | `X`                      |
+| 支持CSS Sprite         | `X`                | `√`                      |
+| 更有可能被搜索引擎收录 | `√`（结合alt属性） | `X`                      |
+| 加载顺序               | 优先加载           | 等加载完HTML元素后再加载 |
+
+总结：
+
+* img，作为网页内容的重要组成部分，比如广告图片、LOGO图片、文章配图、产品图片
+* background-image 可有可无。有，能让页面更加美观。无，也不影响用户获取完整的网页内容信息
+
+### 光标 cursor
+
+可视设置鼠标指针在元素上面时的显示样式。
+
+cursor常见的设置:
+
+* `auto`  浏览器根据上下文决定指针的显示样式，比如根据文本和非文本切换指针样式
+* `default` 由操作系统决定，一般就是一个小箭头
+* `pointer` 一只小手，鼠标指针挪动到链接上面默认就是这个样式
+* `text` 一条竖线，鼠标指针挪动到文本输入框上面默认就是这个样式
+* `none` 没有任何指针显示在元素上面
+
+### CSS属性-定位
+
+这个[文章](https://www.cnblogs.com/guangzan/p/10290579.html)写的很不错。
+
+利用`position`可以对元素进行定位，常用取值有：
+
+* `static` 静态定位 默认值
+* `relative` 相对定位
+* `absolute` 绝对定位
+* `fixed` 固定定位
+
+|          | 脱离标准流 | 定位元素 | 绝对定位元素 | 定位参照对象                                                 |
+| -------- | ---------- | -------- | ------------ | ------------------------------------------------------------ |
+| static   | `X`        | `X`      | `X`          | `X`                                                          |
+| relative | `X`        | ==√==    | `X`          | 元素自己原来的位置                                           |
+| absolute | ==√==      | ==√==    | ==√==        | 最邻近的定位祖先元素<br/>如果找不到这样的祖先元素，参照对象是视口 |
+| fixed    | ==√==      | ==√==    | ==√==        | 视口                                                         |
+
+#### 静态定位 static
+
+默认值 元素按照标准流布局，left、right、top、bottom没有任何作用
+
+#### 相对定位 relative
+
+元素按照标准流布局。
+
+可以通过left、right、top、bottom进行定位。定位参照对象是原来的位置。
+
+应用场景：
+
+* 在不影响其他元素位置的前提下，对当前元素位置进行微调。
+
+  ```html
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+      sub, sup {
+        font-size: 14px;
+      }
+  
+      sub {
+        position: relative;
+        bottom: 5px;
+      }
+  
+      sup {
+        position: relative;
+        top: 2px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>请计算n<sub>1</sub>+n<sub>2</sub>+n<sup>2</sup>的值</h1>
+  </body>
+  </html>
+  ```
+
+梦幻西游相对定位练习
+
+背景图根据浏览器窗口大小，决定显示内容大小，图片内容始终居中显示。这种方式比设置`background-image`的方式更好，后者必须有div的固定高度，没有高度的情况下是看不到背景的。使用`img`更合适一点，可以直接撑起高度。
+
+实现思路：图片向左移动的距离= 图片宽度 * 0.5 - div * 0.5。即向左移动的宽度等于图片宽度的一半减去div容器的宽度的一半。 
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      margin: 0;
+    }
+
+    .box {
+      overflow: hidden;
+    }
+
+    .box img {
+      /* 1 向左移动img的一半 */
+      position: relative;
+      /* left: -960px; */
+      transform: translate(-50%);
+      /* 2 向右移动父元素的一半 */
+      margin-left: 50%;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <img src="http://res.xyq.netease.com/pc/zt/20151119153357/images/top_aec1ab4.jpg" alt="">
+  </div>
+</body>
+</html>
+```
+
+#### 固定定位 fixed
+
+元素脱离标准流。
+
+可以通过left、right、top、bottom进行定位。定位参照对象是视口（viewport）。
+
+当画布滚动时，固定不动。
+
+**什么是视口？**
+
+能看到网页的部分区域叫做视口。
+
+**什么是画布？**
+
+能看到网页的部分区域是有限的，但是网页可能会很大，整个网页是画布。
+
+#### 绝对定位 absolute
+
+元素脱离normal flow(标准流)
+
+可以通过`left` `right` `top` `bottom`进行定位
+
+* 定位参照对象时最邻近的定位祖先元素
+* 如果找不到这样的祖先元素,参照对象是视口
+
+定位元素指的是
+
+* position值不为`static`的元素
+* 也就是position值为`ralative` `absolute` `fixed`的元素
+
+子绝父相
+
+在觉大数情况下，子元素的绝对定位都是相对于父元素进行定位
+
+如果希望子元素相对于父元素进行定位，又不希望父元素脱标,常用解决方案是:
+
+* 父元素设置`position: relative`，让父元素成为定位元素,而且父元素不脱离标准流
+* 子元素设置`position: absolute`
+
+简称为子绝父相。
+
+#### 绝对定位技巧
+
+绝对定位元素是`position`值为`absolute`或`fiexed`的元素
+
+对于绝对定位元素来说
+
+* 定位参照对象的宽度 = left + right + margin-left + margin-right + 绝对定位元素的实际占用高度
+* 定位参照对象的高度 = top + bottom + margin-top + margin-bottom + 绝对定位元素的实际占用高度
+
+如果希望绝对定位元素的宽度和定位参照对象一样，可以给绝对定位元素设置以下属性：`left: 0; right: 0; bottom: 0; margin: 0`。
+
+如果希望绝对定位元素在定位参照对象中居中显示，可以给绝对定位元素设置以下属性：`left: 0; right: 0; bottom: 0; margin: auto`。
+
+下面是具体实现的例子：
+
+让子元素占据父元素，下面的`div.inner`没有设置宽度，当时利用上面的宽度公式，它的宽度就是`div.box`的宽度。高度也可以用此种方法实现
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .box {
+      position: relative;
+      width: 600px;
+      height: 600px;
+      background-color: red;
+    }
+
+    .inner {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 100px;
+      background: blue;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <div class="inner"></div>
+  </div>
+</body>
+</html>
+```
+
+让内容居中，根据上面的公式，首先设置`left`、`right`相等，一般设置为`0`，然后设置`margin: 0 auto`，此时`div.inner`就会水平居中。同理，垂直方向上也可以这么设置。
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .box {
+      position: relative;
+      width: 600px;
+      height: 600px;
+      background-color: red;
+    }
+
+    .inner {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      margin: auto auto;
+      width: 200px;
+      height: 200px;
+      background: blue;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <div class="inner"></div>
+  </div>
+</body>
+</html>
+```
+
+#### 定位元素的层叠关系
+
+定位元素的层叠关系：
+
+* 父子关系：子元素会层叠在父元素上
+* 非父子关系：
+  * 都是非定位元素：在标准流中一般存在的层叠想想
+  * 一个是定位、一个是非定位元素：定位元素会层叠在非定位元素上面
+  * 都是定位元素：默认后面出现的会盖住前面的。可以使用CSS属性`z-index`来控制层叠顺序。
+
+### CSS属性-z-index
+
+z-index属性用来设置**定位元素**的层叠关系，仅对定位元素有效。
+
+取值可以是正整数、负整数、0、auto（默认）
+
+比较原则：
+
+* 如果是兄弟关系：
+  * `z-index`越大，层叠在越上面
+  * `z-index`相等，写在后面的那个元素层叠在上面
+* 如果不是兄弟关系
+  * 各自从元素自己以及祖先元素中，找出最相邻的2个定位元素进行比较。
+
+#### 脱标元素的特点
+
+脱离标准流元素：相对定位、绝对定位、固定定位、浮动。
+
+脱离标准流元素的特点：
+
+* 没有设置宽高情况下，宽高默认由内容决定
+
+* 可以随意设置宽高，即使是行内元素
+* 不再受标准流约束
+* 不再给父元素汇报高度。意思是脱离了文档流，父元素不知道这个元素的存在了。
+
+脱标元素和display的关系：
+
+脱标元素都会变成块级元素，块级元素会占据父级元素一整行，但是脱标后已经没有父元素了，这时宽高都会变为`auto`，即包裹内容，内容宽高是多少，元素的宽高就是多少。
+
+### CSS Sprite
+
+CSS Sprite是一种CSS图像合成技术，将各种小图片合并到一张图片上，然后利用CSS的背景定位来显示对应的图片部分。
+
+有人翻译为CSS雪碧图、CSS精灵图。
+
+使用CSS Sprite的好处：
+
+* 减少网页的http请求数量，加快网页的响应速度，减轻服务器压力
+* 减小图片总大小
+* 解决了图片命名困扰，只需要针对一张集合的图片命名
+
+Sprite图片制作（雪碧图、精灵图）：
+
+* Photoshop
+* 网页生成 https://www.toptal.com/developers/css/sprite-generator
+
+前端一些框架 mpvue(vue) uniapp(vue) taro(react)
+
+下面的例子，网页布局中一些居中显示，谁需要居中，class中就加上wrap
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .wrap {
+      width: 1000px;
+      margin: 0 auto;
+    }
+
+    .nav {
+      margin-top: 20px;
+      background-color: red;
+      height: 50px;
+    }
+
+    .header {
+      margin-top: 20px;
+      background-color: green;
+      height: 50px;
+    }
+    
+    .content {
+      margin-top: 20px;
+      background-color: blue;
+      height: 50px;
+    }
+  </style>
+</head>
+<body>
+  <!-- 居中显示，谁需要居中，就加上wrap -->
+  <div class="nav wrap"></div>
+  <div class="header wrap"></div>
+  <div class="content"></div>
+</body>
+</html>
+```
+
+CSS Sprite简单练习
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .wrap {
+      width: 1100px;
+      margin: 0 auto;
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    p, ul, li, h5 {
+      margin: 0;
+      padding: 0;
+      float: left;
+    }
+
+    .service ul li {
+      margin-left: 12px;
+      margin-right: 20px;
+    }
+
+    .service ul li p {
+      height: 42px;
+      line-height: 42px;
+      font-size: 18px;
+      width: 180px;
+      font-weight: 700;
+      margin-left: 10px;
+    }
+
+    .service ul li h5 {
+      text-indent: -9990px;
+      width: 36px;
+      height: 42px;
+      background-image: url(http://misc.360buyimg.com/mtd/pc/index_2019/1.0.0/assets/img/23f3ddf914b1b527d0429a3d713cfe3a.png);
+      
+    }
+
+    .service ul li .duo {
+      background-position: 0 -192px;
+    }
+
+    .service ul li .kuai {
+      background-position: -41px -192px;
+    }
+
+    .service ul li .hao {
+      background-position: -82px -192px;
+    }
+
+    .service ul li .sheng {
+      background-position: -123px -192px;
+    }
+  </style>
+</head>
+<body>
+  <div class="service wrap">
+    <ul>
+      <li>
+        <h5 class="duo">多</h5>
+        <p>品类齐全，轻松购物</p>
+      </li>
+      <li>
+        <h5 class="kuai">快</h5>
+        <p>多仓直发，急速配送</p>
+      </li>
+      <li>
+        <h5 class="hao">好</h5>
+        <p>正品行货，精致服务</p>
+      </li>
+      <li>
+        <h5 class="sheng">省</h5>
+        <p>天天低价，畅选无忧</p>
+      </li>
+    </ul>
+  </div>
+</body>
+</html>
+```
+
+背景居中，梦幻西游适配练习：
+
+能让产品适应各种运行环境，尽量保持一致的用户体验在前端开发中，一般都是要做浏览器适配、屏幕适配。
+
+背景图根据浏览器窗口大小，决定显示内容大小，图片内容始终居中显示。
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    .box {
+      height: 400px;
+      background-image: url('http://res.xyq.netease.com/pc/zt/20151119153357/images/top_aec1ab4.jpg');
+      background-position: center -81px;
+    }
+  </style>
+</head>
+<body>
+  <div class="box"></div>
+</body>
+</html>
+```
+
+### CSS属性-浮动
+
+绝对定位、浮动都会让元素脱离标准流，以达到灵活布局的效果。
+
+可以通过`float`属性让元素产生浮动效果，float的常用取值：
+
+* `none` 不浮动，默认值
+* `left` 向左浮动
+* `right` 向右浮动
+
+元素的层叠关系：
+
+* 标准元素：标准流中的元素不存在层叠
+* 定位元素：定位元素层叠到标准流元素上面
+  * 定位元素之间可以使用z-index改变层叠关系
+* 浮动元素：定位元素会层叠在浮动元素上面。
+* 层叠最终关系：定位元素 > 浮动元素 > 标准元素。
+
+#### 浮动的规则
+
+* 规则一：元素一旦浮动后，会脱离标准流，朝着向左或向右方向移动，直到自己的边接紧贴着包含块（一般是父元素）或者其他浮动元素的边界为止
+
+* 规则二：浮动元素不能与行内级元素层叠，行内级内容将会被浮动元素推出。也就是都会被挤出去。
+
+  * 比如行内级元素、inline-block元素、块级元素的文字内容。可以看到下面的其他内容都会被`strong`元素推出去，但并意味着strong没有脱离标准流。只是规则使得它不能与这些元素层叠。因为最开始出现浮动就是为了做图文环绕的。
+
+    ```html
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Document</title>
+      <style>
+        strong {
+          float: left;
+        }
+    
+        .inner {
+          display: inline-block;
+          width: 50px;
+          height: 50px;
+          background: blue;
+        }
+    
+        a {
+          background-color: #00f;
+          color: #fff;
+        }
+      </style>
+    </head>
+    <body>
+     <div class="box">
+       div元素的文字
+      <div class="inner"></div>
+      <span>span元素</span>
+      <strong>strong元素</strong>
+      <a href="#">a元素</a>
+     </div>
+    </body>
+    </html>
+    ```
+
+  * 利用此特性可以轻松实现图文环绕。
+
+    ```html
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Document</title>
+      <style>
+        .box {
+          background-color: red;
+          width: 500px;
+        }
+    
+        img {
+          float: left;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="box">
+        据俄罗斯防疫指挥部4日消息
+        <img
+      src="https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1607166166&di=6f23129fe4375e54a9d8146e148b55cb&src=http://a0.att.hudong.com/30/29/01300000201438121627296084016.jpg"
+          alt="">
+       过去24小时俄新增新冠肺炎确诊病例27403例，累计确诊达2402949例，累计死亡42176例。莫斯科市5日开始大规模新冠疫苗接种。随着新冠疫情在俄罗斯不断蔓延，俄罗斯首都莫斯科市5日开始大规模疫苗接种。莫斯科市政府市民疫苗接种电子申请系统4日正式启动，接种站5日投入运营。
+      </div>
+    </body>
+    </html>
+    ```
+
+* 规则三：行内级元素、inline-block元素浮动后，其顶部将与所在行的顶部对齐。只会在当前行左右浮动，并不会向上浮动。
+
+  ```html
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+      .box {
+        background-color: red;
+        width: 300px;
+      }
+  
+      .inner {
+        float: left; /* 这里会报错 */
+        display: inline-block;
+        width: 30px;
+        height: 30px;
+        background: blue;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box">
+      据俄罗斯防疫指挥部4日消息
+      <div class="inner" ></div>
+      过去24小时俄新增新冠肺炎确诊病例27403例，累计确诊达2402949例，累计死亡42176例。莫斯科市5日开始大规模新冠疫苗接种。
+      <div class="inner"></div>
+      随着新冠疫情在俄罗斯不断蔓延，俄罗斯首都莫斯科市5日开始大规模疫苗接种。莫斯科市 <div class="inner"></div>政府市民疫苗接种电子申请系统4日正式启动，接种站5日投入运营。
+    </div>
+  </body>
+  </html>
+  ```
+
+* 规则四：如果元素是向左（右）浮动，浮动元素的左（右）边接不能超出包含块的左（右）边界。
+
+* 规则五：浮动元素之间不能层叠。
+
+  * 左浮找左浮，右浮找右浮。	
+  * 如果水平方向剩余的空间不够显示浮动元素，浮动元素将线下移动，直到找到充足的空间为止；
+
+* 规则六：浮动元素的顶端不能超过包含块的顶端，也不能超过之前所有浮动元素的顶端。
+
+  下面的`div.inner3`左边会挨着`div.inner2`，并不会挨着`div.inner1`。如果`div.inner2`的浮动改成`float: right;`也不会到最顶部。
+
+  ```html
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+      .box {
+        background-color: red;
+        width: 300px;
+        height: 320px;
+      }
+  
+      .inner1 {
+        float: left;
+        width: 200px;
+        height: 100px;
+        background: green;
+      }
+  
+      .inner2 {
+        float: left;
+        width: 150px;
+        height: 150px;
+        background: yellow;
+      }
+  
+      .inner3 {
+        float: left;
+        width: 30px;
+        height: 150px;
+        background: purple;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box">
+      <div class="inner1"></div>
+      <div class="inner2"></div>
+      <div class="inner3"></div>
+    </div>
+  </body>
+  
+  </html>
+  ```
+
+  
+
+#### 理解浮动规则
+
+* `div.inner2`左浮动，只会在它自己的行内浮动；
+* `div.inner1`左浮动，`div.inner2`会跑到最上面，因为`div.inner1`脱离了文档流，此时会出现`inner1`和`inner2`层叠；此时inner2中的文本，会环绕`inner1`显示。
+* `div.inner1`左浮动，设置`div.inner2`的`display: inline-block;`，`div.inner2`会跑到最上面且会被挤在右侧，并不会层叠。
+* `div.inner1`和`div.inner2`都左浮动，会挨着第一行显示，不会层叠；
+* 如果此时去掉`div.box`中的高度，此时，就没有了红色。脱离文档流的元素不会向父元素报告高度，父元素没有了高度，即高度坍塌。可以清除浮动来解决。
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .box {
+      background-color: red;
+      height: 200px;
+    }
+
+    .inner1 {
+      /* float: left; */
+      width: 50px;
+      height: 50px;
+      background: green;
+    }
+
+    .inner2 {
+      /* float: left; */
+      /* display: inline-block; */
+      width: 80px;
+      height: 80px;
+      background: yellow;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <div class="inner1"></div>
+    <div class="inner2">我是内容啊</div>
+  </div>
+</body>
+</html>
+```
+
+#### 多出margin的处理方式
+
+在进行布局时，同一行多个元素摆放后，设置`margin-right`让他们之间产生间距，那么最后一个元素设置的`margin-right`总是多余的。
+
+解决方法：
+
+1. 每一行最后一个元素，总添加一个class，通过类选择器去除这个`margin-right`。
+
+2. 使用伪类选择器。但是使用伪类不好的有点是，如果布局改变，可能就要改变`nth-child`。最大的问题是兼容性问题。
+
+   ```html
+   <!DOCTYPE html>
+   <html lang="en">
+   <head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Document</title>
+     <style>
+       .box {
+         background-color: red;
+         width: 430px;
+         height: 320px;
+       }
+   
+       .inner {
+         float: left;
+         width: 100px;
+         height: 100px;
+         background: green;
+         margin-right: 10px;
+         margin-bottom: 10px;
+       }
+   
+       .inner:nth-child(4n) {
+         margin-right: 0;
+       }
+     </style>
+   </head>
+   <body>
+     <div class="box">
+       <div class="inner"></div>
+       <div class="inner"></div>
+       <div class="inner"></div>
+       <div class="inner"></div>
+       <div class="inner"></div>
+       <div class="inner"></div>
+       <div class="inner"></div>
+       <div class="inner"></div>
+       <div class="inner"></div>
+       <div class="inner"></div>
+       <div class="inner"></div>
+       <div class="inner"></div>
+     </div>
+   </body>
+   </html>
+   ```
+
+3. 块级元素宽度计算。使用margin负值。
+
+   ```html
+   <!DOCTYPE html>
+   <html lang="en">
+   
+   <head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Document</title>
+     <style>
+       /* width of block = content-width + marfin-left + margin-right + padding-left + padding+right + border-left + border-right */
+   
+       .box {
+         background-color: red;
+         width: 430px;
+         height: 320px;
+       }
+   
+       .wrap {
+         margin-right: -10px;
+       }
+   
+       .inner {
+         float: left;
+         width: 100px;
+         height: 100px;
+         background: green;
+         margin-right: 10px;
+         margin-bottom: 10px;
+       }
+   
+     </style>
+   </head>
+   
+   <body>
+     <div class="box">
+       <div class="wrap">
+         <div class="inner"></div>
+         <div class="inner"></div>
+         <div class="inner"></div>
+         <div class="inner"></div>
+         <div class="inner"></div>
+         <div class="inner"></div>
+         <div class="inner"></div>
+         <div class="inner"></div>
+         <div class="inner"></div>
+         <div class="inner"></div>
+         <div class="inner"></div>
+         <div class="inner"></div>
+       </div>
+     </div>
+   </body>
+   
+   </html>
+   ```
+
+例子2：
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .container {
+      width: 990px;
+      height: 500px;
+      background-color: red;
+      margin: 0 auto;
+    }
+
+    .wrap {
+      margin-right: -10px;
+    }
+
+    .item {
+      float: left;
+      margin-right: 10px;
+      width: 240px;
+      background-color: green;
+    }
+
+    .itema {
+      height: 306px
+    }
+
+    .itemb {
+      height: 148px;
+    }
+
+    .item-last {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="wrap">
+      <div class="item itema"></div>
+      <div class="item itema"></div>
+      <div class="item itemb"></div>
+      <div class="item itemb"></div>
+      <div class="item itemb item-last"></div>
+      <div class="item itemb item-last"></div>
+    </div>
+  </div>
+</body>
+</html>
+```
+
+例子3：
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .brand {
+      width: 1100px;
+      height: 180px;
+      background: red;
+    }
+
+    .brand ul {
+      margin-right: -10px;
+    }
+
+    .brand ul li {
+      float: left;
+      width: 219px;
+      height: 167px;
+      background: green;
+      margin-right: -1px;
+      border: 1px solid #333;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="brand">
+    <ul>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+    </ul>
+  </div>
+</body>
+
+</html>
+```
+
+
 
 
 
