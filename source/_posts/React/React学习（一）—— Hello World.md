@@ -32,8 +32,8 @@ React的特点：
   * 如何合理的进行组件的划分和设计，是一个非常关键的问题；
 * 多平台适配：
   * 2013年，React发布之初主要是开发Web页面；
-  * 2015年，Facebook退出了ReactNative，用于开发移动端跨平台；
-  * 2017年，Facebook退出ReactVR，用于开发虚拟现实Web应用程序；
+  * 2015年，Facebook推出了ReactNative，用于开发移动端跨平台；
+  * 2017年，Facebook推出ReactVR，用于开发虚拟现实Web应用程序；
 
 ## Hello World
 

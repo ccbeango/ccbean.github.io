@@ -21,121 +21,6 @@ tag:
 
 ## JSX核心语法
 
-电影列表的例子：
-
-```html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-  <div id="app">app</div>
-</body>
-
-</html>
-<!-- 添加React的依赖 -->
-<script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
-<script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
-<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
-
-<script type="text/babel">
-  // 封装APP组件
-  class App extends React.Component {
-    constructor() {
-      super();
-
-      this.state = {
-        movies: [ '大话西游', '美人鱼', '夏洛特烦恼', '西红柿首富' ]
-      };
-    }
-
-
-    render() {
-      const listArray = this.state.movies.map(item => <li key={item}>{item}</li>);
-
-      return (
-        <div>
-          <h2>电影列表</h2>
-          <ul>
-            {listArray}
-          </ul>
-          <h2>电影列表2</h2>
-          {this.state.movies.map(item => <li key={item}>{item}</li>)}
-        </div>
-      );
-    }
-  }
-
-  // 渲染App组件
-  ReactDOM.render(<App />,
-    document.getElementById('app')
-  );
-</script>
-```
-
-计数器例子：
-
-```html
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-
-<body>
-  <div id="app">app</div>
-</body>
-
-</html>
-
-<script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
-<script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
-<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
-
-<script type="text/babel">
-  class App extends React.Component {
-    constructor() {
-      super();
-
-      this.state = {
-        counter: 0
-      };
-    }
-
-    increment() {
-      this.setState({
-        counter: this.state.counter + 1
-      });
-    }
-
-    decrement() {
-      this.setState({
-        counter: this.state.counter - 1
-      });
-    }
-
-    render() {
-      return (
-        <div>
-          <h2>当前计数：{this.state.counter}</h2>
-          <button onClick={this.increment.bind(this)}>+1</button>
-          <button onClick={this.decrement.bind(this)}>-1</button>
-        </div>
-      );
-    }
-  }
-
-  // 渲染App组件
-  ReactDOM.render(<App />, document.getElementById('app'));
-</script>
-```
-
 ### 认识JSX
 
 ```jsx
@@ -201,8 +86,8 @@ JSX嵌入变量：
 
 </html>
 
-<script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
-<script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+<script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
 <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 
 <script type="text/babel">
@@ -282,8 +167,8 @@ JSX嵌入变量：
 
 </html>
 
-<script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
-<script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+<script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
 <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 
 <script type="text/babel">
@@ -325,6 +210,400 @@ JSX嵌入变量：
   ReactDOM.render(<App />, document.getElementById('app'));
 </script>
 ```
+
+#### JSX属性绑定
+
+HTML中元素属性是不可或缺的，在JSX中设置其属性与原生的HTML大致相同：
+
+* 如元素都会有`title`属性 `<h2 title={this.state.title}>Hello World</h2>`
+
+* 如`img`元素会有`src`属性 `<img src={this.getImageSize(this.state.imgUrl, 100)} alt="" />`
+
+* 如`a`元素会有`href`属性 `<a href={this.state.blogUrl} target="_blank">我的博客</a>`
+
+* 如元素需要绑定`class`属性 `<div className="box title">我是一个div</div>`
+  * 在这里`class`也是`JS`中的关键字，不能直接使用，要用`className`代替。
+  * 类似的还有HTML中的`for`，要使用`htmlFor`代替 `<label htmlFor="name">名字</label>`
+  
+* 如原生使用内联样式`style` 
+
+  ```jsx
+  <div style={{ color: 'red', fontSize: '30px' }}>我是绑定style属性的div</div>
+  ```
+
+  * 要注意这边是两个大括号，外层大括号是JSX语法，内层标识设置的内联样式是一个对象。
+
+下面是完整的示例：
+
+```jsx
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">app</div>
+</body>
+
+</html>
+
+<script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+<script type="text/babel">
+  class App extends React.Component {
+    constructor() {
+      super();
+
+      this.state = {
+        title: '标题',
+        imgUrl: 'http://p3.music.126.net/FHK7HOXGRM69u9J8wiU4ZQ==/109951165549520393.jpg',
+        blogUrl: 'https://ccbeango.github.io/',
+        active: true
+      };
+    }
+
+    getImageSize(imageUrl, size) {
+      return `${imageUrl}?param=${size}y${size}`;
+    }
+
+    render() {
+      return (
+        <div>
+          {/* 绑定普通属性 */}
+          <h2 title={this.state.title}>Hello World</h2>
+          <img src={this.getImageSize(this.state.imgUrl, 100)} alt="" />
+          <img src={this.getImageSize(this.state.imgUrl, 200)} alt="" />
+          <a href={this.state.blogUrl} target="_blank">我的博客</a>
+
+          {/* 绑定class属性 */}
+          <div className={"box title " + this.state.active ? 'active' : ''}>我是一个div</div>
+          <label htmlFor="name">名字</label>
+
+          {/* 绑定style属性 */}
+          <div style={{ color: 'red', fontSize: '30px' }}>我是绑定style属性的div</div>
+        </div>
+      );
+    }
+  }
+
+  // 渲染App组件
+  ReactDOM.render(<App />, document.getElementById('app'));
+</script>
+```
+
+#### JSX事件绑定
+
+React 事件的命名采用小驼峰式（camelCase），而不是纯小写；并且需要通过{}传入一个事件处理函数，这个函数会在事件发生时被执行；
+
+这里需要注意的是：事件绑定时，需要指定`this`，否则当事件触发时，无法正确调用绑定函数，因为绑定的方法并不是我们主动调用的，是被React内部调用的，在被React调用时，React内部是无法获知该方法来自哪里，需要我们自行指定。
+
+解决绑定`this`的方法：
+
+* 方法一：使用`bind()`函数显示绑定`this`
+* 方法二：使用`ES6`的`class fields`语法
+* 方法三：事件监听时传入箭头函数
+
+```jsx
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">app</div>
+</body>
+
+</html>
+
+<script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+<script type="text/babel">
+  class App extends React.Component {
+    constructor() {
+      super();
+
+      this.state = {
+
+      };
+    }
+
+    clickButton() {
+      console.log('按钮1 2 4', this);
+    }
+
+    clickButton3 = () => {
+      console.log('按钮3',this);
+    }
+
+    render() {
+      return (
+        <div>
+          {/* 无法获取this */}
+          <button onClick={this.clickButton}>按钮1</button>
+          {/* 方法一：bind()显示绑定 通常会在构造函数中绑定 */}
+          <button onClick={this.clickButton.bind(this)}>按钮2</button>
+          {/* 方法二：使用class field语法 */}
+          <button onClick={this.clickButton3}>按钮3</button>
+          {/* 方法三：箭头函数 */}
+          <button onClick={() => this.clickButton()}>按钮4</button>
+        </div>
+      );
+    }
+  }
+
+  // 渲染App组件
+  ReactDOM.render(<App />, document.getElementById('app'));
+</script>
+```
+
+事件绑定的参数传递
+
+在执行事件函数时，有可能我们需要获取一些参数信息：
+
+* 比如event对象：默认情况下，React会默认传递事件对象到绑定的函数中；
+* 有更多参数时，最好的方式就是传入一个箭头函数，主动执行的事件函数，并且传入相关的其他参数；
+
+```jsx
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">app</div>
+</body>
+
+</html>
+
+<script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+<script type="text/babel">
+  class App extends React.Component {
+    constructor() {
+      super();
+
+      this.state = {
+        movies: ['大话西游', '美人鱼', '夏洛特烦恼', '西红柿首富']
+      };
+    }
+
+    clickButton(e) {
+      console.log(this, e);
+    }
+
+    clickLi(item, index, e) {
+      console.log(item, index, e);
+    }
+
+    render() {
+      return (
+        <div>
+          {/* 默认情况下React会传递事件对象event到clickButton */}
+          <button onClick={this.clickButton.bind(this)}>按钮</button>
+          <ul>
+            {/* 自行传递参数和事件对象 */}
+            {this.state.movies.map((item, index) =>
+              <li key={index} onClick={(e) => this.clickLi(item, index, e)}>
+                {item}
+              </li>
+            )}
+          </ul>
+        </div>
+      );
+    }
+  }
+
+  // 渲染App组件
+  ReactDOM.render(<App />, document.getElementById('app'));
+</script>
+```
+
+#### JSX条件渲染
+
+在开发中我们经常会遇到，界面的内容要根据不同的情况显示不同的内容，或者决定是否渲染某部分内容：
+
+* 在Vue中，可以通过指令来实现，如`v-show`、`v-if`
+* 在React中，所有的判断都和普通的JS一致，常见的渲染方式有：
+  * 条件判断语句
+  * 三元运算符
+  * 与运算符`&&`
+  * 控制`display`属性是否是`none`
+
+```jsx
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">app</div>
+</body>
+
+</html>
+
+<script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+<script type="text/babel">
+  class App extends React.Component {
+    constructor() {
+      super();
+
+      this.state = {
+        isLogin: false
+      };
+    }
+
+    clickButton(e) {
+      this.setState({
+        isLogin: !this.state.isLogin
+      });
+    }
+
+    render() {
+      // 通过if判断 
+      let welcome = null;
+      if(this.state.isLogin) {
+        welcome = <h2>欢迎回来</h2>
+      } else {
+        welcome = <h2>请登录</h2>
+      }
+
+      return (
+        <div>
+          {welcome}
+          {/* 通过三元运算符 */}
+          <button onClick={e => this.clickButton(e)}>{this.state.isLogin ? '退出' : '登录'}</button>
+          {/* 通过逻辑与 */}
+          <h3>{ this.state.isLogin && '你好' }</h3>
+          {/* 控制display是否为none */}
+          <h3 style={{ display: this.state.isLogin ? 'block' : 'none' }}>我是页面内容</h3>
+        </div>
+      );
+    }
+  }
+
+  // 渲染App组件
+  ReactDOM.render(<App />, document.getElementById('app'));
+</script>
+```
+
+#### JSX列表渲染
+
+在React中，列表渲染，一般会使用JS的函数实现：
+
+* JS中如何处理列表，在JSX中都是适用的，如使用`map()`、`filter()`、`slice()`等；
+
+列表渲染的`key`：
+
+* `key`帮助 React 识别哪些元素改变了，比如被添加或删除。因此你应当给数组中的每一个元素赋予一个确定的标识。
+* 一个元素的`key `最好是这个元素在列表中拥有的一个独一无二的字符串。通常，我们使用数据中的`id`来作为元素的 `key`
+* 如果列表项目的顺序可能会变化，不建议使用索引来用作`key`值，因为这样做会导致性能变差，还可能引起组件状态的问题。
+
+```jsx
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">app</div>
+</body>
+
+</html>
+
+<script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+<script type="text/babel">
+  class App extends React.Component {
+    constructor() {
+      super();
+
+      this.state = {
+        movies: ['大话西游', '美人鱼', '夏洛特烦恼', '西红柿首富'],
+        numbers: [1, 2, 14, 11, 9, 22, 3, 12],
+      };
+    }
+
+    clickButton(e) {
+      console.log(this, e);
+    }
+
+    clickLi(item, index, e) {
+      console.log(item, index, e);
+    }
+
+    render() {
+      return (
+        <div>
+          <h2>电影列表</h2>
+          <ul>
+            {this.state.movies.map((item, index) =>
+              <li key={index} onClick={(e) => this.clickLi(item, index, e)}>
+                {item}
+              </li>
+            )}
+          </ul>
+          <h2>前三个电影</h2>
+          <ul>
+            {this.state.movies.slice(0, 3).map((item, index) =>
+              <li key={index} onClick={(e) => this.clickLi(item, index, e)}>
+                {item}
+              </li>
+            )}
+          </ul>
+          <h2>大于10的数据</h2>
+          <ul>
+            {this.state.numbers.filter(item => item > 10).map((item, index) =>
+              <li key={index}>
+                {item}
+              </li>
+            )}
+          </ul>
+        </div>
+      );
+    }
+  }
+
+  // 渲染App组件
+  ReactDOM.render(<App />, document.getElementById('app'));
+</script>
+```
+
+
+
+
+
+
 
 
 
