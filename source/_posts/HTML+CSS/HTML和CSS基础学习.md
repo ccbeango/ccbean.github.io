@@ -3516,7 +3516,8 @@ cursor常见的设置:
 
 对于绝对定位元素来说
 
-* 定位参照对象的宽度 = left + right + margin-left + margin-right + 绝对定位元素的实际占用高度
+* 定位参照对象的宽度 = left + right + margin-left + margin-right + 绝对定位元素的实际占用宽度
+  * 当left、right、margin都为0时，定位参照对象的宽度就等于绝对定位元素的实际占用宽度。所以经常使用设置为0的方法来撑起绝对定位元素的宽度。
 * 定位参照对象的高度 = top + bottom + margin-top + margin-bottom + 绝对定位元素的实际占用高度
 
 如果希望绝对定位元素的宽度和定位参照对象一样，可以给绝对定位元素设置以下属性：`left: 0; right: 0; bottom: 0; margin: 0`。
